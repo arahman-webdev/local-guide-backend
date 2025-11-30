@@ -17,12 +17,17 @@ model User {
   email       String   @unique
   password    String
   role        UserRole @default(TOURIST)
+
   profilePic  String?
   bio         String?
-  languages   String[] // array of languages
-  travelPrefs String? // for tourist
-  expertise   String? // for guide
-  dailyRate   Float? // for guide
+  languages   String[] // ["English", "Bangla"]
+
+  // Tourist Fields
+  travelPrefs String?
+
+  // Guide Fields
+  expertise   String? 
+  dailyRate   Float?
 
   isBlocked Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -38,6 +43,7 @@ enum UserRole {
   GUIDE
   ADMIN
 }
+
 
 // -------------------------
 // Tour Listings
