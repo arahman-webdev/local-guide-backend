@@ -9,7 +9,61 @@
 * 🟢 You can import this file directly.
 */
 
+export const UserStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  BLOCKED: 'BLOCKED',
+  DELETED: 'DELETED'
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const UserRole = {
+  TOURIST: 'TOURIST',
+  GUIDE: 'GUIDE',
+  ADMIN: 'ADMIN'
+} as const
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const TourCategory = {
+  FOOD: 'FOOD',
+  ART: 'ART',
+  ADVENTURE: 'ADVENTURE',
+  HISTORY: 'HISTORY',
+  NIGHTLIFE: 'NIGHTLIFE',
+  SHOPPING: 'SHOPPING',
+  OTHER: 'OTHER'
+} as const
+
+export type TourCategory = (typeof TourCategory)[keyof typeof TourCategory]
+
+
+export const BookingStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
+export const PaymentMethod = {
+  STRIPE: 'STRIPE',
+  SSL_COMMERZ: 'SSL_COMMERZ',
+  OTHER: 'OTHER'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const PaymentStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
