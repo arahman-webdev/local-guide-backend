@@ -22,4 +22,4 @@ router.post("/",checkAuth(UserRole.TOURIST), BookingController.createBooking)
 // router.delete("/:id",checkAuth(UserRole.GUIDE), TourController.deleteTour)
 
 
-export const tourRoutes = router
+export const bookingRoutes = router

@@ -6,6 +6,7 @@ import { userRoutes } from "./modules/user/user.router";
 import { authRoutes } from "./modules/auth/auth.router";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import { tourRoutes } from "./modules/tour/tour.router";
+import { bookingRoutes } from "./modules/booking/booking.router";
 // import { randomBytes } from "crypto";
 
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use('/api/auth', userRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/tour', tourRoutes)
+app.use('/api/bookings', bookingRoutes)
 
 // Default route testing
 
