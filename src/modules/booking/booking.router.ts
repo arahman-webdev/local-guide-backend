@@ -17,7 +17,7 @@ const router = express.Router()
 
 
 router.post("/",checkAuth(UserRole.TOURIST), BookingController.createBooking)
-// router.get("/",  TourController.getTour)
+router.get("/", checkAuth(UserRole.TOURIST), BookingController.getMyBookings)
 // router.get("/:id",checkAuth(),  TourController.getTour)
 // router.delete("/:id",checkAuth(UserRole.GUIDE), TourController.deleteTour)
 

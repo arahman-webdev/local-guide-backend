@@ -51,5 +51,6 @@ const createBooking = async (userId: string, payload: any) => {
 
 
 export const BookingService = {
-    createBooking
+    createBooking,
+    getMyBookings
 }
