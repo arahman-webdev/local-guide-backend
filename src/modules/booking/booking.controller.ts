@@ -45,22 +45,22 @@ const getAllBookings = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
-// const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//         const bookingId = req.params.id;
-//         const { status } = req.body;
+const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const bookingId = req.params.id;
+        const { status } = req.body;
 
-//         const updated = await BookingService.updateStatus(bookingId, status);
+        const updated = await BookingService.updateStatus(bookingId, status);
 
-//         res.status(200).json({
-//             success: true,
-//             message: "Booking status updated",
-//             data: updated,
-//         });
-//     } catch (error) {
-//         next(error);
-//     }
-// }
+        res.status(200).json({
+            success: true,
+            message: "Booking status updated",
+            data: updated,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
 
 // const deleteBooking = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
 //     try {
@@ -83,6 +83,7 @@ const getAllBookings = async (req: Request, res: Response, next: NextFunction) =
 export const BookingController = {
     createBooking,
     getMyBookings,
-    getAllBookings
+    getAllBookings,
+    updateStatus
 
 };
