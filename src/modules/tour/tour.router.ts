@@ -15,7 +15,7 @@ const router = express.Router()
 
 
 
-router.post("/",checkAuth(UserRole.GUIDE, UserRole.TOURIST), upload.array("images"), TourController.createTour)
+router.post("/",checkAuth(UserRole.GUIDE), upload.array("images", 5), TourController.createTour)
 
 
 export const tourRoutes = router

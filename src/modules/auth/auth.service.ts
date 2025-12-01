@@ -6,19 +6,20 @@ import { prisma } from "../../lib/prisma"
 import { UserStatus } from "../../generated/enums"
 
 
-const userLogin = async(payload:{email:string, password:string})=>{
+const userLogin = async (payload: { email: string, password: string }) => {
 
     const user = await prisma.user.findFirstOrThrow({
-        where:{
+        where: {
             email: payload.email,
             status: UserStatus.ACTIVE
-        }
+        },
+        include: { tours: true }
     })
 
 
     const isCorrecctedPassword = await bcryptjs.compare(payload.password, user.password as string)
 
-    if(!isCorrecctedPassword){
+    if (!isCorrecctedPassword) {
         throw new Error("Your password is not correct")
     }
 
@@ -28,7 +29,7 @@ const userLogin = async(payload:{email:string, password:string})=>{
         userEmail: user?.email,
         userRole: user?.role
     }
-    
+
 
     const userToken = generateToken(jwtPayload, process.env.JWT_ACCESS_SECRET as string, process.env.JWT_ACCESS_EXPIRES_IN || "15m")
 
@@ -36,7 +37,8 @@ const userLogin = async(payload:{email:string, password:string})=>{
 
     return {
         accessToken: userToken,
-        refreshToken
+        refreshToken,
+        user
     }
 }
 
