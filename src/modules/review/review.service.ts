@@ -46,6 +46,9 @@ const createReview = async (tourId: string, userId: string, rating: number, comm
     return review;
 };
 
+
+
+
 const getReviewsByTour = async (tourId: string) => {
     return prisma.review.findMany({
         where: { tourId },

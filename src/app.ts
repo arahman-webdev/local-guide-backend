@@ -7,6 +7,7 @@ import { authRoutes } from "./modules/auth/auth.router";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import { tourRoutes } from "./modules/tour/tour.router";
 import { bookingRoutes } from "./modules/booking/booking.router";
+import { reviewRoutes } from "./modules/review/review.router";
 // import { randomBytes } from "crypto";
 
 
@@ -27,6 +28,7 @@ app.use('/api/auth', userRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/tour', tourRoutes)
 app.use('/api/bookings', bookingRoutes)
+app.use('/api/reviews', reviewRoutes)
 
 // Default route testing
 
