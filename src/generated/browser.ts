@@ -28,6 +28,11 @@ export type User = Prisma.UserModel
  */
 export type Tour = Prisma.TourModel
 /**
+ * Model TourImages
+ * 
+ */
+export type TourImages = Prisma.TourImagesModel
+/**
  * Model Booking
  * 
  */

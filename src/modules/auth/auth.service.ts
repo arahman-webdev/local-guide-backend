@@ -31,7 +31,7 @@ const userLogin = async (payload: { email: string, password: string }) => {
     }
 
 
-    const userToken = generateToken(jwtPayload, process.env.JWT_ACCESS_SECRET as string, process.env.JWT_ACCESS_EXPIRES_IN || "15m")
+    const userToken = generateToken(jwtPayload, process.env.JWT_ACCESS_SECRET as string, process.env.JWT_EXPIRATION || "1d")
 
     const refreshToken = generateToken(jwtPayload, process.env.JWT_REFRESH_SECRET as string, process.env.JWT_REFRESH_EXPIRES_IN || "7d")
 

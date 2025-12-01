@@ -12,27 +12,27 @@ datasource db {
 // 
 
 model User {
-  id          String   @id @default(cuid())
-  name        String
-  email       String   @unique
-  password    String?
-  role        UserRole @default(TOURIST)
+  id       String   @id @default(cuid())
+  name     String
+  email    String   @unique
+  password String?
+  role     UserRole @default(TOURIST)
 
-  profilePic  String?
-  profileId String?
-  bio         String?
-  languages   String[] // ["English", "Bangla"]
+  profilePic String?
+  profileId  String?
+  bio        String?
+  languages  String[] // ["English", "Bangla"]
 
   // Tourist Fields
   travelPrefs String?
 
   // Guide Fields
-  expertise   String? 
-  dailyRate   Float?
+  expertise String?
+  dailyRate Float?
 
-  status UserStatus  @default(ACTIVE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  status    UserStatus @default(ACTIVE)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   tours    Tour[]
   bookings Booking[]
@@ -52,21 +52,19 @@ enum UserRole {
   ADMIN
 }
 
-
 // -------------------------
 // Tour Listings
 // -------------------------
 model Tour {
-  id      String @id @default(cuid())
+  id           String @id @default(cuid())
   title        String
-  slug String @unique
+  slug         String @unique
   description  String
   itinerary    String
   fee          Float
   duration     Int // in hours
   meetingPoint String
   maxGroupSize Int
-  images       String[] // URLs of images
 
   category TourCategory
   language String
@@ -76,10 +74,11 @@ model Tour {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  bookings Booking[]
-  reviews  Review[]
-  user     User    @relation(fields: [userId], references: [id])
-  userId   String
+  bookings   Booking[]
+  reviews    Review[]
+  user       User         @relation(fields: [userId], references: [id])
+  userId     String
+  tourImages TourImages[]
 }
 
 enum TourCategory {
@@ -89,7 +88,21 @@ enum TourCategory {
   HISTORY
   NIGHTLIFE
   SHOPPING
+  HERITEGE
   OTHER
+}
+
+// -------------------------
+// TourImages
+// -------------------------
+
+model TourImages {
+  id        String   @id @default(cuid())
+  imageUrl  String?
+  imageId   String?
+  tourId    String
+  tour      Tour     @relation(fields: [tourId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 // -------------------------
@@ -108,7 +121,7 @@ model Booking {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User   @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   userId    String
 }
 

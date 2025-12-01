@@ -36,7 +36,7 @@ const updateUser = async (req: Request & {user?: any}, res: Response, next: Next
         // ✅ Upload image if exists
         if (req.file) {
             try {
-                const uploaded = await uploadToCloudinary(req.file.buffer, "local-guide");
+                const uploaded = await uploadToCloudinary(req.file.buffer, "profile-image");
                 profilePic = uploaded.secure_url;
                 profileId = uploaded.public_id;
             } catch (uploadError: any) {

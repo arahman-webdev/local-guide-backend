@@ -2,10 +2,13 @@ import { deleteFromCloudinary } from "../../config/deleteFromCloudinary";
 import { Prisma } from "../../generated/client";
 import AppError from "../../helper/AppError";
 import { prisma } from "../../lib/prisma";
-
+import statusCode from "http-status-codes"
 
 
 const createTour = async (guideId: string, payload: Prisma.TourCreateInput) => {
+    const baseSlug = payload.title.toLocaleLowerCase().split(" ").join("-")
+
+    payload.slug = baseSlug
     const {
         title,
         slug,
@@ -18,8 +21,10 @@ const createTour = async (guideId: string, payload: Prisma.TourCreateInput) => {
         category,
         language,
         city,
-        images
+
     } = payload;
+
+
 
     const tour = await prisma.tour.create({
         data: {
@@ -34,23 +39,99 @@ const createTour = async (guideId: string, payload: Prisma.TourCreateInput) => {
             category,
             language,
             city,
-            images,
-            userId: guideId
+            userId: guideId,
+            tourImages: payload.tourImages
         },
         include: {
-            user: true
+            tourImages: true
         }
     });
 
     return tour;
 }
 
+// get all tour with search, filter and pagination
+
+const getTour = async ({
+    page, limit, searchTerm, category, orderBy = 'asc', sortBy = 'createdAt'
+}: {
+    page: number, limit: number, searchTerm?: string, category?: string, orderBy?: string, sortBy?: string
+}) => {
+    const skip = (page - 1) * limit;
+
+    // Build where clause
+    const where: any = {};
+
+    if (searchTerm) {
+        where.title = { contains: searchTerm, mode: "insensitive" };
+    }
+
+    if (category) {
+        where.category = { name: { equals: category, mode: "insensitive" } };
+    }
+
+    // Validate and set orderBy
+    const allowedSortFields = ['price', 'rating', 'createdAt', 'name'];
+    const allowedOrders = ['asc', 'desc'];
+
+    const validSortBy = allowedSortFields.includes(sortBy) ? sortBy : 'createdAt';
+    const validOrderBy = allowedOrders.includes(orderBy) ? orderBy : 'asc';
+
+    const [products, total] = await Promise.all([
+        prisma.tour.findMany({
+            skip,
+            take: limit,
+            where,
+            orderBy: { [validSortBy]: validOrderBy },
+            include: {
+                tourImages: true,
+            },
+        }),
+        prisma.tour.count({ where })
+    ]);
+
+    return {
+        products,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages: Math.ceil(total / limit)
+        }
+    };
+}
+
+
+const getSingleTour = async(slug: string, requesterId:string)=>{
+
+    const tour = await prisma.tour.findUnique({
+        where:{slug},
+        include:{
+            tourImages:true
+        }
+    })
+
+    if(!tour){
+        throw new AppError(statusCode.NOT_FOUND, "Tour not found")
+    }
+
+    if(tour.userId !== requesterId){
+        throw new AppError(statusCode.BAD_GATEWAY, "You are not authorized to get this tour")
+    }
+
+    return tour
+
+    
+}
 
 
 const deleteTour = async (tourId: string, requesterId: string) => {
     // Find tour
     const tour = await prisma.tour.findUnique({
         where: { id: tourId },
+        include: {
+            tourImages: true
+        }
     });
 
     if (!tour) {
@@ -63,17 +144,21 @@ const deleteTour = async (tourId: string, requesterId: string) => {
     }
 
     // Delete associated images from Cloudinary
-    if (tour.images.length > 0) {
-        for (const image of tour.images) {
-            console.log("from deleting img", image)
+    if (tour.tourImages.length > 0) {
+        for (const image of tour.tourImages) {
+            
             try {
-                await deleteFromCloudinary(image as string)
-                console.log("from deleting img", image)
+                await deleteFromCloudinary(image.imageId as string)
+               
             } catch (error) {
                 console.log(error)
             }
         }
     }
+
+    await prisma.tourImages.deleteMany({
+        where: { tourId: tourId }
+    })
 
     // Delete tour from DB
     const deletedTour = await prisma.tour.delete({
@@ -86,5 +171,7 @@ const deleteTour = async (tourId: string, requesterId: string) => {
 
 export const TourService = {
     createTour,
-    deleteTour
+    deleteTour,
+    getTour,
+    getSingleTour
 }

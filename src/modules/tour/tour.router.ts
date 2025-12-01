@@ -16,6 +16,9 @@ const router = express.Router()
 
 
 router.post("/",checkAuth(UserRole.GUIDE), upload.array("images", 5), TourController.createTour)
+router.get("/",  TourController.getTour)
+router.get("/:id",checkAuth(),  TourController.getTour)
+router.delete("/:id",checkAuth(UserRole.GUIDE), TourController.deleteTour)
 
 
 export const tourRoutes = router

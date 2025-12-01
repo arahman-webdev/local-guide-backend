@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Tour: 'Tour',
+  TourImages: 'TourImages',
   Booking: 'Booking',
   Payment: 'Payment',
   Review: 'Review'
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tour" | "booking" | "payment" | "review"
+    modelProps: "user" | "tour" | "tourImages" | "booking" | "payment" | "review"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TourCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TourCountAggregateOutputType> | number
+        }
+      }
+    }
+    TourImages: {
+      payload: Prisma.$TourImagesPayload<ExtArgs>
+      fields: Prisma.TourImagesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TourImagesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TourImagesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>
+        }
+        findFirst: {
+          args: Prisma.TourImagesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TourImagesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>
+        }
+        findMany: {
+          args: Prisma.TourImagesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>[]
+        }
+        create: {
+          args: Prisma.TourImagesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>
+        }
+        createMany: {
+          args: Prisma.TourImagesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TourImagesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>[]
+        }
+        delete: {
+          args: Prisma.TourImagesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>
+        }
+        update: {
+          args: Prisma.TourImagesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>
+        }
+        deleteMany: {
+          args: Prisma.TourImagesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TourImagesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TourImagesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>[]
+        }
+        upsert: {
+          args: Prisma.TourImagesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourImagesPayload>
+        }
+        aggregate: {
+          args: Prisma.TourImagesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTourImages>
+        }
+        groupBy: {
+          args: Prisma.TourImagesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TourImagesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TourImagesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TourImagesCountAggregateOutputType> | number
         }
       }
     }
@@ -848,7 +923,6 @@ export const TourScalarFieldEnum = {
   duration: 'duration',
   meetingPoint: 'meetingPoint',
   maxGroupSize: 'maxGroupSize',
-  images: 'images',
   category: 'category',
   language: 'language',
   city: 'city',
@@ -859,6 +933,17 @@ export const TourScalarFieldEnum = {
 } as const
 
 export type TourScalarFieldEnum = (typeof TourScalarFieldEnum)[keyof typeof TourScalarFieldEnum]
+
+
+export const TourImagesScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  imageId: 'imageId',
+  tourId: 'tourId',
+  createdAt: 'createdAt'
+} as const
+
+export type TourImagesScalarFieldEnum = (typeof TourImagesScalarFieldEnum)[keyof typeof TourImagesScalarFieldEnum]
 
 
 export const BookingScalarFieldEnum = {
@@ -1158,6 +1243,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   tour?: Prisma.TourOmit
+  tourImages?: Prisma.TourImagesOmit
   booking?: Prisma.BookingOmit
   payment?: Prisma.PaymentOmit
   review?: Prisma.ReviewOmit
