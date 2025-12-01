@@ -46,11 +46,19 @@ const createBooking = async (userId: string, payload: any) => {
 
     return bookings;
   }
+ const getAllBookings = async () => {
+    const bookings = await prisma.booking.findMany({
+
+    });
+
+    return bookings;
+  }
 
 
 
 
 export const BookingService = {
     createBooking,
-    getMyBookings
+    getMyBookings,
+    getAllBookings
 }
