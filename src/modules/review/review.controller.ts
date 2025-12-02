@@ -24,8 +24,24 @@ const createReview = async (req: Request & { user?: any }, res: Response, next: 
 };
 
 
+const getTourReviews = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const  tourId  = req.params.tourId;
+
+        const reviews = await ReviewService.getReviewsByTour(tourId);
+
+        res.json({
+            success: true,
+            data: reviews
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 
 export const ReviewController = {
     createReview,
-
+    getTourReviews
 };

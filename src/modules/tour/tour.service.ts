@@ -21,6 +21,7 @@ const createTour = async (guideId: string, payload: Prisma.TourCreateInput) => {
         category,
         language,
         city,
+        country
 
     } = payload;
 
@@ -39,6 +40,7 @@ const createTour = async (guideId: string, payload: Prisma.TourCreateInput) => {
             category,
             language,
             city,
+            country,
             userId: guideId,
             tourImages: payload.tourImages
         },
@@ -102,26 +104,26 @@ const getTour = async ({
 }
 
 
-const getSingleTour = async(slug: string, requesterId:string)=>{
+const getSingleTour = async (slug: string, requesterId: string) => {
 
     const tour = await prisma.tour.findUnique({
-        where:{slug},
-        include:{
-            tourImages:true
+        where: { slug },
+        include: {
+            tourImages: true
         }
     })
 
-    if(!tour){
+    if (!tour) {
         throw new AppError(statusCode.NOT_FOUND, "Tour not found")
     }
 
-    if(tour.userId !== requesterId){
+    if (tour.userId !== requesterId) {
         throw new AppError(statusCode.BAD_GATEWAY, "You are not authorized to get this tour")
     }
 
     return tour
 
-    
+
 }
 
 
@@ -146,15 +148,23 @@ const deleteTour = async (tourId: string, requesterId: string) => {
     // Delete associated images from Cloudinary
     if (tour.tourImages.length > 0) {
         for (const image of tour.tourImages) {
-            
+
             try {
                 await deleteFromCloudinary(image.imageId as string)
-               
+
             } catch (error) {
                 console.log(error)
             }
         }
     }
+
+    await prisma.review.deleteMany({
+        where: { tourId: tourId }
+    });
+
+    await prisma.booking.deleteMany({
+        where:{tourId: tourId}
+    })
 
     await prisma.tourImages.deleteMany({
         where: { tourId: tourId }

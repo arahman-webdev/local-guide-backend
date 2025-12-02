@@ -7,10 +7,10 @@ const createReview = async (tourId: string, userId: string, rating: number, comm
 
     // Check if user is tourist
     const user = await prisma.user.findUnique({ where: { id: userId } });
+
     if (!user || user.role !== "TOURIST") {
         throw new AppError(403, "Only tourists can write reviews");
     }
-
     // Check if booking is completed
     const booking = await prisma.booking.findFirst({
         where: {
@@ -63,6 +63,8 @@ const getReviewsByTour = async (tourId: string) => {
         }
     });
 };
+
+
 
 export const ReviewService = {
     createReview,

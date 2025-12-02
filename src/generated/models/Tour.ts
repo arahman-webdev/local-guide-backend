@@ -30,12 +30,14 @@ export type TourAvgAggregateOutputType = {
   fee: number | null
   duration: number | null
   maxGroupSize: number | null
+  minGroupSize: number | null
 }
 
 export type TourSumAggregateOutputType = {
   fee: number | null
   duration: number | null
   maxGroupSize: number | null
+  minGroupSize: number | null
 }
 
 export type TourMinAggregateOutputType = {
@@ -48,9 +50,12 @@ export type TourMinAggregateOutputType = {
   duration: number | null
   meetingPoint: string | null
   maxGroupSize: number | null
+  minGroupSize: number | null
   category: $Enums.TourCategory | null
   language: string | null
   city: string | null
+  country: string | null
+  currency: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -67,9 +72,12 @@ export type TourMaxAggregateOutputType = {
   duration: number | null
   meetingPoint: string | null
   maxGroupSize: number | null
+  minGroupSize: number | null
   category: $Enums.TourCategory | null
   language: string | null
   city: string | null
+  country: string | null
+  currency: string | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -86,9 +94,13 @@ export type TourCountAggregateOutputType = {
   duration: number
   meetingPoint: number
   maxGroupSize: number
+  minGroupSize: number
   category: number
   language: number
   city: number
+  country: number
+  currency: number
+  tags: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -101,12 +113,14 @@ export type TourAvgAggregateInputType = {
   fee?: true
   duration?: true
   maxGroupSize?: true
+  minGroupSize?: true
 }
 
 export type TourSumAggregateInputType = {
   fee?: true
   duration?: true
   maxGroupSize?: true
+  minGroupSize?: true
 }
 
 export type TourMinAggregateInputType = {
@@ -119,9 +133,12 @@ export type TourMinAggregateInputType = {
   duration?: true
   meetingPoint?: true
   maxGroupSize?: true
+  minGroupSize?: true
   category?: true
   language?: true
   city?: true
+  country?: true
+  currency?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -138,9 +155,12 @@ export type TourMaxAggregateInputType = {
   duration?: true
   meetingPoint?: true
   maxGroupSize?: true
+  minGroupSize?: true
   category?: true
   language?: true
   city?: true
+  country?: true
+  currency?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -157,9 +177,13 @@ export type TourCountAggregateInputType = {
   duration?: true
   meetingPoint?: true
   maxGroupSize?: true
+  minGroupSize?: true
   category?: true
   language?: true
   city?: true
+  country?: true
+  currency?: true
+  tags?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -263,9 +287,13 @@ export type TourGroupByOutputType = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency: string
+  tags: string[]
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -305,9 +333,13 @@ export type TourWhereInput = {
   duration?: Prisma.IntFilter<"Tour"> | number
   meetingPoint?: Prisma.StringFilter<"Tour"> | string
   maxGroupSize?: Prisma.IntFilter<"Tour"> | number
+  minGroupSize?: Prisma.IntFilter<"Tour"> | number
   category?: Prisma.EnumTourCategoryFilter<"Tour"> | $Enums.TourCategory
   language?: Prisma.StringFilter<"Tour"> | string
   city?: Prisma.StringFilter<"Tour"> | string
+  country?: Prisma.StringFilter<"Tour"> | string
+  currency?: Prisma.StringFilter<"Tour"> | string
+  tags?: Prisma.StringNullableListFilter<"Tour">
   isActive?: Prisma.BoolFilter<"Tour"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
@@ -328,9 +360,13 @@ export type TourOrderByWithRelationInput = {
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
+  minGroupSize?: Prisma.SortOrder
   category?: Prisma.SortOrder
   language?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -354,9 +390,13 @@ export type TourWhereUniqueInput = Prisma.AtLeast<{
   duration?: Prisma.IntFilter<"Tour"> | number
   meetingPoint?: Prisma.StringFilter<"Tour"> | string
   maxGroupSize?: Prisma.IntFilter<"Tour"> | number
+  minGroupSize?: Prisma.IntFilter<"Tour"> | number
   category?: Prisma.EnumTourCategoryFilter<"Tour"> | $Enums.TourCategory
   language?: Prisma.StringFilter<"Tour"> | string
   city?: Prisma.StringFilter<"Tour"> | string
+  country?: Prisma.StringFilter<"Tour"> | string
+  currency?: Prisma.StringFilter<"Tour"> | string
+  tags?: Prisma.StringNullableListFilter<"Tour">
   isActive?: Prisma.BoolFilter<"Tour"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
@@ -377,9 +417,13 @@ export type TourOrderByWithAggregationInput = {
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
+  minGroupSize?: Prisma.SortOrder
   category?: Prisma.SortOrder
   language?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -404,9 +448,13 @@ export type TourScalarWhereWithAggregatesInput = {
   duration?: Prisma.IntWithAggregatesFilter<"Tour"> | number
   meetingPoint?: Prisma.StringWithAggregatesFilter<"Tour"> | string
   maxGroupSize?: Prisma.IntWithAggregatesFilter<"Tour"> | number
+  minGroupSize?: Prisma.IntWithAggregatesFilter<"Tour"> | number
   category?: Prisma.EnumTourCategoryWithAggregatesFilter<"Tour"> | $Enums.TourCategory
   language?: Prisma.StringWithAggregatesFilter<"Tour"> | string
   city?: Prisma.StringWithAggregatesFilter<"Tour"> | string
+  country?: Prisma.StringWithAggregatesFilter<"Tour"> | string
+  currency?: Prisma.StringWithAggregatesFilter<"Tour"> | string
+  tags?: Prisma.StringNullableListFilter<"Tour">
   isActive?: Prisma.BoolWithAggregatesFilter<"Tour"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tour"> | Date | string
@@ -423,9 +471,13 @@ export type TourCreateInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -445,9 +497,13 @@ export type TourUncheckedCreateInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -467,9 +523,13 @@ export type TourUpdateInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -489,9 +549,13 @@ export type TourUncheckedUpdateInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -511,9 +575,13 @@ export type TourCreateManyInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -530,9 +598,13 @@ export type TourUpdateManyMutationInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -548,9 +620,13 @@ export type TourUncheckedUpdateManyInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -577,9 +653,13 @@ export type TourCountOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
+  minGroupSize?: Prisma.SortOrder
   category?: Prisma.SortOrder
   language?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -590,6 +670,7 @@ export type TourAvgOrderByAggregateInput = {
   fee?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
+  minGroupSize?: Prisma.SortOrder
 }
 
 export type TourMaxOrderByAggregateInput = {
@@ -602,9 +683,12 @@ export type TourMaxOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
+  minGroupSize?: Prisma.SortOrder
   category?: Prisma.SortOrder
   language?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -621,9 +705,12 @@ export type TourMinOrderByAggregateInput = {
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
+  minGroupSize?: Prisma.SortOrder
   category?: Prisma.SortOrder
   language?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  country?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -634,6 +721,7 @@ export type TourSumOrderByAggregateInput = {
   fee?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
+  minGroupSize?: Prisma.SortOrder
 }
 
 export type TourScalarRelationFilter = {
@@ -683,6 +771,10 @@ export type TourUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TourScalarWhereInput | Prisma.TourScalarWhereInput[]
 }
 
+export type TourCreatetagsInput = {
+  set: string[]
+}
+
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -701,6 +793,11 @@ export type IntFieldUpdateOperationsInput = {
 
 export type EnumTourCategoryFieldUpdateOperationsInput = {
   set?: $Enums.TourCategory
+}
+
+export type TourUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -759,9 +856,13 @@ export type TourCreateWithoutUserInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -780,9 +881,13 @@ export type TourUncheckedCreateWithoutUserInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -830,9 +935,13 @@ export type TourScalarWhereInput = {
   duration?: Prisma.IntFilter<"Tour"> | number
   meetingPoint?: Prisma.StringFilter<"Tour"> | string
   maxGroupSize?: Prisma.IntFilter<"Tour"> | number
+  minGroupSize?: Prisma.IntFilter<"Tour"> | number
   category?: Prisma.EnumTourCategoryFilter<"Tour"> | $Enums.TourCategory
   language?: Prisma.StringFilter<"Tour"> | string
   city?: Prisma.StringFilter<"Tour"> | string
+  country?: Prisma.StringFilter<"Tour"> | string
+  currency?: Prisma.StringFilter<"Tour"> | string
+  tags?: Prisma.StringNullableListFilter<"Tour">
   isActive?: Prisma.BoolFilter<"Tour"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
@@ -849,9 +958,13 @@ export type TourCreateWithoutTourImagesInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -870,9 +983,13 @@ export type TourUncheckedCreateWithoutTourImagesInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -907,9 +1024,13 @@ export type TourUpdateWithoutTourImagesInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -928,9 +1049,13 @@ export type TourUncheckedUpdateWithoutTourImagesInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -949,9 +1074,13 @@ export type TourCreateWithoutBookingsInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -970,9 +1099,13 @@ export type TourUncheckedCreateWithoutBookingsInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1007,9 +1140,13 @@ export type TourUpdateWithoutBookingsInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1028,9 +1165,13 @@ export type TourUncheckedUpdateWithoutBookingsInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1049,9 +1190,13 @@ export type TourCreateWithoutReviewsInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1070,9 +1215,13 @@ export type TourUncheckedCreateWithoutReviewsInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1107,9 +1256,13 @@ export type TourUpdateWithoutReviewsInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1128,9 +1281,13 @@ export type TourUncheckedUpdateWithoutReviewsInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1149,9 +1306,13 @@ export type TourCreateManyUserInput = {
   duration: number
   meetingPoint: string
   maxGroupSize: number
+  minGroupSize?: number
   category: $Enums.TourCategory
   language: string
   city: string
+  country: string
+  currency?: string
+  tags?: Prisma.TourCreatetagsInput | string[]
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1167,9 +1328,13 @@ export type TourUpdateWithoutUserInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1188,9 +1353,13 @@ export type TourUncheckedUpdateWithoutUserInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1209,9 +1378,13 @@ export type TourUncheckedUpdateManyWithoutUserInput = {
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   language?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.TourUpdatetagsInput | string[]
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1276,9 +1449,13 @@ export type TourSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   duration?: boolean
   meetingPoint?: boolean
   maxGroupSize?: boolean
+  minGroupSize?: boolean
   category?: boolean
   language?: boolean
   city?: boolean
+  country?: boolean
+  currency?: boolean
+  tags?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1300,9 +1477,13 @@ export type TourSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   duration?: boolean
   meetingPoint?: boolean
   maxGroupSize?: boolean
+  minGroupSize?: boolean
   category?: boolean
   language?: boolean
   city?: boolean
+  country?: boolean
+  currency?: boolean
+  tags?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1320,9 +1501,13 @@ export type TourSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   duration?: boolean
   meetingPoint?: boolean
   maxGroupSize?: boolean
+  minGroupSize?: boolean
   category?: boolean
   language?: boolean
   city?: boolean
+  country?: boolean
+  currency?: boolean
+  tags?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1340,16 +1525,20 @@ export type TourSelectScalar = {
   duration?: boolean
   meetingPoint?: boolean
   maxGroupSize?: boolean
+  minGroupSize?: boolean
   category?: boolean
   language?: boolean
   city?: boolean
+  country?: boolean
+  currency?: boolean
+  tags?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
 }
 
-export type TourOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "itinerary" | "fee" | "duration" | "meetingPoint" | "maxGroupSize" | "category" | "language" | "city" | "isActive" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["tour"]>
+export type TourOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "itinerary" | "fee" | "duration" | "meetingPoint" | "maxGroupSize" | "minGroupSize" | "category" | "language" | "city" | "country" | "currency" | "tags" | "isActive" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["tour"]>
 export type TourInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | Prisma.Tour$bookingsArgs<ExtArgs>
   reviews?: boolean | Prisma.Tour$reviewsArgs<ExtArgs>
@@ -1382,9 +1571,13 @@ export type $TourPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     duration: number
     meetingPoint: string
     maxGroupSize: number
+    minGroupSize: number
     category: $Enums.TourCategory
     language: string
     city: string
+    country: string
+    currency: string
+    tags: string[]
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1825,9 +2018,13 @@ export interface TourFieldRefs {
   readonly duration: Prisma.FieldRef<"Tour", 'Int'>
   readonly meetingPoint: Prisma.FieldRef<"Tour", 'String'>
   readonly maxGroupSize: Prisma.FieldRef<"Tour", 'Int'>
+  readonly minGroupSize: Prisma.FieldRef<"Tour", 'Int'>
   readonly category: Prisma.FieldRef<"Tour", 'TourCategory'>
   readonly language: Prisma.FieldRef<"Tour", 'String'>
   readonly city: Prisma.FieldRef<"Tour", 'String'>
+  readonly country: Prisma.FieldRef<"Tour", 'String'>
+  readonly currency: Prisma.FieldRef<"Tour", 'String'>
+  readonly tags: Prisma.FieldRef<"Tour", 'String[]'>
   readonly isActive: Prisma.FieldRef<"Tour", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Tour", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tour", 'DateTime'>

@@ -35,6 +35,7 @@ export const TourCategory = {
   HISTORY: 'HISTORY',
   NIGHTLIFE: 'NIGHTLIFE',
   SHOPPING: 'SHOPPING',
+  HERITAGE: 'HERITAGE',
   OTHER: 'OTHER'
 } as const
 
