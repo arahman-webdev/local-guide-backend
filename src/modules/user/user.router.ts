@@ -15,6 +15,7 @@ const router = express.Router()
 
 router.post("/register", UserController.createUser)
 router.patch("/:id",checkAuth(UserRole.GUIDE, UserRole.TOURIST), upload.single("image"), UserController.updateUser)
+router.get("/me",checkAuth(UserRole.ADMIN, UserRole.GUIDE, UserRole.TOURIST), UserController.getMyProfile)
 
 
 export const userRoutes = router

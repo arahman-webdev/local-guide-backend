@@ -67,8 +67,25 @@ const updateUser = async (req: Request & {user?: any}, res: Response, next: Next
     }
 }
 
+const getMyProfile = async (req: Request &{user?:any}, res: Response) => {
+    try {
+        const user = req.user
+        const result = await UserService.getMyProfile(user as any)
+        console.log(result)
+        res.status(201).json({
+            status: true,
+            message: "Me retrieved successfully",
+            data: result,
+
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 export const UserController = {
     createUser,
-    updateUser
+    updateUser,
+    getMyProfile
 }
