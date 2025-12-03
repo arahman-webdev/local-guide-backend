@@ -2,7 +2,7 @@ import bcryptjs from "bcryptjs";
 import statusCodes from "http-status-codes"
 import { prisma } from "../../lib/prisma";
 import AppError from "../../helper/AppError";
-import { Prisma } from "../../generated/client";
+import { Prisma, UserRole, UserStatus } from "../../generated/client";
 
 const createUserService = async (payload: Prisma.UserCreateInput) => {
     const { email, password, ...rest } = payload;
@@ -12,9 +12,7 @@ const createUserService = async (payload: Prisma.UserCreateInput) => {
         where: { email }
     });
 
-    if (isExistingUser) {
-        throw new AppError(statusCodes.BAD_REQUEST, "Email already exists");
-    }
+ 
 
     // Hash the password
     const hashPassword = await bcryptjs.hash(
@@ -83,7 +81,55 @@ const updateUserService = async (
 };
 
 
+
+const getMyProfile = async (user: any) => {
+    const userInfo = await prisma.user.findUniqueOrThrow({
+        where: {
+            email: user.userEmail,
+            status: UserStatus.ACTIVE
+        },
+        select: {
+            id: true,
+            email: true,
+            role: true,
+            status: true
+        }
+    })
+
+    let profileData;
+
+    if (userInfo.role === UserRole.ADMIN) {
+        profileData = await prisma.user.findUnique({
+            where: {
+                email: userInfo.email
+            }
+        })
+    }
+    else if (userInfo.role === UserRole.GUIDE) {
+        profileData = await prisma.user.findUnique({
+            where: {
+                email: userInfo.email
+            }
+        })
+    }
+    else if (userInfo.role === UserRole.TOURIST) {
+        profileData = await prisma.user.findUnique({
+            where: {
+                email: userInfo.email
+            }
+        })
+    }
+
+    return {
+        ...userInfo,
+        ...profileData
+    };
+
+};
+
+
 export const UserService = {
     createUserService,
-    updateUserService
+    updateUserService,
+    getMyProfile
 }

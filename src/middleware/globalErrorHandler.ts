@@ -15,7 +15,7 @@ const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFun
         if (err.code === "P2002") {
             // console.log(err?.meta?.driverAdapterError?.cause?.constraint?.fields[0])
             message = `This ${err?.meta?.modelName} already exists.`,
-                error = err,
+                error = err?.meta,
                 statusCode = HTTP_STATUS.BAD_REQUEST
         }
        if(err.code === "P2013"){
