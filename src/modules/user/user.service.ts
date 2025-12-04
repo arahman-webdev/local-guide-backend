@@ -83,53 +83,54 @@ const updateUserService = async (
 
 
 const getMyProfile = async (user: any) => {
-    const userInfo = await prisma.user.findUniqueOrThrow({
-        where: {
-            email: user.userEmail,
-            status: UserStatus.ACTIVE
-        },
-        select: {
-            id: true,
-            email: true,
-            role: true,
-            status: true
-        }
-    })
-
-    let profileData;
-
-    if (userInfo.role === UserRole.ADMIN) {
-        profileData = await prisma.user.findUnique({
-            where: {
-                email: userInfo.email
-            }
-        })
+  // Step 1 — fetch basic info & ensure active
+  const userInfo = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: user.userEmail,
+      status: UserStatus.ACTIVE
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      status: true,
     }
-    else if (userInfo.role === UserRole.GUIDE) {
-        profileData = await prisma.user.findUnique({
-            where: {
-                email: userInfo.email
-            }
-        })
-    }
-    else if (userInfo.role === UserRole.TOURIST) {
-        profileData = await prisma.user.findUnique({
-            where: {
-                email: userInfo.email
-            }
-        })
-    }
+  });
 
-    return {
-        ...userInfo,
-        ...profileData
-    };
+  // Step 2 — fetch full profile (same for all roles)
+  const profile = await prisma.user.findUniqueOrThrow({
+    where: { email: userInfo.email }
+  });
 
+  // Step 3 — remove password before returning
+  const { password, ...cleanProfile } = profile;
+
+  return {
+    ...userInfo,
+    ...cleanProfile
+  };
 };
 
+const updateUserStatus = async (userId: string, status: UserStatus) => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+
+  if (!user) throw new AppError(404, "User not found");
+
+  // Admin cannot modify another admin
+  if (user.role === UserRole.ADMIN) {
+    throw new AppError(403, "You cannot modify another admin");
+  }
+
+  return prisma.user.update({
+    where: { id: userId },
+    data: { status },
+  });
+};
 
 export const UserService = {
     createUserService,
     updateUserService,
-    getMyProfile
+    getMyProfile,
+    updateUserStatus
+    
 }

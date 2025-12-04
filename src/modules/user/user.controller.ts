@@ -3,6 +3,7 @@ import { UserService } from "./user.service"
 import { uploadToCloudinary } from "../../config/uploadToCloudinary"
 import AppError from "../../helper/AppError"
 import statusCode from "http-status-codes"
+import { UserStatus } from "../../generated/enums"
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const result = await UserService.createUserService(req.body)
@@ -84,8 +85,31 @@ const getMyProfile = async (req: Request &{user?:any}, res: Response) => {
 }
 
 
+const updateUserStatus = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
+    const { status } = req.body;
+
+    if (!status || !(status in UserStatus)) {
+      return res.status(400).json({ success: false, message: "Invalid status" });
+    }
+
+    const updated = await UserService.updateUserStatus(userId, status);
+
+    res.json({
+      success: true,
+      message: `User status updated to ${status}`,
+      data: updated,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export const UserController = {
     createUser,
     updateUser,
-    getMyProfile
+    getMyProfile,
+    updateUserStatus
 }
