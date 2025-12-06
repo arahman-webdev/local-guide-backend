@@ -1,4 +1,4 @@
-import { BookingStatus } from "../../generated/enums";
+import { BookingStatus, UserRole } from "../../generated/enums";
 import AppError from "../../helper/AppError";
 import { prisma } from "../../lib/prisma";
 import statusCode from "http-status-codes"
@@ -65,14 +65,20 @@ const getAllBookings = async () => {
   return prisma.booking.findMany({
     include: {
       tour: {
-        select: { title: true },
+        select: { title: true, tourImages:true },
       },
       user: {
         select: {
           name: true,
           email: true,
         },
+        
       },
+      payment:{
+        select:{
+          status: true
+        }
+      }
     },
     orderBy: { createdAt: "desc" },
   });
@@ -115,11 +121,48 @@ const updateStatus = async (bookingId: string, status: BookingStatus) => {
     });
 }
 
+// booking service
+
+
+
+const deleteBooking = async (
+  bookingId: string,
+  requester: { id: string; role: string }
+) => {
+  // find booking with tour + guide
+  const booking = await prisma.booking.findUnique({
+    where: { id: bookingId },
+    include: {
+      tour: true,
+      user: true,
+    },
+  });
+
+  if (!booking) {
+    throw new AppError(404, "Booking not found");
+  }
+
+  // Permission Check
+  const isOwnerGuide = booking.tour.userId === requester.id;
+  const isAdmin = requester.role === UserRole.ADMIN;
+
+  if (!isOwnerGuide && !isAdmin) {
+    throw new AppError(403, "You are not allowed to delete this booking");
+  }
+
+  // delete booking
+  const deleted = await prisma.booking.delete({
+    where: { id: bookingId },
+  });
+
+  return deleted;
+};
 
 
 export const BookingService = {
     createBooking,
     getMyBookings,
     getAllBookings,
-    updateStatus
+    updateStatus,
+    deleteBooking
 }
