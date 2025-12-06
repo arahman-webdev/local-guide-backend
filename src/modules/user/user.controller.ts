@@ -18,7 +18,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
         console.log(error)
     }
 }
-const updateUser = async (req: Request & {user?: any}, res: Response, next: NextFunction) => {
+const updateUser = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     try {
         const userId = req.params.id
         if (req.user.userId !== userId) {
@@ -68,7 +68,21 @@ const updateUser = async (req: Request & {user?: any}, res: Response, next: Next
     }
 }
 
-const getMyProfile = async (req: Request &{user?:any}, res: Response) => {
+const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const users = await UserService.getAllUsers();
+
+    res.json({
+      success: true,
+      message: "All users fetched",
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getMyProfile = async (req: Request & { user?: any }, res: Response) => {
     try {
         const user = req.user
         const result = await UserService.getMyProfile(user as any)
@@ -86,24 +100,24 @@ const getMyProfile = async (req: Request &{user?:any}, res: Response) => {
 
 
 const updateUserStatus = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { userId } = req.params;
-    const { status } = req.body;
+    try {
+        const userId = req.params.userId;
+        const { status } = req.body;
 
-    if (!status || !(status in UserStatus)) {
-      return res.status(400).json({ success: false, message: "Invalid status" });
+        if (!status || !(status in UserStatus)) {
+            return res.status(400).json({ success: false, message: "Invalid status" });
+        }
+
+        const updated = await UserService.updateUserStatus(userId, status);
+
+        res.status(statusCode.OK).json({
+            success: true,
+            message: `User status updated to ${status}`,
+            data: updated,
+        });
+    } catch (error) {
+        next(error);
     }
-
-    const updated = await UserService.updateUserStatus(userId, status);
-
-    res.json({
-      success: true,
-      message: `User status updated to ${status}`,
-      data: updated,
-    });
-  } catch (error) {
-    next(error);
-  }
 };
 
 
@@ -111,5 +125,6 @@ export const UserController = {
     createUser,
     updateUser,
     getMyProfile,
-    updateUserStatus
+    updateUserStatus,
+    getAllUsers
 }

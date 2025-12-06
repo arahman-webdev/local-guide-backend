@@ -3,48 +3,58 @@ import AppError from "../../helper/AppError";
 import { prisma } from "../../lib/prisma";
 
 
-const createReview = async (tourId: string, userId: string, rating: number, comment?: string) => {
+const createReview = async (
+  tourId: string,
+  userId: string,
+  rating: number,
+  comment?: string
+) => {
+  // Validate user
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user || user.role !== "TOURIST") {
+    throw new AppError(403, "Only tourists can review tours");
+  }
 
-    // Check if user is tourist
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+  // Must have completed booking
+  const booking = await prisma.booking.findFirst({
+    where: {
+      tourId,
+      userId,
+      status: BookingStatus.COMPLETED,
+    },
+  });
 
-    if (!user || user.role !== "TOURIST") {
-        throw new AppError(403, "Only tourists can write reviews");
-    }
-    // Check if booking is completed
-    const booking = await prisma.booking.findFirst({
-        where: {
-            tourId,
-            userId,
-            status: BookingStatus.COMPLETED,
-        },
-    });
+  if (!booking) {
+    throw new AppError(403, "You can only review completed tours");
+  }
 
-    if (!booking) {
-        throw new AppError(403, "You can only review tours you completed");
-    }
+  // Prevent duplicate review
+  const exists = await prisma.review.findFirst({
+    where: { tourId, userId },
+  });
 
-    // Prevent duplicate reviews
-    const reviewExists = await prisma.review.findFirst({
-        where: { tourId, userId }
-    });
+  if (exists) {
+    throw new AppError(400, "You already reviewed this tour");
+  }
 
-    if (reviewExists) {
-        throw new AppError(400, "You already reviewed this tour");
-    }
+  
+  const reviewCode = "RV-" + Math.floor(1000 + Math.random() * 9000);
 
-    // Create review
-    const review = await prisma.review.create({
-        data: {
-            tourId,
-            userId,
-            rating,
-            comment,
-        }
-    });
+  const review = await prisma.review.create({
+    data: {
+      reviewCode,
+      tourId,
+      userId,
+      rating,
+      comment,
+    },
+  });
 
-    return review;
+  return review;
 };
+
+
+
 
 
 

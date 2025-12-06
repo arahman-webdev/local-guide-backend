@@ -135,6 +135,7 @@ export type TourImagesScalarFieldEnum = (typeof TourImagesScalarFieldEnum)[keyof
 
 export const BookingScalarFieldEnum = {
   id: 'id',
+  bookingCode: 'bookingCode',
   tourId: 'tourId',
   status: 'status',
   startTime: 'startTime',
@@ -163,6 +164,7 @@ export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeo
 
 export const ReviewScalarFieldEnum = {
   id: 'id',
+  reviewCode: 'reviewCode',
   tourId: 'tourId',
   rating: 'rating',
   comment: 'comment',

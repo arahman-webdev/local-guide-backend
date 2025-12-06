@@ -95,6 +95,8 @@ enum TourCategory {
   ADVENTURE
   HISTORY
   NIGHTLIFE
+  NATURE
+  WILDLIFE
   SHOPPING
   HERITAGE  
   OTHER
@@ -118,6 +120,7 @@ model TourImages {
 // -------------------------
 model Booking {
   id     String @id @default(cuid())
+  bookingCode String? @unique
   tour   Tour   @relation(fields: [tourId], references: [id])
   tourId String
 
@@ -174,6 +177,7 @@ enum PaymentStatus {
 // -------------------------
 model Review {
   id     String @id @default(cuid())
+  reviewCode String? @unique
   tour   Tour   @relation(fields: [tourId], references: [id])
   tourId String
 

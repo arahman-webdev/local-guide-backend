@@ -13,9 +13,18 @@ import { reviewRoutes } from "./modules/review/review.router";
 
 export const app = express()
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  exposedHeaders: ['set-cookie'] // Important!
+};
+
+app.use(cors(corsOptions));
+
+// Or if you want to allow all origins in development
 app.use(cors({
-    origin: ['http://localhost:3000'],
-    credentials: true
+  origin: true, // Allow all origins
+  credentials: true
 }));
 
 app.use(express.json())

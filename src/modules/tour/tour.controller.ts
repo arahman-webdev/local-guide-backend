@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { uploadToCloudinary } from "../../config/uploadToCloudinary";
 import { TourService } from "./tour.service";
+import AppError from "../../helper/AppError";
+import { UserRole } from "../../generated/enums";
 
 
 
@@ -29,7 +31,7 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
 
     const result = await TourService.createTour(guideId, {
       ...data,
-      tourImages:{
+      tourImages: {
         create: images
       },
     });
@@ -49,34 +51,34 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
 // get tour 
 
 const getTour = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const page = parseInt(req.query.page as string) || 1;
-        const limit = parseInt(req.query.limit as string) || 2
-        const searchTerm = (req.query.searchTerm as string) || ""
-        const category = (req.query.category as string) || ""
-        const sortBy = (req.query.sortBy as string)
-        const orderBy = (req.query.orderBy as string)
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 5
+    const searchTerm = (req.query.searchTerm as string) || ""
+    const category = (req.query.category as string) || ""
+    const sortBy = (req.query.sortBy as string)
+    const orderBy = (req.query.orderBy as string)
 
-        console.log("from controller.....", orderBy, sortBy)
+    console.log("from controller.....", orderBy, sortBy)
 
-        const result = await TourService.getTour({ page, limit, searchTerm, category, sortBy, orderBy })
-        res.json({
-            success: true,
-            data: result.products,
-            pagination: result.pagination
-        })
-    } catch (err) {
-        next(err)
-    }
+    const result = await TourService.getTour({ page, limit, searchTerm, category, sortBy, orderBy })
+    res.json({
+      success: true,
+      data: result.products,
+      pagination: result.pagination
+    })
+  } catch (err) {
+    next(err)
+  }
 }
 
 
 const getSingleTour = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
   try {
-    
-    const userId = req.user.userId;
 
-    const result = await TourService.getSingleTour(req.params.slug, userId);
+    
+
+    const result = await TourService.getSingleTour(req.params.slug);
 
     res.status(200).json({
       success: true,
@@ -87,12 +89,66 @@ const getSingleTour = async (req: Request & { user?: any }, res: Response, next:
     next(error);
   }
 };
-const deleteTour = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+
+// tour.controller.ts
+
+
+
+const getMyTours = async (
+  req: Request & { user?: { userId: string; userRole: string } },
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req.user?.userId;
+    const role = req.user?.userRole;
+
+    console.log("from my-tour", userId)
+
+    if (!userId) {
+      throw new AppError(401, "Unauthorized");
+    }
+
+    // Only guide can access this route
+    if (role !== UserRole.GUIDE) {
+      throw new AppError(403, "Only guides can view their tours");
+    }
+
+    const result = await TourService.getMyTours(userId);
+
+    res.status(200).json({
+      success: true,
+      message: "My tours fetched successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+const deleteTour = async (
+  req: Request & { user?: { userId: string; userRole: string } },
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const tourId = req.params.id;
-    const userId = req.user.userId;
 
-    const result = await TourService.deleteTour(tourId, userId);
+    if (!req.user) {
+      throw new AppError(401, "Unauthorized");
+    }
+
+    // requester object EXACT structure required by service
+    const requester = {
+      id: req.user.userId,
+      userRole: req.user.userRole,
+    };
+
+    console.log("from tour controler ", requester)
+
+    const result = await TourService.deleteTour(tourId, requester);
 
     res.status(200).json({
       success: true,
@@ -103,10 +159,44 @@ const deleteTour = async (req: Request & { user?: any }, res: Response, next: Ne
     next(error);
   }
 };
+
+// update status to activ or inactive
+
+// tour.controller.ts
+
+
+const toggleTourStatus = async (
+  req: Request & { user?: { userId: string; userRole: string } },
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const tourId = req.params.id;
+    const user = req.user;
+
+    if (!user) throw new AppError(401, "Unauthorized");
+
+    const result = await TourService.toggleTourStatus(tourId, {
+      id: user.userId,
+      userRole: user.userRole,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Tour ${result.isActive} successfully`,
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 export const TourController = {
   createTour,
   deleteTour,
   getTour,
-  getSingleTour
+  getSingleTour,
+  getMyTours,
+  toggleTourStatus
 }

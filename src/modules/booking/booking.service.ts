@@ -5,55 +5,79 @@ import statusCode from "http-status-codes"
 
 
 
-// Create a booking
+// Create Booking
 const createBooking = async (userId: string, payload: any) => {
-    const { tourId, startTime, endTime } = payload;
+  const { tourId, startTime, endTime } = payload;
 
-    // Check if tour exists
-    const tourExists = await prisma.tour.findUnique({
-        where: { id: tourId },
-    });
+  // Validate tour
+  const tour = await prisma.tour.findUnique({
+    where: { id: tourId },
+  });
 
-    if (!tourExists) {
-        throw new AppError(404, "Tour not found");
-    }
+  if (!tour) {
+    throw new AppError(404, "Tour not found");
+  }
 
-    // Create booking
-    const booking = await prisma.booking.create({
-        data: {
-            tourId,
-            userId,
-            startTime: new Date(startTime),
-            endTime: new Date(endTime),
-        },
-        include: {
-            tour: true,
-            user: true,
-        },
-    });
+ 
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user || user.role !== "TOURIST") {
+    throw new AppError(403, "Only tourists can book tours");
+  }
 
-    return booking;
-}
+  
+  const bookingCode = "BK-" + Math.floor(1000 + Math.random() * 9000);
 
-// Get all bookings of a user (customer)
+
+  const booking = await prisma.booking.create({
+    data: {
+      bookingCode,
+      tourId,
+      userId,
+      startTime: new Date(startTime),
+      endTime: new Date(endTime),
+    },
+    include: {
+      tour: true,
+      user: true,
+    },
+  });
+
+  return booking;
+};
+
+
+// Get bookings for logged-in user (TOURIST)
 const getMyBookings = async (userId: string) => {
-    const bookings = await prisma.booking.findMany({
-        where: { userId },
-        include: {
-            tour: true,
-        },
-        orderBy: { createdAt: "desc" },
-    });
+  const bookings = await prisma.booking.findMany({
+    where: { userId },
+    include: {
+      tour: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
 
-    return bookings;
-}
+  return bookings;
+};
+
+
+// Admin: Get ALL bookings
 const getAllBookings = async () => {
-    const bookings = await prisma.booking.findMany({
+  return prisma.booking.findMany({
+    include: {
+      tour: {
+        select: { title: true },
+      },
+      user: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+};
 
-    });
-
-    return bookings;
-}
 
 
 const updateStatus = async (bookingId: string, status: BookingStatus) => {
