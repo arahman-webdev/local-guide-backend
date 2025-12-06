@@ -127,7 +127,7 @@ const updateStatus = async (bookingId: string, status: BookingStatus) => {
 
 const deleteBooking = async (
   bookingId: string,
-  requester: { id: string; role: string }
+  requester: { id: string; userRole: string }
 ) => {
   // find booking with tour + guide
   const booking = await prisma.booking.findUnique({
@@ -144,7 +144,7 @@ const deleteBooking = async (
 
   // Permission Check
   const isOwnerGuide = booking.tour.userId === requester.id;
-  const isAdmin = requester.role === UserRole.ADMIN;
+  const isAdmin = requester.userRole === UserRole.ADMIN;
 
   if (!isOwnerGuide && !isAdmin) {
     throw new AppError(403, "You are not allowed to delete this booking");

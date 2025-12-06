@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { BookingService } from "./booking.service";
+import AppError from "../../helper/AppError";
 
 const createBooking = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     try {
@@ -61,6 +62,37 @@ const updateStatus = async (req: Request, res: Response, next: NextFunction) => 
         next(error);
     }
 }
+
+// booking.controller.ts
+
+
+
+export const deleteBooking = async (
+  req: Request & { user?: { userId: string; userRole: string } },
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const bookingId = req.params.id;
+    const user = req.user;
+
+    if (!user) throw new AppError(401, "Unauthorized");
+
+    const result = await BookingService.deleteBooking(bookingId, {
+      id: user.userId,
+      userRole: user.userRole,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Booking deleted successfully",
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 // const deleteBooking = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
 //     try {
