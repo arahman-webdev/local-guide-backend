@@ -116,6 +116,7 @@ export const BookingController = {
     createBooking,
     getMyBookings,
     getAllBookings,
-    updateStatus
+    updateStatus,
+    deleteBooking
 
 };
