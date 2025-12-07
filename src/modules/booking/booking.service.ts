@@ -96,31 +96,43 @@ const updateStatus = async (bookingId: string, status: BookingStatus) => {
     throw new AppError(404, "Booking not found");
   }
 
-  // Prevent illegal transitions
+  const current = booking.status;
 
-  if (booking.status === "CONFIRMED" && status === "CANCELLED") {
-    throw new AppError(400, "Cannot cancel this booking because it is already confirmed");
+  // COMPLETED → nothing allowed
+  if (current === "COMPLETED") {
+    throw new AppError(400, "Completed bookings cannot be updated");
   }
 
-  if (booking.status === "COMPLETED") {
-    throw new AppError(400, "Cannot cancel or cofirmed because it is already confirmed")
+  // PENDING rules
+  if (current === "PENDING") {
+    if (status === "COMPLETED") {
+      throw new AppError(400, "Pending booking cannot be completed");
+    }
+    if (status === "CANCELLED") {
+      throw new AppError(400, "You cannot cancel a booking until it is confirmed");
+    }
+    if (status === "PENDING") {
+      return booking;
+    }
   }
 
-
-  if (booking.status === "PENDING" && status === "COMPLETED") {
-    throw new AppError(400, "Pending booking cannot be completed");
-  }
-
-
-  if (booking.status === "PENDING" && status === "CANCELLED") {
-    throw new AppError(400, "You cannot cancel a booking until it is confirmed");
+  // CONFIRMED rules  
+  if (current === "CONFIRMED") {
+    // CONFIRMED → CANCELLED is allowed
+    if (status === "CONFIRMED") {
+      return booking;
+    }
+    // COMPLETED allowed
+    // CANCELLED allowed
   }
 
   return prisma.booking.update({
     where: { id: bookingId },
     data: { status },
   });
-}
+};
+
+
 
 // booking service
 
@@ -137,7 +149,8 @@ const getMyTourBookings = async (guideId: string) => {
         include: {
           user: {
             select: { id: true, name: true, email: true, profilePic: true }
-          }
+          },
+          payment:true
         }
       }
     },
@@ -152,6 +165,7 @@ const getMyTourBookings = async (guideId: string) => {
       tourTitle: tour.title,
       tourist: booking.user,
       status: booking.status,
+      paymentStatus: booking.payment,
       startTime: booking.startTime,
       endTime: booking.endTime,
       createdAt: booking.createdAt
