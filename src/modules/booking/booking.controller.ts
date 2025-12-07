@@ -46,6 +46,38 @@ const getAllBookings = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
+
+
+// booking.controller.ts
+
+
+
+const getMyTourBookings = async (
+  req: Request & { user?: { userId: string; userRole: string } },
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = req.user;
+
+    if (!user) throw new AppError(401, "Unauthorized");
+
+    // Only guide can see their tour bookings
+    if (user.userRole !== "GUIDE") throw new AppError(403, "Access denied");
+
+    const bookings = await BookingService.getMyTourBookings(user.userId);
+
+    res.status(200).json({
+      success: true,
+      message: "Bookings retrieved successfully",
+      data: bookings,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookingId = req.params.id;
@@ -116,6 +148,7 @@ export const BookingController = {
     createBooking,
     getMyBookings,
     getAllBookings,
+    getMyTourBookings,
     updateStatus,
     deleteBooking
 
