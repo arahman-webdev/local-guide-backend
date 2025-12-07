@@ -18,13 +18,13 @@ const createBooking = async (userId: string, payload: any) => {
     throw new AppError(404, "Tour not found");
   }
 
- 
+
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user || user.role !== "TOURIST") {
     throw new AppError(403, "Only tourists can book tours");
   }
 
-  
+
   const bookingCode = "BK-" + Math.floor(1000 + Math.random() * 9000);
 
 
@@ -60,22 +60,23 @@ const getMyBookings = async (userId: string) => {
 };
 
 
+
 // Admin: Get ALL bookings
 const getAllBookings = async () => {
   return prisma.booking.findMany({
     include: {
       tour: {
-        select: { title: true, tourImages:true },
+        select: { title: true, tourImages: true },
       },
       user: {
         select: {
           name: true,
           email: true,
         },
-        
+
       },
-      payment:{
-        select:{
+      payment: {
+        select: {
           status: true
         }
       }
@@ -87,41 +88,79 @@ const getAllBookings = async () => {
 
 
 const updateStatus = async (bookingId: string, status: BookingStatus) => {
-    const booking = await prisma.booking.findUnique({
-        where: { id: bookingId },
-    });
+  const booking = await prisma.booking.findUnique({
+    where: { id: bookingId },
+  });
 
-    if (!booking) {
-        throw new AppError(404, "Booking not found");
-    }
+  if (!booking) {
+    throw new AppError(404, "Booking not found");
+  }
 
-    // Prevent illegal transitions
-   
-    if (booking.status === "CONFIRMED" && status === "CANCELLED") {
-        throw new AppError(400, "Cannot cancel this booking because it is already confirmed");
-    }
+  // Prevent illegal transitions
 
-    if(booking.status === "COMPLETED"){
-        throw new AppError(400, "Cannot cancel or cofirmed because it is already confirmed")
-    }
+  if (booking.status === "CONFIRMED" && status === "CANCELLED") {
+    throw new AppError(400, "Cannot cancel this booking because it is already confirmed");
+  }
 
-    
-    if (booking.status === "PENDING" && status === "COMPLETED") {
-        throw new AppError(400, "Pending booking cannot be completed");
-    }
+  if (booking.status === "COMPLETED") {
+    throw new AppError(400, "Cannot cancel or cofirmed because it is already confirmed")
+  }
 
-    
-    if (booking.status === "PENDING" && status === "CANCELLED") {
-        throw new AppError(400, "You cannot cancel a booking until it is confirmed");
-    }
 
-    return prisma.booking.update({
-        where: { id: bookingId },
-        data: { status },
-    });
+  if (booking.status === "PENDING" && status === "COMPLETED") {
+    throw new AppError(400, "Pending booking cannot be completed");
+  }
+
+
+  if (booking.status === "PENDING" && status === "CANCELLED") {
+    throw new AppError(400, "You cannot cancel a booking until it is confirmed");
+  }
+
+  return prisma.booking.update({
+    where: { id: bookingId },
+    data: { status },
+  });
 }
 
 // booking service
+
+// booking.service.ts
+
+
+
+const getMyTourBookings = async (guideId: string) => {
+  // Get all tours of this guide with bookings
+  const tours = await prisma.tour.findMany({
+    where: { userId: guideId },
+    include: {
+      bookings: {
+        include: {
+          user: {
+            select: { id: true, name: true, email: true, profilePic: true }
+          }
+        }
+      }
+    },
+    orderBy: { createdAt: "desc" }
+  });
+
+  // Flatten all bookings
+  const bookings = tours.flatMap(tour =>
+    tour.bookings.map(booking => ({
+      bookingId: booking.id,
+      tourId: tour.id,
+      tourTitle: tour.title,
+      tourist: booking.user,
+      status: booking.status,
+      startTime: booking.startTime,
+      endTime: booking.endTime,
+      createdAt: booking.createdAt
+    }))
+  );
+
+  return bookings;
+};
+
 
 
 
@@ -160,9 +199,10 @@ const deleteBooking = async (
 
 
 export const BookingService = {
-    createBooking,
-    getMyBookings,
-    getAllBookings,
-    updateStatus,
-    deleteBooking
+  createBooking,
+  getMyBookings,
+  getAllBookings,
+  getMyTourBookings,
+  updateStatus,
+  deleteBooking
 }

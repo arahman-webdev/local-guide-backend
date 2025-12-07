@@ -62,7 +62,7 @@ model Tour {
   description  String
   itinerary    String
   fee          Float
-  duration     Int // in hours
+  duration     String // in hours
   meetingPoint String
   
   // Group size
@@ -70,7 +70,7 @@ model Tour {
   minGroupSize Int @default(1) 
   
   category TourCategory
-  language String
+  language String[]
   city     String
   country  String 
   
