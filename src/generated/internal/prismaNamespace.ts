@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Tour: 'Tour',
+  TourLanguage: 'TourLanguage',
   TourImages: 'TourImages',
   Booking: 'Booking',
   Payment: 'Payment',
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tour" | "tourImages" | "booking" | "payment" | "review"
+    modelProps: "user" | "tour" | "tourLanguage" | "tourImages" | "booking" | "payment" | "review"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -554,6 +555,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TourCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TourCountAggregateOutputType> | number
+        }
+      }
+    }
+    TourLanguage: {
+      payload: Prisma.$TourLanguagePayload<ExtArgs>
+      fields: Prisma.TourLanguageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TourLanguageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TourLanguageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>
+        }
+        findFirst: {
+          args: Prisma.TourLanguageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TourLanguageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>
+        }
+        findMany: {
+          args: Prisma.TourLanguageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>[]
+        }
+        create: {
+          args: Prisma.TourLanguageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>
+        }
+        createMany: {
+          args: Prisma.TourLanguageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TourLanguageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>[]
+        }
+        delete: {
+          args: Prisma.TourLanguageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>
+        }
+        update: {
+          args: Prisma.TourLanguageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>
+        }
+        deleteMany: {
+          args: Prisma.TourLanguageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TourLanguageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TourLanguageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>[]
+        }
+        upsert: {
+          args: Prisma.TourLanguageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TourLanguagePayload>
+        }
+        aggregate: {
+          args: Prisma.TourLanguageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTourLanguage>
+        }
+        groupBy: {
+          args: Prisma.TourLanguageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TourLanguageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TourLanguageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TourLanguageCountAggregateOutputType> | number
         }
       }
     }
@@ -925,7 +1000,6 @@ export const TourScalarFieldEnum = {
   maxGroupSize: 'maxGroupSize',
   minGroupSize: 'minGroupSize',
   category: 'category',
-  language: 'language',
   city: 'city',
   country: 'country',
   currency: 'currency',
@@ -937,6 +1011,15 @@ export const TourScalarFieldEnum = {
 } as const
 
 export type TourScalarFieldEnum = (typeof TourScalarFieldEnum)[keyof typeof TourScalarFieldEnum]
+
+
+export const TourLanguageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  tourId: 'tourId'
+} as const
+
+export type TourLanguageScalarFieldEnum = (typeof TourLanguageScalarFieldEnum)[keyof typeof TourLanguageScalarFieldEnum]
 
 
 export const TourImagesScalarFieldEnum = {
@@ -1249,6 +1332,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   tour?: Prisma.TourOmit
+  tourLanguage?: Prisma.TourLanguageOmit
   tourImages?: Prisma.TourImagesOmit
   booking?: Prisma.BookingOmit
   payment?: Prisma.PaymentOmit

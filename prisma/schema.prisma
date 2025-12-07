@@ -64,29 +64,29 @@ model Tour {
   fee          Float
   duration     String // in hours
   meetingPoint String
-  
+
   // Group size
   maxGroupSize Int
-  minGroupSize Int @default(1) 
-  
+  minGroupSize Int @default(1)
+
   category TourCategory
-  language String[]
-  city     String
-  country  String 
-  
-  
-  currency   String @default("USD")
-  tags       String[]  
-  
+
+  city    String
+  country String
+
+  currency String   @default("USD")
+  tags     String[]
+
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  bookings   Booking[]
-  reviews    Review[]
-  user       User         @relation(fields: [userId], references: [id])
-  userId     String
-  tourImages TourImages[]
+  bookings      Booking[]
+  reviews       Review[]
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
+  tourImages    TourImages[]
+  tourLanguages TourLanguage[]
 }
 
 enum TourCategory {
@@ -98,8 +98,15 @@ enum TourCategory {
   NATURE
   WILDLIFE
   SHOPPING
-  HERITAGE  
+  HERITAGE
   OTHER
+}
+
+model TourLanguage {
+  id     String @id @default(cuid())
+  name   String
+  tour   Tour   @relation(fields: [tourId], references: [id])
+  tourId String
 }
 
 // -------------------------
@@ -119,10 +126,10 @@ model TourImages {
 // Bookings
 // -------------------------
 model Booking {
-  id     String @id @default(cuid())
+  id          String  @id @default(cuid())
   bookingCode String? @unique
-  tour   Tour   @relation(fields: [tourId], references: [id])
-  tourId String
+  tour        Tour    @relation(fields: [tourId], references: [id])
+  tourId      String
 
   status    BookingStatus @default(PENDING)
   startTime DateTime
@@ -176,10 +183,10 @@ enum PaymentStatus {
 // Reviews
 // -------------------------
 model Review {
-  id     String @id @default(cuid())
+  id         String  @id @default(cuid())
   reviewCode String? @unique
-  tour   Tour   @relation(fields: [tourId], references: [id])
-  tourId String
+  tour       Tour    @relation(fields: [tourId], references: [id])
+  tourId     String
 
   rating    Int // 1-5
   comment   String?

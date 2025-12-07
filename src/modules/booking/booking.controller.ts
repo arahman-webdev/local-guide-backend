@@ -81,7 +81,7 @@ const getMyTourBookings = async (
 const updateStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const bookingId = req.params.id;
-        const { status } = req.body;
+        const {status}  = req.body;
 
         const updated = await BookingService.updateStatus(bookingId, status);
 

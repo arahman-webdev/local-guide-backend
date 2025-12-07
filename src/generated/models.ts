@@ -10,6 +10,7 @@
  */
 export type * from './models/User.js'
 export type * from './models/Tour.js'
+export type * from './models/TourLanguage.js'
 export type * from './models/TourImages.js'
 export type * from './models/Booking.js'
 export type * from './models/Payment.js'

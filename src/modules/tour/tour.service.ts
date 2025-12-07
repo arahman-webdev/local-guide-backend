@@ -5,109 +5,162 @@ import { prisma } from "../../lib/prisma";
 import statusCode from "http-status-codes"
 
 
-const createTour = async (guideId: string, payload: Prisma.TourCreateInput) => {
-    const baseSlug = payload.title.toLocaleLowerCase().split(" ").join("-")
+const createTour = async (guideId: string, payload: any) => {
+  // Generate slug from title
+  const baseSlug = payload.title.toLowerCase().split(" ").join("-");
+  payload.slug = baseSlug;
 
-    payload.slug = baseSlug
-    const {
-        title,
-        slug,
-        description,
-        itinerary,
-        fee,
-        duration,
-        meetingPoint,
-        maxGroupSize,
-        category,
-        language,
-        city,
-        country
+  const {
+    title,
+    slug,
+    description,
+    itinerary,
+    fee,
+    duration,
+    meetingPoint,
+    maxGroupSize,
+    minGroupSize,
+    category,
+    city,
+    country,
+    tourLanguages, // Expecting [{ name: "English" }, { name: "Bangla" }]
+    tourImages,    // Nested create format: { create: [...] }
+  } = payload;
 
-    } = payload;
+  const tour = await prisma.tour.create({
+    data: {
+      title,
+      slug,
+      description,
+      itinerary,
+      fee,
+      duration,
+      meetingPoint,
+      maxGroupSize,
+      minGroupSize,
+      category,
+      city,
+      country,
+      userId: guideId,
+      // ✅ Nested create for languages
+      tourLanguages: {
+        create: Array.isArray(tourLanguages) ? tourLanguages : [],
+      },
+      // ✅ Nested create for images
+      tourImages: tourImages || undefined,
+    },
+    include: {
+      tourImages: true,
+      tourLanguages: true,
+      user: {
+        select: { name: true, profilePic: true },
+      },
+    },
+  });
+
+  return tour;
+};
 
 
-
-    const tour = await prisma.tour.create({
-        data: {
-            title,
-            slug,
-            description,
-            itinerary,
-            fee,
-            duration,
-            meetingPoint,
-            maxGroupSize,
-            category,
-            language,
-            city,
-            country,
-            userId: guideId,
-            tourImages: payload.tourImages
-        },
-        include: {
-            tourImages: true
-        }
-    });
-
-    return tour;
-}
 
 // get all tour with search, filter and pagination
 
 const getTour = async ({
-    page, limit, searchTerm, category, orderBy = 'asc', sortBy = 'createdAt'
+  page,
+  limit,
+  searchTerm,
+  category,
+  language,
+  destination,
+  minPrice,
+  maxPrice,
+  orderBy,
+  sortBy = "createdAt",
 }: {
-    page: number, limit: number, searchTerm?: string, category?: string, orderBy?: string, sortBy?: string
+  page: number;
+  limit: number;
+  searchTerm?: string;
+  category?: string;
+  language?: string;
+  destination?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  orderBy?: string;
+  sortBy?: string;
 }) => {
-    const skip = (page - 1) * limit;
+  const skip = (page - 1) * limit;
 
-    // Build where clause
-    const where: any = {};
+  const where: any = {};
 
-    if (searchTerm) {
-        where.title = { contains: searchTerm, mode: "insensitive" };
-    }
+  // Search by title or description (case-insensitive)
+  if (searchTerm) {
+    where.OR = [
+      { title: { contains: searchTerm, mode: "insensitive" } },
+      { description: { contains: searchTerm, mode: "insensitive" } },
+    ];
+  }
 
-    if (category) {
-        where.category = { name: { equals: category, mode: "insensitive" } };
-    }
+  // Category filter
+  if (category) {
+    where.category = category; // Enum, no need for mode
+  }
 
-    // Validate and set orderBy
-    const allowedSortFields = ['price', 'rating', 'createdAt', 'name'];
-    const allowedOrders = ['asc', 'desc'];
-
-    const validSortBy = allowedSortFields.includes(sortBy) ? sortBy : 'createdAt';
-    const validOrderBy = allowedOrders.includes(orderBy) ? orderBy : 'asc';
-
-    const [products, total] = await Promise.all([
-        prisma.tour.findMany({
-            skip,
-            take: limit,
-            where,
-            orderBy: { [validSortBy]: validOrderBy },
-            include: {
-                tourImages: true,
-                user: {
-                    select: {
-                        name
-                            : true
-                    }
-                }
-            },
-        }),
-        prisma.tour.count({ where })
-    ]);
-
-    return {
-        products,
-        pagination: {
-            page,
-            limit,
-            total,
-            totalPages: Math.ceil(total / limit)
-        }
+  // Language filter using TourLanguage relation (case-insensitive)
+  if (language) {
+    where.tourLanguages = {
+      some: {
+        name: { equals: language, mode: "insensitive" },
+      },
     };
-}
+  }
+
+  // Destination filter (matches city or country, case-insensitive)
+  if (destination) {
+    where.OR = [
+      { city: { contains: destination, mode: "insensitive" } },
+      { country: { contains: destination, mode: "insensitive" } },
+    ];
+  }
+
+  // Price filter
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    where.fee = {};
+    if (minPrice !== undefined) where.fee.gte = minPrice;
+    if (maxPrice !== undefined) where.fee.lte = maxPrice;
+  }
+
+  // Allowed sorting
+  const allowedSortFields = ["fee", "createdAt", "title"];
+  const validSortBy = allowedSortFields.includes(sortBy!) ? sortBy : "createdAt";
+  const validOrderBy = orderBy === "desc" ? "desc" : "asc";
+
+  const [tours, total] = await Promise.all([
+    prisma.tour.findMany({
+      skip,
+      take: limit,
+      where,
+      orderBy: { [validSortBy]: validOrderBy },
+      include: {
+        tourImages: true,
+        user: { select: { name: true, profilePic: true } },
+        tourLanguages: true, // include languages
+      },
+    }),
+    prisma.tour.count({ where }),
+  ]);
+
+  return {
+    products: tours,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+};
+
+
 
 
 const getSingleTour = async (slug: string) => {

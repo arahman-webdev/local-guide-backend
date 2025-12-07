@@ -98,32 +98,33 @@ const updateStatus = async (bookingId: string, status: BookingStatus) => {
 
   const current = booking.status;
 
+  // No change needed
+  if (current === status) {
+    return booking;
+  }
+
   // COMPLETED → nothing allowed
   if (current === "COMPLETED") {
     throw new AppError(400, "Completed bookings cannot be updated");
   }
 
-  // PENDING rules
+  // CANCELLED → nothing allowed
+  if (current === "CANCELLED") {
+    throw new AppError(400, "Cancelled bookings cannot be updated");
+  }
+
+  // PENDING → can CONFIRM or CANCEL
   if (current === "PENDING") {
-    if (status === "COMPLETED") {
-      throw new AppError(400, "Pending booking cannot be completed");
-    }
-    if (status === "CANCELLED") {
-      throw new AppError(400, "You cannot cancel a booking until it is confirmed");
-    }
-    if (status === "PENDING") {
-      return booking;
+    if (!["CONFIRMED", "CANCELLED"].includes(status)) {
+      throw new AppError(400, "Pending bookings can only be confirmed or cancelled");
     }
   }
 
-  // CONFIRMED rules  
+  // CONFIRMED → can COMPLETE or CANCEL
   if (current === "CONFIRMED") {
-    // CONFIRMED → CANCELLED is allowed
-    if (status === "CONFIRMED") {
-      return booking;
+    if (!["COMPLETED", "CANCELLED"].includes(status)) {
+      throw new AppError(400, "Confirmed bookings can only be completed or cancelled");
     }
-    // COMPLETED allowed
-    // CANCELLED allowed
   }
 
   return prisma.booking.update({

@@ -12,9 +12,8 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
     const guideId = req.user.userId; // from JWT middleware
     const data = JSON.parse(req.body.data);
 
-
-    const images = []
-
+    // Upload images
+    const images: any[] = [];
     if (req.files && Array.isArray(req.files)) {
       for (const file of req.files) {
         try {
@@ -23,29 +22,43 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
             imageUrl: uploaded.secure_url,
             imageId: uploaded.public_id,
           });
-        } catch (uploadError: any) {
-
+        } catch (err) {
+          console.error("Image upload failed:", err);
         }
       }
     }
 
-    const result = await TourService.createTour(guideId, {
+    // Convert language string to array of objects
+    let tourLanguages = [];
+    if (data.language) {
+      tourLanguages = data.language
+        .split(",")
+        .map((l: string) => ({ name: l.trim() }));
+    }
+
+    // Build payload for service
+    const payload = {
       ...data,
-      tourImages: {
-        create: images
-      },
-    });
+      tourImages: images.length ? { create: images } : undefined,
+      tourLanguages,
+      fee: Number(data.fee),
+      maxGroupSize: Number(data.maxGroupSize),
+      minGroupSize: Number(data.minGroupSize),
+   
+    };
+
+    const result = await TourService.createTour(guideId, payload);
 
     res.status(201).json({
       success: true,
       message: "Tour created successfully",
-      data: result
+      data: result,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
-}
+};
 
 
 // get tour 
@@ -53,24 +66,42 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
 const getTour = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 5
-    const searchTerm = (req.query.searchTerm as string) || ""
-    const category = (req.query.category as string) || ""
-    const sortBy = (req.query.sortBy as string)
-    const orderBy = (req.query.orderBy as string)
+    const limit = parseInt(req.query.limit as string) || 10;
 
-    console.log("from controller.....", orderBy, sortBy)
+    const searchTerm = req.query.searchTerm as string;
+    const category = req.query.category as string;
+    const language = req.query.language as string;
+    const destination = req.query.destination as string;
 
-    const result = await TourService.getTour({ page, limit, searchTerm, category, sortBy, orderBy })
+    const minPrice = req.query.minPrice ? Number(req.query.minPrice) : undefined;
+    const maxPrice = req.query.maxPrice ? Number(req.query.maxPrice) : undefined;
+
+    const sortBy = req.query.sortBy as string;
+    const orderBy = req.query.orderBy as string;
+
+    const result = await TourService.getTour({
+      page,
+      limit,
+      searchTerm,
+      category,
+      language,
+      destination,
+      minPrice,
+      maxPrice,
+      sortBy,
+      orderBy,
+    });
+
     res.json({
       success: true,
       data: result.products,
-      pagination: result.pagination
-    })
+      pagination: result.pagination,
+    });
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
+
 
 
 const getSingleTour = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {

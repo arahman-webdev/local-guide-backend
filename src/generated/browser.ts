@@ -28,6 +28,11 @@ export type User = Prisma.UserModel
  */
 export type Tour = Prisma.TourModel
 /**
+ * Model TourLanguage
+ * 
+ */
+export type TourLanguage = Prisma.TourLanguageModel
+/**
  * Model TourImages
  * 
  */

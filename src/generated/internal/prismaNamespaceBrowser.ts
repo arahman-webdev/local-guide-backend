@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Tour: 'Tour',
+  TourLanguage: 'TourLanguage',
   TourImages: 'TourImages',
   Booking: 'Booking',
   Payment: 'Payment',
@@ -108,7 +109,6 @@ export const TourScalarFieldEnum = {
   maxGroupSize: 'maxGroupSize',
   minGroupSize: 'minGroupSize',
   category: 'category',
-  language: 'language',
   city: 'city',
   country: 'country',
   currency: 'currency',
@@ -120,6 +120,15 @@ export const TourScalarFieldEnum = {
 } as const
 
 export type TourScalarFieldEnum = (typeof TourScalarFieldEnum)[keyof typeof TourScalarFieldEnum]
+
+
+export const TourLanguageScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  tourId: 'tourId'
+} as const
+
+export type TourLanguageScalarFieldEnum = (typeof TourLanguageScalarFieldEnum)[keyof typeof TourLanguageScalarFieldEnum]
 
 
 export const TourImagesScalarFieldEnum = {
