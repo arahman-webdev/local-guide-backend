@@ -17,6 +17,28 @@ const createBooking = async (req: Request & { user?: any }, res: Response, next:
     }
 }
 
+
+// Booking controller
+const createBookingController = async (req: Request &{user?:any}, res: Response, next:NextFunction) => {
+  try {
+    const userId = req.user.userId; // From authentication middleware
+    const result = await BookingService.createBookings(userId, req.body);
+    
+    res.status(201).json({
+      success: true,
+      message: "Booking created successfully",
+      data: {
+        booking: result.booking,
+        paymentUrl: result.paymentUrl,
+        transactionId: result.transactionId
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 const getMyBookings = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     try {
         const userId = req.user.userId;
@@ -146,6 +168,7 @@ export const deleteBooking = async (
 
 export const BookingController = {
     createBooking,
+    createBookingController,
     getMyBookings,
     getAllBookings,
     getMyTourBookings,

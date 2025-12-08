@@ -48,6 +48,11 @@ export type Booking = Prisma.BookingModel
  */
 export type Payment = Prisma.PaymentModel
 /**
+ * Model SSLCommerzTransaction
+ * 
+ */
+export type SSLCommerzTransaction = Prisma.SSLCommerzTransactionModel
+/**
  * Model Review
  * 
  */

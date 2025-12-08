@@ -390,6 +390,7 @@ export const ModelName = {
   TourImages: 'TourImages',
   Booking: 'Booking',
   Payment: 'Payment',
+  SSLCommerzTransaction: 'SSLCommerzTransaction',
   Review: 'Review'
 } as const
 
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "tour" | "tourLanguage" | "tourImages" | "booking" | "payment" | "review"
+    modelProps: "user" | "tour" | "tourLanguage" | "tourImages" | "booking" | "payment" | "sSLCommerzTransaction" | "review"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -854,6 +855,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SSLCommerzTransaction: {
+      payload: Prisma.$SSLCommerzTransactionPayload<ExtArgs>
+      fields: Prisma.SSLCommerzTransactionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SSLCommerzTransactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SSLCommerzTransactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>
+        }
+        findFirst: {
+          args: Prisma.SSLCommerzTransactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SSLCommerzTransactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>
+        }
+        findMany: {
+          args: Prisma.SSLCommerzTransactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>[]
+        }
+        create: {
+          args: Prisma.SSLCommerzTransactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>
+        }
+        createMany: {
+          args: Prisma.SSLCommerzTransactionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SSLCommerzTransactionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>[]
+        }
+        delete: {
+          args: Prisma.SSLCommerzTransactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>
+        }
+        update: {
+          args: Prisma.SSLCommerzTransactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>
+        }
+        deleteMany: {
+          args: Prisma.SSLCommerzTransactionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SSLCommerzTransactionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SSLCommerzTransactionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>[]
+        }
+        upsert: {
+          args: Prisma.SSLCommerzTransactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SSLCommerzTransactionPayload>
+        }
+        aggregate: {
+          args: Prisma.SSLCommerzTransactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSSLCommerzTransaction>
+        }
+        groupBy: {
+          args: Prisma.SSLCommerzTransactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SSLCommerzTransactionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SSLCommerzTransactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SSLCommerzTransactionCountAggregateOutputType> | number
+        }
+      }
+    }
     Review: {
       payload: Prisma.$ReviewPayload<ExtArgs>
       fields: Prisma.ReviewFieldRefs
@@ -1060,6 +1135,24 @@ export const PaymentScalarFieldEnum = {
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const SSLCommerzTransactionScalarFieldEnum = {
+  id: 'id',
+  transactionId: 'transactionId',
+  bookingId: 'bookingId',
+  sessionKey: 'sessionKey',
+  gatewayUrl: 'gatewayUrl',
+  valId: 'valId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  bankTransaction: 'bankTransaction',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SSLCommerzTransactionScalarFieldEnum = (typeof SSLCommerzTransactionScalarFieldEnum)[keyof typeof SSLCommerzTransactionScalarFieldEnum]
 
 
 export const ReviewScalarFieldEnum = {
@@ -1336,6 +1429,7 @@ export type GlobalOmitConfig = {
   tourImages?: Prisma.TourImagesOmit
   booking?: Prisma.BookingOmit
   payment?: Prisma.PaymentOmit
+  sSLCommerzTransaction?: Prisma.SSLCommerzTransactionOmit
   review?: Prisma.ReviewOmit
 }
 

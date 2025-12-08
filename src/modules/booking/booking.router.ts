@@ -16,7 +16,8 @@ const router = express.Router()
 
 
 
-router.post("/", checkAuth(UserRole.TOURIST), BookingController.createBooking)
+// router.post("/", checkAuth(UserRole.TOURIST), BookingController.createBooking)
+router.post("/", checkAuth(UserRole.TOURIST), BookingController.createBookingController)
 router.get("/my", checkAuth(UserRole.TOURIST), BookingController.getMyBookings)
 router.get("/my-tours-booking", checkAuth(UserRole.GUIDE), BookingController.getMyTourBookings);
 router.get("/", checkAuth(UserRole.ADMIN, UserRole.GUIDE), BookingController.getAllBookings)

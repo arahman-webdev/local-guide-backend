@@ -2,8 +2,11 @@ import { BookingStatus, UserRole } from "../../generated/enums";
 import AppError from "../../helper/AppError";
 import { prisma } from "../../lib/prisma";
 import statusCode from "http-status-codes"
+import { sslPaymentInit } from "../sslPayment/sslPayment.service";
 
-
+const getTransactionId = () => {
+    return `tran_${Date.now()}_${Math.floor(Math.random() * 1000)}`
+}
 
 // Create Booking
 const createBooking = async (userId: string, payload: any) => {
@@ -43,6 +46,104 @@ const createBooking = async (userId: string, payload: any) => {
   });
 
   return booking;
+};
+
+const createBookings = async (userId: string, payload: any) => {
+  const { tourId, startTime, endTime, paymentMethod } = payload;
+
+  // 1. Validate Tour
+  const tour = await prisma.tour.findUnique({
+    where: { id: tourId },
+  });
+  if (!tour) {
+    throw new AppError(404, "Tour not found");
+  }
+
+  // 2. Validate User & Role
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+  if (!user || user.role !== "TOURIST") {
+    throw new AppError(403, "Only tourists can book tours");
+  }
+
+  // 3. Generate identifiers
+  const bookingCode = `BK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+  const transactionId = `tran_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+
+  // 4. Create SSLCommerz transaction record
+  const sslTransaction = await prisma.sSLCommerzTransaction.create({
+    data: {
+      transactionId,
+      amount: tour.fee,
+      currency: "BDT",
+      status: "PENDING",
+    },
+  });
+
+  // 5. Create booking with an initial pending payment
+  const booking = await prisma.booking.create({
+    data: {
+      bookingCode,
+      tourId,
+      userId,
+      startTime: new Date(startTime),
+      endTime: new Date(endTime),
+
+      payment: {
+        create: {
+          amount: tour.fee,
+          method: paymentMethod === "ssl" ? "SSL_COMMERZ" : "STRIPE",
+          status: "PENDING",
+          transactionId,
+        },
+      },
+
+      sslcommerzTransaction: {
+        connect: { id: sslTransaction.id },
+      },
+    },
+
+    include: {
+      tour: true,
+      user: true,
+      payment: true,
+      sslcommerzTransaction: true,
+    },
+  });
+
+  // 6. Prepare SSLCommerz payload
+  const sslPayload = {
+    amount: tour.fee,
+    transactionId,
+    bookingId: booking.id,
+
+    name: user.name || user.email.split("@")[0],
+    email: user.email,
+    phone: user.phone || "01700000000",
+    address: user.address || "Not provided",
+  };
+
+  // 7. Initialize SSLCommerz Payment
+  const sslResponse = await sslPaymentInit(sslPayload);
+
+  // 8. Store sessionKey and gateway URL
+  await prisma.sSLCommerzTransaction.update({
+    where: { id: sslTransaction.id },
+    data: {
+      sessionKey: sslResponse.sessionkey,
+      gatewayUrl:
+        sslResponse.GatewayPageURL || sslResponse.redirectGatewayURL,
+    },
+  });
+
+  // 9. Return final output
+  return {
+    booking,
+    paymentUrl:
+      sslResponse.GatewayPageURL || sslResponse.redirectGatewayURL,
+    transactionId,
+  };
 };
 
 
@@ -215,6 +316,7 @@ const deleteBooking = async (
 
 export const BookingService = {
   createBooking,
+  createBookings,
   getMyBookings,
   getAllBookings,
   getMyTourBookings,

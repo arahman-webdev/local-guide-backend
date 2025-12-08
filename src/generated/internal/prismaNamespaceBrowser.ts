@@ -57,6 +57,7 @@ export const ModelName = {
   TourImages: 'TourImages',
   Booking: 'Booking',
   Payment: 'Payment',
+  SSLCommerzTransaction: 'SSLCommerzTransaction',
   Review: 'Review'
 } as const
 
@@ -169,6 +170,24 @@ export const PaymentScalarFieldEnum = {
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const SSLCommerzTransactionScalarFieldEnum = {
+  id: 'id',
+  transactionId: 'transactionId',
+  bookingId: 'bookingId',
+  sessionKey: 'sessionKey',
+  gatewayUrl: 'gatewayUrl',
+  valId: 'valId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  bankTransaction: 'bankTransaction',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SSLCommerzTransactionScalarFieldEnum = (typeof SSLCommerzTransactionScalarFieldEnum)[keyof typeof SSLCommerzTransactionScalarFieldEnum]
 
 
 export const ReviewScalarFieldEnum = {
