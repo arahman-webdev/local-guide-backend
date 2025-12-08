@@ -137,10 +137,11 @@ model Booking {
 
   payment Payment?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  user                  User                   @relation(fields: [userId], references: [id])
+  userId                String
+  sslcommerzTransaction SSLCommerzTransaction?
 }
 
 enum BookingStatus {
@@ -177,6 +178,23 @@ enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
+}
+
+model SSLCommerzTransaction {
+  id              String  @id @default(cuid())
+  transactionId   String  @unique // Your generated tran_id
+  bookingId       String  @unique
+  booking         Booking @relation(fields: [bookingId], references: [id])
+  sessionKey      String? // From SSLCommerz response
+  gatewayUrl      String? // Payment gateway URL
+  valId           String? // Validation ID from SSLCommerz
+  amount          Float
+  currency        String  @default("BDT")
+  status          String  @default("PENDING") // PENDING, SUCCESS, FAILED, CANCELLED
+  bankTransaction String? // Bank transaction ID
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // -------------------------

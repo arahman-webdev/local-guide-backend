@@ -6,120 +6,132 @@ import statusCode from "http-status-codes"
 
 
 const createTour = async (guideId: string, payload: any) => {
-  // Generate slug from title
-  const baseSlug = payload.title.toLowerCase().split(" ").join("-");
-  payload.slug = baseSlug;
+    // Generate slug from title
+    const baseSlug = payload.title.toLowerCase().split(" ").join("-");
+    payload.slug = baseSlug;
 
-  const {
-    title,
-    slug,
-    description,
-    itinerary,
-    fee,
-    duration,
-    meetingPoint,
-    maxGroupSize,
-    minGroupSize,
-    category,
-    city,
-    country,
-    tourLanguages, // Expecting [{ name: "English" }, { name: "Bangla" }]
-    tourImages,    // Nested create format: { create: [...] }
-  } = payload;
+    const {
+        title,
+        slug,
+        description,
+        itinerary,
+        fee,
+        duration,
+        meetingPoint,
+        maxGroupSize,
+        minGroupSize,
+        category,
+        city,
+        country,
+        tourLanguages, // Expecting [{ name: "English" }, { name: "Bangla" }]
+        tourImages,    // Nested create format: { create: [...] }
+    } = payload;
 
-  const tour = await prisma.tour.create({
-    data: {
-      title,
-      slug,
-      description,
-      itinerary,
-      fee,
-      duration,
-      meetingPoint,
-      maxGroupSize,
-      minGroupSize,
-      category,
-      city,
-      country,
-      userId: guideId,
-      // ✅ Nested create for languages
-      tourLanguages: {
-        create: Array.isArray(tourLanguages) ? tourLanguages : [],
-      },
-      // ✅ Nested create for images
-      tourImages: tourImages || undefined,
-    },
-    include: {
-      tourImages: true,
-      tourLanguages: true,
-      user: {
-        select: { name: true, profilePic: true },
-      },
-    },
-  });
+    const tour = await prisma.tour.create({
+        data: {
+            title,
+            slug,
+            description,
+            itinerary,
+            fee,
+            duration,
+            meetingPoint,
+            maxGroupSize,
+            minGroupSize,
+            category,
+            city,
+            country,
+            userId: guideId,
+            // ✅ Nested create for languages
+            tourLanguages: {
+                create: Array.isArray(tourLanguages) ? tourLanguages : [],
+            },
+            // ✅ Nested create for images
+            tourImages: tourImages || undefined,
+        },
+        include: {
+            tourImages: true,
+            tourLanguages: true,
+            user: {
+                select: { name: true, profilePic: true },
+            },
+        },
+    });
 
-  return tour;
+    return tour;
 };
 
 
 
 // get all tour with search, filter and pagination
 
-const getTour = async ({
+
+
+ const getTour = async ({
   page,
   limit,
   searchTerm,
   category,
   language,
+  city,
   destination,
   minPrice,
   maxPrice,
-  orderBy,
   sortBy = "createdAt",
+  orderBy = "asc",
 }: {
   page: number;
   limit: number;
   searchTerm?: string;
   category?: string;
   language?: string;
+  city?: string;
   destination?: string;
   minPrice?: number;
   maxPrice?: number;
-  orderBy?: string;
   sortBy?: string;
+  orderBy?: string;
 }) => {
   const skip = (page - 1) * limit;
 
   const where: any = {};
+  const orConditions: any[] = [];
 
-  // Search by title or description (case-insensitive)
+  // Search by title or description
   if (searchTerm) {
-    where.OR = [
+    orConditions.push(
       { title: { contains: searchTerm, mode: "insensitive" } },
-      { description: { contains: searchTerm, mode: "insensitive" } },
-    ];
+      { description: { contains: searchTerm, mode: "insensitive" } }
+    );
+  }
+
+  // Destination filter (matches city or country)
+  if (destination) {
+    orConditions.push(
+      { city: { contains: destination, mode: "insensitive" } },
+      { country: { contains: destination, mode: "insensitive" } }
+    );
+  }
+
+  if (orConditions.length > 0) {
+    where.OR = orConditions;
+  }
+
+  // City filter
+  if (city) {
+    where.city = { contains: city, mode: "insensitive" };
   }
 
   // Category filter
   if (category) {
-    where.category = category; // Enum, no need for mode
+    where.category = category; // Enum
   }
 
-  // Language filter using TourLanguage relation (case-insensitive)
+  // Language filter
   if (language) {
     where.tourLanguages = {
-      some: {
-        name: { equals: language, mode: "insensitive" },
-      },
+      some: { name: { equals: language, mode: "insensitive" } },
     };
-  }
-
-  // Destination filter (matches city or country, case-insensitive)
-  if (destination) {
-    where.OR = [
-      { city: { contains: destination, mode: "insensitive" } },
-      { country: { contains: destination, mode: "insensitive" } },
-    ];
   }
 
   // Price filter
@@ -129,9 +141,9 @@ const getTour = async ({
     if (maxPrice !== undefined) where.fee.lte = maxPrice;
   }
 
-  // Allowed sorting
+  // Validate sorting
   const allowedSortFields = ["fee", "createdAt", "title"];
-  const validSortBy = allowedSortFields.includes(sortBy!) ? sortBy : "createdAt";
+  const validSortBy = allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
   const validOrderBy = orderBy === "desc" ? "desc" : "asc";
 
   const [tours, total] = await Promise.all([
@@ -143,7 +155,7 @@ const getTour = async ({
       include: {
         tourImages: true,
         user: { select: { name: true, profilePic: true } },
-        tourLanguages: true, // include languages
+        tourLanguages: true,
       },
     }),
     prisma.tour.count({ where }),
@@ -159,6 +171,7 @@ const getTour = async ({
     },
   };
 };
+
 
 
 
@@ -243,8 +256,8 @@ const toggleTourStatus = async (
 
     if (!tour) throw new AppError(404, "Tour not found");
 
-   console.log("request role", tour.userId)
-   console.log("request role", requester.id)
+    console.log("request role", tour.userId)
+    console.log("request role", requester.id)
 
     const isOwner = tour.userId === requester.id;
     const isAdmin = requester.userRole === UserRole.ADMIN;

@@ -63,7 +63,8 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
 
 // get tour 
 
-const getTour = async (req: Request, res: Response, next: NextFunction) => {
+
+ const getTour = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
@@ -71,11 +72,10 @@ const getTour = async (req: Request, res: Response, next: NextFunction) => {
     const searchTerm = req.query.searchTerm as string;
     const category = req.query.category as string;
     const language = req.query.language as string;
+    const city = req.query.city as string;
     const destination = req.query.destination as string;
-
     const minPrice = req.query.minPrice ? Number(req.query.minPrice) : undefined;
     const maxPrice = req.query.maxPrice ? Number(req.query.maxPrice) : undefined;
-
     const sortBy = req.query.sortBy as string;
     const orderBy = req.query.orderBy as string;
 
@@ -85,6 +85,7 @@ const getTour = async (req: Request, res: Response, next: NextFunction) => {
       searchTerm,
       category,
       language,
+      city,
       destination,
       minPrice,
       maxPrice,
@@ -101,6 +102,7 @@ const getTour = async (req: Request, res: Response, next: NextFunction) => {
     next(err);
   }
 };
+
 
 
 
