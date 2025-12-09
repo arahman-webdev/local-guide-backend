@@ -8,12 +8,12 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User.js'
-export type * from './models/Tour.js'
-export type * from './models/TourLanguage.js'
-export type * from './models/TourImages.js'
-export type * from './models/Booking.js'
-export type * from './models/Payment.js'
-export type * from './models/SSLCommerzTransaction.js'
-export type * from './models/Review.js'
-export type * from './commonInputTypes.js'
+export type * from './models/User'
+export type * from './models/Tour'
+export type * from './models/TourLanguage'
+export type * from './models/TourImages'
+export type * from './models/Booking'
+export type * from './models/Payment'
+export type * from './models/SSLCommerzTransaction'
+export type * from './models/Review'
+export type * from './commonInputTypes'

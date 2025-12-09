@@ -41,6 +41,15 @@ app.use('/api/bookings', bookingRoutes)
 app.use('/api/payment', paymentRoutes)
 app.use('/api/reviews', reviewRoutes)
 
+// Test route for Vercel
+app.get("/test", (req, res) => {
+  res.json({
+    message: "API is working!",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
 // Default route testing
 
 app.get('/',(req:Request, res:Response)=>{
