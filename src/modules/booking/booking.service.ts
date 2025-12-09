@@ -4,9 +4,7 @@ import { prisma } from "../../lib/prisma";
 import statusCode from "http-status-codes"
 import { sslPaymentInit } from "../sslPayment/sslPayment.service";
 
-const getTransactionId = () => {
-    return `tran_${Date.now()}_${Math.floor(Math.random() * 1000)}`
-}
+
 
 // Create Booking
 const createBooking = async (userId: string, payload: any) => {
@@ -176,11 +174,8 @@ const getAllBookings = async () => {
         },
 
       },
-      payment: {
-        select: {
-          status: true
-        }
-      }
+      payment: true
+      
     },
     orderBy: { createdAt: "desc" },
   });
@@ -236,9 +231,6 @@ const updateStatus = async (bookingId: string, status: BookingStatus) => {
 
 
 
-// booking service
-
-// booking.service.ts
 
 
 
