@@ -163,6 +163,7 @@ const deleteTour = async (tourId, requester) => {
     await prisma_1.prisma.review.deleteMany({ where: { tourId } });
     await prisma_1.prisma.booking.deleteMany({ where: { tourId } });
     await prisma_1.prisma.tourImages.deleteMany({ where: { tourId } });
+    await prisma_1.prisma.tourLanguage.deleteMany({ where: { tourId } });
     return prisma_1.prisma.tour.delete({ where: { id: tourId } });
 };
 // update tour status to inactive or active

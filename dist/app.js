@@ -17,10 +17,16 @@ const payement_router_1 = require("./modules/payment/payement.router");
 // import { randomBytes } from "crypto";
 exports.app = (0, express_1.default)();
 const corsOptions = {
-    origin: 'http://localhost:3000',
-    credentials: true,
-    exposedHeaders: ['set-cookie'] // Important!
+    origin: [
+        'http://localhost:3000',
+        'https://local-guide-frontend.vercel.app',
+        /\.vercel\.app$/ // Allow all Vercel subdomains
+    ],
+    credentials: true, // ← MUST BE TRUE
+    exposedHeaders: ['set-cookie'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Origin']
 };
+exports.app.use((0, cors_1.default)(corsOptions));
 exports.app.use((0, cors_1.default)(corsOptions));
 // Or if you want to allow all origins in development
 exports.app.use((0, cors_1.default)({

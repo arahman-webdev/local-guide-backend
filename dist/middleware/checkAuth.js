@@ -4,7 +4,7 @@ const prisma_1 = require("../lib/prisma");
 const jwt_1 = require("../utills/jwt");
 const checkAuth = (...authRoles) => async (req, res, next) => {
     try {
-        let token = req.headers.authorization || req.cookies.accessToken;
+        let token = req.headers.authorization?.replace('Bearer ', '') || req.headers['x-access-token'] || req.cookies.accessToken;
         if (!token) {
             throw new Error("Token is not found");
         }

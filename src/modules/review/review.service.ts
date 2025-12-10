@@ -20,6 +20,7 @@ const createReview = async (
     where: {
       tourId,
       userId,
+      
       status: BookingStatus.COMPLETED,
     },
   });

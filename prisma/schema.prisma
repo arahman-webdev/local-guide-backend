@@ -15,8 +15,8 @@ model User {
   id       String   @id @default(cuid())
   name     String
   email    String   @unique
-  phone String?
-  address String
+  phone    String?
+  address  String?
   password String?
   role     UserRole @default(TOURIST)
 
@@ -139,13 +139,20 @@ model Booking {
 
   payment Payment?
 
+  // Change from reviews[] (plural) to review (singular)
+  review   Review?  // One booking can have one review
+
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   user                  User                   @relation(fields: [userId], references: [id])
   userId                String
   sslcommerzTransaction SSLCommerzTransaction?
+  
+  // Add indexes for better queries
+  @@index([userId])
+  @@index([status])
+  @@index([startTime])
 }
-
 enum BookingStatus {
   PENDING
   CONFIRMED
@@ -157,7 +164,7 @@ enum BookingStatus {
 // Payments
 // -------------------------
 model Payment {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   booking   Booking? @relation(fields: [bookingId], references: [id])
   bookingId String?  @unique
 
@@ -184,16 +191,16 @@ enum PaymentStatus {
 }
 
 model SSLCommerzTransaction {
-  id              String  @id @default(cuid())
-  transactionId   String  @unique // Your generated tran_id
+  id              String   @id @default(cuid())
+  transactionId   String   @unique // Your generated tran_id
   bookingId       String?  @unique
   booking         Booking? @relation(fields: [bookingId], references: [id])
   sessionKey      String? // From SSLCommerz response
   gatewayUrl      String? // Payment gateway URL
   valId           String? // Validation ID from SSLCommerz
   amount          Float
-  currency        String  @default("BDT")
-  status          String  @default("PENDING") // PENDING, SUCCESS, FAILED, CANCELLED
+  currency        String   @default("BDT")
+  status          String   @default("PENDING") // PENDING, SUCCESS, FAILED, CANCELLED
   bankTransaction String? // Bank transaction ID
 
   createdAt DateTime @default(now())
@@ -209,10 +216,18 @@ model Review {
   tour       Tour    @relation(fields: [tourId], references: [id])
   tourId     String
 
-  rating    Int // 1-5
+  booking   Booking? @relation(fields: [bookingId], references: [id])
+  bookingId String?  @unique // Make it unique to prevent one booking having multiple reviews
+
+  rating    Int      // 1-5
   comment   String?
   createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
+  
+  // Add indexes for better performance
+  @@index([userId])
+  @@index([tourId])
+  @@unique([userId, tourId]) // Prevent user reviewing same tour multiple times
 }

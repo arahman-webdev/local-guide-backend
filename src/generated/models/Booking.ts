@@ -216,6 +216,7 @@ export type BookingWhereInput = {
   userId?: Prisma.StringFilter<"Booking"> | string
   tour?: Prisma.XOR<Prisma.TourScalarRelationFilter, Prisma.TourWhereInput>
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sslcommerzTransaction?: Prisma.XOR<Prisma.SSLCommerzTransactionNullableScalarRelationFilter, Prisma.SSLCommerzTransactionWhereInput> | null
 }
@@ -232,6 +233,7 @@ export type BookingOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   tour?: Prisma.TourOrderByWithRelationInput
   payment?: Prisma.PaymentOrderByWithRelationInput
+  review?: Prisma.ReviewOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionOrderByWithRelationInput
 }
@@ -251,6 +253,7 @@ export type BookingWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Booking"> | string
   tour?: Prisma.XOR<Prisma.TourScalarRelationFilter, Prisma.TourWhereInput>
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  review?: Prisma.XOR<Prisma.ReviewNullableScalarRelationFilter, Prisma.ReviewWhereInput> | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sslcommerzTransaction?: Prisma.XOR<Prisma.SSLCommerzTransactionNullableScalarRelationFilter, Prisma.SSLCommerzTransactionWhereInput> | null
 }, "id" | "bookingCode">
@@ -295,6 +298,7 @@ export type BookingCreateInput = {
   updatedAt?: Date | string
   tour: Prisma.TourCreateNestedOneWithoutBookingsInput
   payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewCreateNestedOneWithoutBookingInput
   user: Prisma.UserCreateNestedOneWithoutBookingsInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionCreateNestedOneWithoutBookingInput
 }
@@ -310,6 +314,7 @@ export type BookingUncheckedCreateInput = {
   updatedAt?: Date | string
   userId: string
   payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedCreateNestedOneWithoutBookingInput
 }
 
@@ -323,6 +328,7 @@ export type BookingUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tour?: Prisma.TourUpdateOneRequiredWithoutBookingsNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutBookingNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUpdateOneWithoutBookingNestedInput
 }
@@ -338,6 +344,7 @@ export type BookingUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedUpdateOneWithoutBookingNestedInput
 }
 
@@ -546,6 +553,22 @@ export type BookingUpdateOneWithoutSslcommerzTransactionNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BookingUpdateToOneWithWhereWithoutSslcommerzTransactionInput, Prisma.BookingUpdateWithoutSslcommerzTransactionInput>, Prisma.BookingUncheckedUpdateWithoutSslcommerzTransactionInput>
 }
 
+export type BookingCreateNestedOneWithoutReviewInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutReviewInput, Prisma.BookingUncheckedCreateWithoutReviewInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutReviewInput
+  connect?: Prisma.BookingWhereUniqueInput
+}
+
+export type BookingUpdateOneWithoutReviewNestedInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutReviewInput, Prisma.BookingUncheckedCreateWithoutReviewInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutReviewInput
+  upsert?: Prisma.BookingUpsertWithoutReviewInput
+  disconnect?: Prisma.BookingWhereInput | boolean
+  delete?: Prisma.BookingWhereInput | boolean
+  connect?: Prisma.BookingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookingUpdateToOneWithWhereWithoutReviewInput, Prisma.BookingUpdateWithoutReviewInput>, Prisma.BookingUncheckedUpdateWithoutReviewInput>
+}
+
 export type BookingCreateWithoutUserInput = {
   id?: string
   bookingCode?: string | null
@@ -556,6 +579,7 @@ export type BookingCreateWithoutUserInput = {
   updatedAt?: Date | string
   tour: Prisma.TourCreateNestedOneWithoutBookingsInput
   payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewCreateNestedOneWithoutBookingInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionCreateNestedOneWithoutBookingInput
 }
 
@@ -569,6 +593,7 @@ export type BookingUncheckedCreateWithoutUserInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedCreateNestedOneWithoutBookingInput
 }
 
@@ -622,6 +647,7 @@ export type BookingCreateWithoutTourInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewCreateNestedOneWithoutBookingInput
   user: Prisma.UserCreateNestedOneWithoutBookingsInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionCreateNestedOneWithoutBookingInput
 }
@@ -636,6 +662,7 @@ export type BookingUncheckedCreateWithoutTourInput = {
   updatedAt?: Date | string
   userId: string
   payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedCreateNestedOneWithoutBookingInput
 }
 
@@ -674,6 +701,7 @@ export type BookingCreateWithoutPaymentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   tour: Prisma.TourCreateNestedOneWithoutBookingsInput
+  review?: Prisma.ReviewCreateNestedOneWithoutBookingInput
   user: Prisma.UserCreateNestedOneWithoutBookingsInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionCreateNestedOneWithoutBookingInput
 }
@@ -688,6 +716,7 @@ export type BookingUncheckedCreateWithoutPaymentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedCreateNestedOneWithoutBookingInput
 }
 
@@ -716,6 +745,7 @@ export type BookingUpdateWithoutPaymentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tour?: Prisma.TourUpdateOneRequiredWithoutBookingsNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutBookingNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUpdateOneWithoutBookingNestedInput
 }
@@ -730,6 +760,7 @@ export type BookingUncheckedUpdateWithoutPaymentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedUpdateOneWithoutBookingNestedInput
 }
 
@@ -743,6 +774,7 @@ export type BookingCreateWithoutSslcommerzTransactionInput = {
   updatedAt?: Date | string
   tour: Prisma.TourCreateNestedOneWithoutBookingsInput
   payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewCreateNestedOneWithoutBookingInput
   user: Prisma.UserCreateNestedOneWithoutBookingsInput
 }
 
@@ -757,6 +789,7 @@ export type BookingUncheckedCreateWithoutSslcommerzTransactionInput = {
   updatedAt?: Date | string
   userId: string
   payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  review?: Prisma.ReviewUncheckedCreateNestedOneWithoutBookingInput
 }
 
 export type BookingCreateOrConnectWithoutSslcommerzTransactionInput = {
@@ -785,6 +818,7 @@ export type BookingUpdateWithoutSslcommerzTransactionInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tour?: Prisma.TourUpdateOneRequiredWithoutBookingsNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutBookingNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
 }
 
@@ -799,6 +833,79 @@ export type BookingUncheckedUpdateWithoutSslcommerzTransactionInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
+}
+
+export type BookingCreateWithoutReviewInput = {
+  id?: string
+  bookingCode?: string | null
+  status?: $Enums.BookingStatus
+  startTime: Date | string
+  endTime: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tour: Prisma.TourCreateNestedOneWithoutBookingsInput
+  payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  user: Prisma.UserCreateNestedOneWithoutBookingsInput
+  sslcommerzTransaction?: Prisma.SSLCommerzTransactionCreateNestedOneWithoutBookingInput
+}
+
+export type BookingUncheckedCreateWithoutReviewInput = {
+  id?: string
+  bookingCode?: string | null
+  tourId: string
+  status?: $Enums.BookingStatus
+  startTime: Date | string
+  endTime: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  userId: string
+  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedCreateNestedOneWithoutBookingInput
+}
+
+export type BookingCreateOrConnectWithoutReviewInput = {
+  where: Prisma.BookingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookingCreateWithoutReviewInput, Prisma.BookingUncheckedCreateWithoutReviewInput>
+}
+
+export type BookingUpsertWithoutReviewInput = {
+  update: Prisma.XOR<Prisma.BookingUpdateWithoutReviewInput, Prisma.BookingUncheckedUpdateWithoutReviewInput>
+  create: Prisma.XOR<Prisma.BookingCreateWithoutReviewInput, Prisma.BookingUncheckedCreateWithoutReviewInput>
+  where?: Prisma.BookingWhereInput
+}
+
+export type BookingUpdateToOneWithWhereWithoutReviewInput = {
+  where?: Prisma.BookingWhereInput
+  data: Prisma.XOR<Prisma.BookingUpdateWithoutReviewInput, Prisma.BookingUncheckedUpdateWithoutReviewInput>
+}
+
+export type BookingUpdateWithoutReviewInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tour?: Prisma.TourUpdateOneRequiredWithoutBookingsNestedInput
+  payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
+  sslcommerzTransaction?: Prisma.SSLCommerzTransactionUpdateOneWithoutBookingNestedInput
+}
+
+export type BookingUncheckedUpdateWithoutReviewInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  bookingCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tourId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingCreateManyUserInput = {
@@ -822,6 +929,7 @@ export type BookingUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tour?: Prisma.TourUpdateOneRequiredWithoutBookingsNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutBookingNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUpdateOneWithoutBookingNestedInput
 }
 
@@ -835,6 +943,7 @@ export type BookingUncheckedUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedUpdateOneWithoutBookingNestedInput
 }
 
@@ -869,6 +978,7 @@ export type BookingUpdateWithoutTourInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUpdateOneWithoutBookingNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUpdateOneWithoutBookingNestedInput
 }
@@ -883,6 +993,7 @@ export type BookingUncheckedUpdateWithoutTourInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  review?: Prisma.ReviewUncheckedUpdateOneWithoutBookingNestedInput
   sslcommerzTransaction?: Prisma.SSLCommerzTransactionUncheckedUpdateOneWithoutBookingNestedInput
 }
 
@@ -911,6 +1022,7 @@ export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   userId?: boolean
   tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>
   payment?: boolean | Prisma.Booking$paymentArgs<ExtArgs>
+  review?: boolean | Prisma.Booking$reviewArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sslcommerzTransaction?: boolean | Prisma.Booking$sslcommerzTransactionArgs<ExtArgs>
 }, ExtArgs["result"]["booking"]>
@@ -959,6 +1071,7 @@ export type BookingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type BookingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tour?: boolean | Prisma.TourDefaultArgs<ExtArgs>
   payment?: boolean | Prisma.Booking$paymentArgs<ExtArgs>
+  review?: boolean | Prisma.Booking$reviewArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sslcommerzTransaction?: boolean | Prisma.Booking$sslcommerzTransactionArgs<ExtArgs>
 }
@@ -976,6 +1089,7 @@ export type $BookingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     tour: Prisma.$TourPayload<ExtArgs>
     payment: Prisma.$PaymentPayload<ExtArgs> | null
+    review: Prisma.$ReviewPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs>
     sslcommerzTransaction: Prisma.$SSLCommerzTransactionPayload<ExtArgs> | null
   }
@@ -1385,6 +1499,7 @@ export interface Prisma__BookingClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tour<T extends Prisma.TourDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TourDefaultArgs<ExtArgs>>): Prisma.Prisma__TourClient<runtime.Types.Result.GetResult<Prisma.$TourPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   payment<T extends Prisma.Booking$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$paymentArgs<ExtArgs>>): Prisma.Prisma__PaymentClient<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  review<T extends Prisma.Booking$reviewArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$reviewArgs<ExtArgs>>): Prisma.Prisma__ReviewClient<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sslcommerzTransaction<T extends Prisma.Booking$sslcommerzTransactionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$sslcommerzTransactionArgs<ExtArgs>>): Prisma.Prisma__SSLCommerzTransactionClient<runtime.Types.Result.GetResult<Prisma.$SSLCommerzTransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -1837,6 +1952,25 @@ export type Booking$paymentArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.PaymentInclude<ExtArgs> | null
   where?: Prisma.PaymentWhereInput
+}
+
+/**
+ * Booking.review
+ */
+export type Booking$reviewArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Review
+   */
+  select?: Prisma.ReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Review
+   */
+  omit?: Prisma.ReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReviewInclude<ExtArgs> | null
+  where?: Prisma.ReviewWhereInput
 }
 
 /**

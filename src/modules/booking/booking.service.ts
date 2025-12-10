@@ -185,7 +185,7 @@ const getAllBookings = async () => {
 
 const updateStatus = async (bookingId: string, status: BookingStatus) => {
   const booking = await prisma.booking.findUnique({
-    where: { id: bookingId },
+    where: { id: bookingId }
   });
 
   if (!booking) {
@@ -222,6 +222,8 @@ const updateStatus = async (bookingId: string, status: BookingStatus) => {
       throw new AppError(400, "Confirmed bookings can only be completed or cancelled");
     }
   }
+
+
 
   return prisma.booking.update({
     where: { id: bookingId },

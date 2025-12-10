@@ -241,7 +241,7 @@ const deleteTour = async (tourId: string, requester: { id: string, userRole: str
     await prisma.review.deleteMany({ where: { tourId } });
     await prisma.booking.deleteMany({ where: { tourId } });
     await prisma.tourImages.deleteMany({ where: { tourId } });
-
+    await prisma.tourLanguage.deleteMany({ where: { tourId } });
     return prisma.tour.delete({ where: { id: tourId } });
 };
 

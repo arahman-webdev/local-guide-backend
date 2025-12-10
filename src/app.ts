@@ -13,12 +13,18 @@ import { paymentRoutes } from "./modules/payment/payement.router";
 
 
 export const app = express()
-
 const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true,
-  exposedHeaders: ['set-cookie'] // Important!
+    origin: [
+        'http://localhost:3000',
+        'https://local-guide-frontend.vercel.app',
+        /\.vercel\.app$/ // Allow all Vercel subdomains
+    ],
+    credentials: true, // ← MUST BE TRUE
+    exposedHeaders: ['set-cookie'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Origin']
 };
+
+app.use(cors(corsOptions));
 
 app.use(cors(corsOptions));
 
