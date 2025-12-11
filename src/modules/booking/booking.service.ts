@@ -159,16 +159,21 @@ const getMyBookings = async (userId: string) => {
           endTime: true,
           totalBookings: true,
           reviewCount: true,
-          id:true,
-          reviews:true
+          id: true,
         }
       },
+      review: true,  // ⭐ Include review for this booking
     },
     orderBy: { createdAt: "desc" },
   });
 
-  return bookings;
+  // ⭐ Add hasReviewed field
+  return bookings.map(b => ({
+    ...b,
+    hasReviewed: !!b.review,  // TRUE if user already reviewed this booking
+  }));
 };
+
 
 
 
@@ -187,7 +192,7 @@ const getAllBookings = async () => {
 
       },
       payment: true,
-
+      review:true
 
     },
     orderBy: { createdAt: "desc" },

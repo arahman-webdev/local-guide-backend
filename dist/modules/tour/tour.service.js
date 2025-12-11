@@ -195,21 +195,15 @@ const toggleTourStatus = async (tourId, requester) => {
 // View bookings related to a tour
 const updateTour = async (tourId, guideId, payload) => {
     if (payload.title) {
-        const baseSlug = payload.title.toLowerCase().split(" ").join("-");
-        payload.slug = baseSlug;
+        payload.slug = payload.title.toLowerCase().split(" ").join("-");
     }
-    const { title, slug, description, itinerary, fee, duration, meetingPoint, maxGroupSize, minGroupSize, category, city, country, availableDays, includes, excludes, whatToBring, requirements, tags, isFeatured, tourLanguages, newImages, deleteImageIds, } = payload;
-    // Delete selected images
-    if (deleteImageIds && deleteImageIds.length > 0) {
-        await prisma_1.prisma.tourImages.deleteMany({
-            where: {
-                id: { in: deleteImageIds },
-                tourId,
-            },
-        });
-    }
+    const { title, slug, description, itinerary, fee, duration, meetingPoint, maxGroupSize, minGroupSize, category, city, country, availableDays, includes, excludes, whatToBring, requirements, tags, isFeatured, tourLanguages, newImages, } = payload;
+    // Fetch old images from DB before update
+    const oldImages = await prisma_1.prisma.tourImages.findMany({
+        where: { tourId },
+    });
     const updatedTour = await prisma_1.prisma.tour.update({
-        where: { id: tourId, userId: guideId }, // validate owner
+        where: { id: tourId, userId: guideId },
         data: {
             title,
             slug,
@@ -220,7 +214,7 @@ const updateTour = async (tourId, guideId, payload) => {
             meetingPoint,
             maxGroupSize,
             minGroupSize,
-            category,
+            category: category?.toUpperCase(),
             city,
             country,
             availableDays: availableDays || [],
@@ -230,9 +224,10 @@ const updateTour = async (tourId, guideId, payload) => {
             requirements: requirements || [],
             tags: tags || [],
             isFeatured,
-            // Create new images
+            // 🔥 Replace all old images with new ones
             tourImages: newImages?.length
                 ? {
+                    deleteMany: {}, // delete all old images in DB
                     create: newImages,
                 }
                 : undefined,
@@ -250,6 +245,19 @@ const updateTour = async (tourId, guideId, payload) => {
             user: { select: { name: true, profilePic: true } },
         },
     });
+    // 🔥 Delete old images from Cloudinary
+    if (newImages?.length) {
+        for (const img of oldImages) {
+            try {
+                if (img.imageId) {
+                    await (0, deleteFromCloudinary_1.deleteFromCloudinary)(img.imageId);
+                }
+            }
+            catch (err) {
+                console.error("Failed to delete image from Cloudinary:", err);
+            }
+        }
+    }
     return updatedTour;
 };
 exports.TourService = {
