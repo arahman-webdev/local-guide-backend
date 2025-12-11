@@ -299,12 +299,9 @@ const toggleTourStatus = async (
 
 // View bookings related to a tour
 
-
 const updateTour = async (tourId: string, guideId: string, payload: any) => {
-  // Regenerate slug if title is changed
   if (payload.title) {
-    const baseSlug = payload.title.toLowerCase().split(" ").join("-");
-    payload.slug = baseSlug;
+    payload.slug = payload.title.toLowerCase().split(" ").join("-");
   }
 
   const {
@@ -329,18 +326,12 @@ const updateTour = async (tourId: string, guideId: string, payload: any) => {
     isFeatured,
     tourLanguages,
     newImages,
-    deleteImageIds,
   } = payload;
 
-  // Delete selected images
-  if (deleteImageIds && deleteImageIds.length > 0) {
-    await prisma.tourImages.deleteMany({
-      where: {
-        id: { in: deleteImageIds },
-        tourId,
-      },
-    });
-  }
+  // Fetch old images from DB before update
+  const oldImages = await prisma.tourImages.findMany({
+    where: { tourId },
+  });
 
   const updatedTour = await prisma.tour.update({
     where: { id: tourId, userId: guideId },
@@ -354,7 +345,7 @@ const updateTour = async (tourId: string, guideId: string, payload: any) => {
       meetingPoint,
       maxGroupSize,
       minGroupSize,
-      category,
+      category: category?.toUpperCase(),
       city,
       country,
       availableDays: availableDays || [],
@@ -365,9 +356,10 @@ const updateTour = async (tourId: string, guideId: string, payload: any) => {
       tags: tags || [],
       isFeatured,
 
-      // Create new images
-      tourImages: newImages
+      // 🔥 Replace all old images with new ones
+      tourImages: newImages?.length
         ? {
+            deleteMany: {}, // delete all old images in DB
             create: newImages,
           }
         : undefined,
@@ -386,6 +378,19 @@ const updateTour = async (tourId: string, guideId: string, payload: any) => {
       user: { select: { name: true, profilePic: true } },
     },
   });
+
+  // 🔥 Delete old images from Cloudinary
+  if (newImages?.length) {
+    for (const img of oldImages) {
+      try {
+        if (img.imageId) {
+          await deleteFromCloudinary(img.imageId);
+        }
+      } catch (err) {
+        console.error("Failed to delete image from Cloudinary:", err);
+      }
+    }
+  }
 
   return updatedTour;
 };

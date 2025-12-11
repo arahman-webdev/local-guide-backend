@@ -8,6 +8,7 @@ const uploadToCloudinary_1 = require("../../config/uploadToCloudinary");
 const tour_service_1 = require("./tour.service");
 const AppError_1 = __importDefault(require("../../helper/AppError"));
 const enums_1 = require("../../generated/enums");
+const prisma_1 = require("../../lib/prisma");
 const createTour = async (req, res, next) => {
     try {
         const guideId = req.user.userId;
@@ -190,11 +191,82 @@ const toggleTourStatus = async (req, res, next) => {
         next(error);
     }
 };
+const updateTour = async (req, res, next) => {
+    try {
+        const guideId = req.user.userId;
+        const slug = req.params.slug; // FIXED 🔥
+        // Fetch tour by slug
+        const existingTour = await prisma_1.prisma.tour.findUnique({ where: { slug } });
+        if (!existingTour) {
+            return next(new AppError_1.default(404, "Tour not found"));
+        }
+        const tourId = existingTour.id; // Get real ID
+        const data = JSON.parse(req.body.data);
+        const deleteImageIds = data.deleteImageIds || [];
+        // Upload new images
+        const newImages = [];
+        if (Array.isArray(req.files)) {
+            for (const file of req.files) {
+                try {
+                    const uploaded = await (0, uploadToCloudinary_1.uploadToCloudinary)(file.buffer, "tour-images");
+                    newImages.push({
+                        imageUrl: uploaded.secure_url,
+                        imageId: uploaded.public_id,
+                    });
+                }
+                catch (err) {
+                    console.error("Image upload failed:", err);
+                }
+            }
+        }
+        // Convert strings to arrays
+        const convert = (v) => {
+            if (Array.isArray(v))
+                return v;
+            if (typeof v === "string")
+                return v.split(",").map((s) => s.trim()).filter(Boolean);
+            return [];
+        };
+        // Convert languages
+        let tourLanguages = [];
+        if (data.language) {
+            tourLanguages = data.language
+                .split(",")
+                .map((l) => ({ name: l.trim() }));
+        }
+        const payload = {
+            ...data,
+            fee: Number(data.fee),
+            maxGroupSize: Number(data.maxGroupSize),
+            minGroupSize: Number(data.minGroupSize),
+            availableDays: convert(data.availableDays),
+            includes: convert(data.includes),
+            excludes: convert(data.excludes),
+            whatToBring: convert(data.whatToBring),
+            requirements: convert(data.requirements),
+            tags: convert(data.tags),
+            newImages,
+            deleteImageIds,
+            tourLanguages,
+        };
+        const result = await tour_service_1.TourService.updateTour(tourId, guideId, payload);
+        return res.status(200).json({
+            success: true,
+            message: "Tour updated successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        console.error(err);
+        next(err);
+    }
+};
 exports.TourController = {
     createTour,
     deleteTour,
     getTour,
     getSingleTour,
     getMyTours,
-    toggleTourStatus
+    toggleTourStatus,
+    updateTour
 };

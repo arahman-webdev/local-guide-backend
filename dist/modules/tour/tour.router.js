@@ -17,4 +17,5 @@ router.get("/my-tours", (0, checkAuth_1.default)(enums_1.UserRole.GUIDE), tour_c
 router.get("/:slug", tour_controller_1.TourController.getSingleTour);
 router.delete("/:id", (0, checkAuth_1.default)(enums_1.UserRole.GUIDE, enums_1.UserRole.ADMIN), tour_controller_1.TourController.deleteTour);
 router.patch("/toggle-status/:id", (0, checkAuth_1.default)(enums_1.UserRole.GUIDE, enums_1.UserRole.ADMIN), tour_controller_1.TourController.toggleTourStatus);
+router.put("/:slug", (0, checkAuth_1.default)(enums_1.UserRole.GUIDE), multer_config_1.upload.array("images", 5), tour_controller_1.TourController.updateTour);
 exports.tourRoutes = router;

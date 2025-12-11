@@ -193,11 +193,71 @@ const toggleTourStatus = async (tourId, requester) => {
 };
 // Activate / deactivate a tour
 // View bookings related to a tour
+const updateTour = async (tourId, guideId, payload) => {
+    if (payload.title) {
+        const baseSlug = payload.title.toLowerCase().split(" ").join("-");
+        payload.slug = baseSlug;
+    }
+    const { title, slug, description, itinerary, fee, duration, meetingPoint, maxGroupSize, minGroupSize, category, city, country, availableDays, includes, excludes, whatToBring, requirements, tags, isFeatured, tourLanguages, newImages, deleteImageIds, } = payload;
+    // Delete selected images
+    if (deleteImageIds && deleteImageIds.length > 0) {
+        await prisma_1.prisma.tourImages.deleteMany({
+            where: {
+                id: { in: deleteImageIds },
+                tourId,
+            },
+        });
+    }
+    const updatedTour = await prisma_1.prisma.tour.update({
+        where: { id: tourId, userId: guideId }, // validate owner
+        data: {
+            title,
+            slug,
+            description,
+            itinerary,
+            fee,
+            duration,
+            meetingPoint,
+            maxGroupSize,
+            minGroupSize,
+            category,
+            city,
+            country,
+            availableDays: availableDays || [],
+            includes: includes || [],
+            excludes: excludes || [],
+            whatToBring: whatToBring || [],
+            requirements: requirements || [],
+            tags: tags || [],
+            isFeatured,
+            // Create new images
+            tourImages: newImages?.length
+                ? {
+                    create: newImages,
+                }
+                : undefined,
+            // Replace languages
+            tourLanguages: tourLanguages
+                ? {
+                    deleteMany: {},
+                    create: tourLanguages,
+                }
+                : undefined,
+        },
+        include: {
+            tourImages: true,
+            tourLanguages: true,
+            user: { select: { name: true, profilePic: true } },
+        },
+    });
+    return updatedTour;
+};
 exports.TourService = {
     createTour,
     deleteTour,
     getTour,
     getSingleTour,
     getMyTours,
-    toggleTourStatus
+    toggleTourStatus,
+    updateTour
 };

@@ -133,7 +133,8 @@ const getMyBookings = async (userId) => {
                     endTime: true,
                     totalBookings: true,
                     reviewCount: true,
-                    id: true
+                    id: true,
+                    reviews: true
                 }
             },
         },

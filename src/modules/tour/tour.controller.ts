@@ -3,6 +3,7 @@ import { uploadToCloudinary } from "../../config/uploadToCloudinary";
 import { TourService } from "./tour.service";
 import AppError from "../../helper/AppError";
 import { UserRole } from "../../generated/enums";
+import { prisma } from "../../lib/prisma";
 
 
 
@@ -242,17 +243,24 @@ const toggleTourStatus = async (
 const updateTour = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
   try {
     const guideId = req.user.userId;
-    const tourId = req.params.id;
+    const slug = req.params.slug; // FIXED 🔥
+
+    // Fetch tour by slug
+    const existingTour = await prisma.tour.findUnique({ where: { slug } });
+
+    if (!existingTour) {
+      return next(new AppError(404, "Tour not found"));
+    }
+
+    const tourId = existingTour.id; // Get real ID
 
     const data = JSON.parse(req.body.data);
 
-    // Handle delete images
     const deleteImageIds = data.deleteImageIds || [];
 
     // Upload new images
     const newImages: any[] = [];
-
-    if (req.files && Array.isArray(req.files)) {
+    if (Array.isArray(req.files)) {
       for (const file of req.files) {
         try {
           const uploaded = await uploadToCloudinary(file.buffer, "tour-images");
@@ -269,11 +277,12 @@ const updateTour = async (req: Request & { user?: any }, res: Response, next: Ne
     // Convert strings to arrays
     const convert = (v: string | string[]) => {
       if (Array.isArray(v)) return v;
-      if (typeof v === "string") return v.split(",").map(s => s.trim()).filter(Boolean);
+      if (typeof v === "string")
+        return v.split(",").map((s) => s.trim()).filter(Boolean);
       return [];
     };
 
-    // Convert language string to objects
+    // Convert languages
     let tourLanguages = [];
     if (data.language) {
       tourLanguages = data.language
@@ -310,6 +319,7 @@ const updateTour = async (req: Request & { user?: any }, res: Response, next: Ne
     next(err);
   }
 };
+
 
 
 export const TourController = {

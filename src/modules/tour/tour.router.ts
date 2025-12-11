@@ -22,7 +22,7 @@ router.get("/:slug",  TourController.getSingleTour)
 router.delete("/:id",checkAuth(UserRole.GUIDE, UserRole.ADMIN), TourController.deleteTour)
 router.patch("/toggle-status/:id",checkAuth(UserRole.GUIDE, UserRole.ADMIN),TourController.toggleTourStatus);
 router.put(
-  "/:id",
+  "/:slug",
   checkAuth(UserRole.GUIDE),
   upload.array("images", 5),
   TourController.updateTour
