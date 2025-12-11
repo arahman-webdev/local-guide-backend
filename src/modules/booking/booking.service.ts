@@ -7,44 +7,44 @@ import { sslPaymentInit } from "../sslPayment/sslPayment.service";
 
 
 // Create Booking
-const createBooking = async (userId: string, payload: any) => {
-  const { tourId, startTime, endTime } = payload;
+// const createBooking = async (userId: string, payload: any) => {
+//   const { tourId, startTime, endTime } = payload;
 
-  // Validate tour
-  const tour = await prisma.tour.findUnique({
-    where: { id: tourId },
-  });
+//   // Validate tour
+//   const tour = await prisma.tour.findUnique({
+//     where: { id: tourId },
+//   });
 
-  if (!tour) {
-    throw new AppError(404, "Tour not found");
-  }
-
-
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (!user || user.role !== "TOURIST") {
-    throw new AppError(403, "Only tourists can book tours");
-  }
+//   if (!tour) {
+//     throw new AppError(404, "Tour not found");
+//   }
 
 
-  const bookingCode = "BK-" + Math.floor(1000 + Math.random() * 9000);
+//   const user = await prisma.user.findUnique({ where: { id: userId } });
+//   if (!user || user.role !== "TOURIST") {
+//     throw new AppError(403, "Only tourists can book tours");
+//   }
 
 
-  const booking = await prisma.booking.create({
-    data: {
-      bookingCode,
-      tourId,
-      userId,
-      startTime: new Date(startTime),
-      endTime: new Date(endTime),
-    },
-    include: {
-      tour: true,
-      user: true,
-    },
-  });
+//   const bookingCode = "BK-" + Math.floor(1000 + Math.random() * 9000);
 
-  return booking;
-};
+
+//   const booking = await prisma.booking.create({
+//     data: {
+//       bookingCode,
+//       tourId,
+//       userId,
+//       startTime: new Date(startTime),
+//       endTime: new Date(endTime),
+//     },
+//     include: {
+//       tour: true,
+//       user: true,
+//     },
+//   });
+
+//   return booking;
+// };
 
 const createBookings = async (userId: string, payload: any) => {
   const { tourId, startTime, endTime, paymentMethod } = payload;
@@ -82,6 +82,7 @@ const createBookings = async (userId: string, payload: any) => {
   // 5. Create booking with an initial pending payment
   const booking = await prisma.booking.create({
     data: {
+
       bookingCode,
       tourId,
       userId,
@@ -150,7 +151,18 @@ const getMyBookings = async (userId: string) => {
   const bookings = await prisma.booking.findMany({
     where: { userId },
     include: {
-      tour: true,
+      tour: {
+        select: {
+          tourImages: true,
+          title: true,
+          startTime: true,
+          endTime: true,
+          totalBookings: true,
+          reviewCount: true,
+          id:true,
+          reviews:true
+        }
+      },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -174,8 +186,9 @@ const getAllBookings = async () => {
         },
 
       },
-      payment: true
-      
+      payment: true,
+
+
     },
     orderBy: { createdAt: "desc" },
   });
@@ -246,7 +259,7 @@ const getMyTourBookings = async (guideId: string) => {
           user: {
             select: { id: true, name: true, email: true, profilePic: true }
           },
-          payment:true
+          payment: true
         }
       }
     },
@@ -309,7 +322,7 @@ const deleteBooking = async (
 
 
 export const BookingService = {
-  createBooking,
+
   createBookings,
   getMyBookings,
   getAllBookings,

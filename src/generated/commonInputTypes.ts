@@ -193,16 +193,16 @@ export type IntFilter<$PrismaModel = never> = {
   not?: Prisma.NestedIntFilter<$PrismaModel> | number
 }
 
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type EnumTourCategoryFilter<$PrismaModel = never> = {
   equals?: $Enums.TourCategory | Prisma.EnumTourCategoryFieldRefInput<$PrismaModel>
   in?: $Enums.TourCategory[] | Prisma.ListEnumTourCategoryFieldRefInput<$PrismaModel>
   notIn?: $Enums.TourCategory[] | Prisma.ListEnumTourCategoryFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumTourCategoryFilter<$PrismaModel> | $Enums.TourCategory
-}
-
-export type BoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
 }
 
 export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -237,6 +237,14 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntFilter<$PrismaModel>
 }
 
+export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
 export type EnumTourCategoryWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.TourCategory | Prisma.EnumTourCategoryFieldRefInput<$PrismaModel>
   in?: $Enums.TourCategory[] | Prisma.ListEnumTourCategoryFieldRefInput<$PrismaModel>
@@ -245,14 +253,6 @@ export type EnumTourCategoryWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTourCategoryFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTourCategoryFilter<$PrismaModel>
-}
-
-export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type EnumBookingStatusFilter<$PrismaModel = never> = {
@@ -487,16 +487,16 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
 }
 
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type NestedEnumTourCategoryFilter<$PrismaModel = never> = {
   equals?: $Enums.TourCategory | Prisma.EnumTourCategoryFieldRefInput<$PrismaModel>
   in?: $Enums.TourCategory[] | Prisma.ListEnumTourCategoryFieldRefInput<$PrismaModel>
   notIn?: $Enums.TourCategory[] | Prisma.ListEnumTourCategoryFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumTourCategoryFilter<$PrismaModel> | $Enums.TourCategory
-}
-
-export type NestedBoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
 }
 
 export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -531,6 +531,14 @@ export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntFilter<$PrismaModel>
 }
 
+export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
 export type NestedEnumTourCategoryWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.TourCategory | Prisma.EnumTourCategoryFieldRefInput<$PrismaModel>
   in?: $Enums.TourCategory[] | Prisma.ListEnumTourCategoryFieldRefInput<$PrismaModel>
@@ -539,14 +547,6 @@ export type NestedEnumTourCategoryWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumTourCategoryFilter<$PrismaModel>
   _max?: Prisma.NestedEnumTourCategoryFilter<$PrismaModel>
-}
-
-export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type NestedEnumBookingStatusFilter<$PrismaModel = never> = {

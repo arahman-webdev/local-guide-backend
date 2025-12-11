@@ -66,29 +66,67 @@ model Tour {
   fee          Float
   duration     String // in hours
   meetingPoint String
+  
+  // Location details
+  address      String?
 
   // Group size
   maxGroupSize Int
   minGroupSize Int @default(1)
-
+  
+  // Timing
+  availableDays String[] // e.g., ["Monday", "Wednesday", "Friday"]
+  startTime     String?  // e.g., "09:00"
+  endTime       String?  // e.g., "17:00"
+  
+  // Pricing details
+  currency       String   @default("USD")
+  isDiscount     Boolean  @default(false)
+  discountPrice  Float?
+  
+  // WHAT'S INCLUDED - Add these important arrays
+  includes       String[] // What's included in price
+  excludes       String[] // What's NOT included
+  whatToBring    String[] // What travelers should bring
+  requirements   String[] // Requirements/restrictions
+  
+  // Categories & Tags
   category TourCategory
-
-  city    String
-  country String
-
-  currency String   @default("USD")
+  city     String
+  country  String
   tags     String[]
-
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  
+  // Ratings & Reviews
+  averageRating Float?   @default(0)
+  reviewCount   Int      @default(0)
+  totalBookings Int      @default(0)
+  
+  // Status & Metadata
+  isActive     Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
+  isInstant    Boolean  @default(false)
+  cancellationPolicy String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Guide Information
+  guideNote    String?
+  
+  // Relations
   bookings      Booking[]
   reviews       Review[]
   user          User           @relation(fields: [userId], references: [id])
   userId        String
   tourImages    TourImages[]
   tourLanguages TourLanguage[]
+  
+  @@index([userId])
+  @@index([category])
+  @@index([city])
+  @@index([country])
+  @@index([averageRating])
+  @@index([isFeatured])
+  @@index([isActive])
 }
 
 enum TourCategory {
@@ -140,19 +178,20 @@ model Booking {
   payment Payment?
 
   // Change from reviews[] (plural) to review (singular)
-  review   Review?  // One booking can have one review
+  review Review? // One booking can have one review
 
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   user                  User                   @relation(fields: [userId], references: [id])
   userId                String
   sslcommerzTransaction SSLCommerzTransaction?
-  
+
   // Add indexes for better queries
   @@index([userId])
   @@index([status])
   @@index([startTime])
 }
+
 enum BookingStatus {
   PENDING
   CONFIRMED
@@ -219,15 +258,16 @@ model Review {
   booking   Booking? @relation(fields: [bookingId], references: [id])
   bookingId String?  @unique // Make it unique to prevent one booking having multiple reviews
 
-  rating    Int      // 1-5
-  comment   String?
-  createdAt DateTime @default(now())
+  rating        Int
+
+  comment       String?
+  createdAt     DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
-  
+
+  @@unique([userId, tourId]) // Prevent user reviewing same tour multiple times
   // Add indexes for better performance
   @@index([userId])
   @@index([tourId])
-  @@unique([userId, tourId]) // Prevent user reviewing same tour multiple times
 }

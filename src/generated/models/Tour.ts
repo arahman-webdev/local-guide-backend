@@ -30,12 +30,20 @@ export type TourAvgAggregateOutputType = {
   fee: number | null
   maxGroupSize: number | null
   minGroupSize: number | null
+  discountPrice: number | null
+  averageRating: number | null
+  reviewCount: number | null
+  totalBookings: number | null
 }
 
 export type TourSumAggregateOutputType = {
   fee: number | null
   maxGroupSize: number | null
   minGroupSize: number | null
+  discountPrice: number | null
+  averageRating: number | null
+  reviewCount: number | null
+  totalBookings: number | null
 }
 
 export type TourMinAggregateOutputType = {
@@ -47,15 +55,27 @@ export type TourMinAggregateOutputType = {
   fee: number | null
   duration: string | null
   meetingPoint: string | null
+  address: string | null
   maxGroupSize: number | null
   minGroupSize: number | null
+  startTime: string | null
+  endTime: string | null
+  currency: string | null
+  isDiscount: boolean | null
+  discountPrice: number | null
   category: $Enums.TourCategory | null
   city: string | null
   country: string | null
-  currency: string | null
+  averageRating: number | null
+  reviewCount: number | null
+  totalBookings: number | null
   isActive: boolean | null
+  isFeatured: boolean | null
+  isInstant: boolean | null
+  cancellationPolicy: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  guideNote: string | null
   userId: string | null
 }
 
@@ -68,15 +88,27 @@ export type TourMaxAggregateOutputType = {
   fee: number | null
   duration: string | null
   meetingPoint: string | null
+  address: string | null
   maxGroupSize: number | null
   minGroupSize: number | null
+  startTime: string | null
+  endTime: string | null
+  currency: string | null
+  isDiscount: boolean | null
+  discountPrice: number | null
   category: $Enums.TourCategory | null
   city: string | null
   country: string | null
-  currency: string | null
+  averageRating: number | null
+  reviewCount: number | null
+  totalBookings: number | null
   isActive: boolean | null
+  isFeatured: boolean | null
+  isInstant: boolean | null
+  cancellationPolicy: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  guideNote: string | null
   userId: string | null
 }
 
@@ -89,16 +121,33 @@ export type TourCountAggregateOutputType = {
   fee: number
   duration: number
   meetingPoint: number
+  address: number
   maxGroupSize: number
   minGroupSize: number
+  availableDays: number
+  startTime: number
+  endTime: number
+  currency: number
+  isDiscount: number
+  discountPrice: number
+  includes: number
+  excludes: number
+  whatToBring: number
+  requirements: number
   category: number
   city: number
   country: number
-  currency: number
   tags: number
+  averageRating: number
+  reviewCount: number
+  totalBookings: number
   isActive: number
+  isFeatured: number
+  isInstant: number
+  cancellationPolicy: number
   createdAt: number
   updatedAt: number
+  guideNote: number
   userId: number
   _all: number
 }
@@ -108,12 +157,20 @@ export type TourAvgAggregateInputType = {
   fee?: true
   maxGroupSize?: true
   minGroupSize?: true
+  discountPrice?: true
+  averageRating?: true
+  reviewCount?: true
+  totalBookings?: true
 }
 
 export type TourSumAggregateInputType = {
   fee?: true
   maxGroupSize?: true
   minGroupSize?: true
+  discountPrice?: true
+  averageRating?: true
+  reviewCount?: true
+  totalBookings?: true
 }
 
 export type TourMinAggregateInputType = {
@@ -125,15 +182,27 @@ export type TourMinAggregateInputType = {
   fee?: true
   duration?: true
   meetingPoint?: true
+  address?: true
   maxGroupSize?: true
   minGroupSize?: true
+  startTime?: true
+  endTime?: true
+  currency?: true
+  isDiscount?: true
+  discountPrice?: true
   category?: true
   city?: true
   country?: true
-  currency?: true
+  averageRating?: true
+  reviewCount?: true
+  totalBookings?: true
   isActive?: true
+  isFeatured?: true
+  isInstant?: true
+  cancellationPolicy?: true
   createdAt?: true
   updatedAt?: true
+  guideNote?: true
   userId?: true
 }
 
@@ -146,15 +215,27 @@ export type TourMaxAggregateInputType = {
   fee?: true
   duration?: true
   meetingPoint?: true
+  address?: true
   maxGroupSize?: true
   minGroupSize?: true
+  startTime?: true
+  endTime?: true
+  currency?: true
+  isDiscount?: true
+  discountPrice?: true
   category?: true
   city?: true
   country?: true
-  currency?: true
+  averageRating?: true
+  reviewCount?: true
+  totalBookings?: true
   isActive?: true
+  isFeatured?: true
+  isInstant?: true
+  cancellationPolicy?: true
   createdAt?: true
   updatedAt?: true
+  guideNote?: true
   userId?: true
 }
 
@@ -167,16 +248,33 @@ export type TourCountAggregateInputType = {
   fee?: true
   duration?: true
   meetingPoint?: true
+  address?: true
   maxGroupSize?: true
   minGroupSize?: true
+  availableDays?: true
+  startTime?: true
+  endTime?: true
+  currency?: true
+  isDiscount?: true
+  discountPrice?: true
+  includes?: true
+  excludes?: true
+  whatToBring?: true
+  requirements?: true
   category?: true
   city?: true
   country?: true
-  currency?: true
   tags?: true
+  averageRating?: true
+  reviewCount?: true
+  totalBookings?: true
   isActive?: true
+  isFeatured?: true
+  isInstant?: true
+  cancellationPolicy?: true
   createdAt?: true
   updatedAt?: true
+  guideNote?: true
   userId?: true
   _all?: true
 }
@@ -276,16 +374,33 @@ export type TourGroupByOutputType = {
   fee: number
   duration: string
   meetingPoint: string
+  address: string | null
   maxGroupSize: number
   minGroupSize: number
+  availableDays: string[]
+  startTime: string | null
+  endTime: string | null
+  currency: string
+  isDiscount: boolean
+  discountPrice: number | null
+  includes: string[]
+  excludes: string[]
+  whatToBring: string[]
+  requirements: string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency: string
   tags: string[]
+  averageRating: number | null
+  reviewCount: number
+  totalBookings: number
   isActive: boolean
+  isFeatured: boolean
+  isInstant: boolean
+  cancellationPolicy: string | null
   createdAt: Date
   updatedAt: Date
+  guideNote: string | null
   userId: string
   _count: TourCountAggregateOutputType | null
   _avg: TourAvgAggregateOutputType | null
@@ -321,16 +436,33 @@ export type TourWhereInput = {
   fee?: Prisma.FloatFilter<"Tour"> | number
   duration?: Prisma.StringFilter<"Tour"> | string
   meetingPoint?: Prisma.StringFilter<"Tour"> | string
+  address?: Prisma.StringNullableFilter<"Tour"> | string | null
   maxGroupSize?: Prisma.IntFilter<"Tour"> | number
   minGroupSize?: Prisma.IntFilter<"Tour"> | number
+  availableDays?: Prisma.StringNullableListFilter<"Tour">
+  startTime?: Prisma.StringNullableFilter<"Tour"> | string | null
+  endTime?: Prisma.StringNullableFilter<"Tour"> | string | null
+  currency?: Prisma.StringFilter<"Tour"> | string
+  isDiscount?: Prisma.BoolFilter<"Tour"> | boolean
+  discountPrice?: Prisma.FloatNullableFilter<"Tour"> | number | null
+  includes?: Prisma.StringNullableListFilter<"Tour">
+  excludes?: Prisma.StringNullableListFilter<"Tour">
+  whatToBring?: Prisma.StringNullableListFilter<"Tour">
+  requirements?: Prisma.StringNullableListFilter<"Tour">
   category?: Prisma.EnumTourCategoryFilter<"Tour"> | $Enums.TourCategory
   city?: Prisma.StringFilter<"Tour"> | string
   country?: Prisma.StringFilter<"Tour"> | string
-  currency?: Prisma.StringFilter<"Tour"> | string
   tags?: Prisma.StringNullableListFilter<"Tour">
+  averageRating?: Prisma.FloatNullableFilter<"Tour"> | number | null
+  reviewCount?: Prisma.IntFilter<"Tour"> | number
+  totalBookings?: Prisma.IntFilter<"Tour"> | number
   isActive?: Prisma.BoolFilter<"Tour"> | boolean
+  isFeatured?: Prisma.BoolFilter<"Tour"> | boolean
+  isInstant?: Prisma.BoolFilter<"Tour"> | boolean
+  cancellationPolicy?: Prisma.StringNullableFilter<"Tour"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
+  guideNote?: Prisma.StringNullableFilter<"Tour"> | string | null
   userId?: Prisma.StringFilter<"Tour"> | string
   bookings?: Prisma.BookingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
@@ -348,16 +480,33 @@ export type TourOrderByWithRelationInput = {
   fee?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
   minGroupSize?: Prisma.SortOrder
+  availableDays?: Prisma.SortOrder
+  startTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  isDiscount?: Prisma.SortOrder
+  discountPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  includes?: Prisma.SortOrder
+  excludes?: Prisma.SortOrder
+  whatToBring?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
   category?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   tags?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
+  totalBookings?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  isInstant?: Prisma.SortOrder
+  cancellationPolicy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  guideNote?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   bookings?: Prisma.BookingOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
@@ -378,16 +527,33 @@ export type TourWhereUniqueInput = Prisma.AtLeast<{
   fee?: Prisma.FloatFilter<"Tour"> | number
   duration?: Prisma.StringFilter<"Tour"> | string
   meetingPoint?: Prisma.StringFilter<"Tour"> | string
+  address?: Prisma.StringNullableFilter<"Tour"> | string | null
   maxGroupSize?: Prisma.IntFilter<"Tour"> | number
   minGroupSize?: Prisma.IntFilter<"Tour"> | number
+  availableDays?: Prisma.StringNullableListFilter<"Tour">
+  startTime?: Prisma.StringNullableFilter<"Tour"> | string | null
+  endTime?: Prisma.StringNullableFilter<"Tour"> | string | null
+  currency?: Prisma.StringFilter<"Tour"> | string
+  isDiscount?: Prisma.BoolFilter<"Tour"> | boolean
+  discountPrice?: Prisma.FloatNullableFilter<"Tour"> | number | null
+  includes?: Prisma.StringNullableListFilter<"Tour">
+  excludes?: Prisma.StringNullableListFilter<"Tour">
+  whatToBring?: Prisma.StringNullableListFilter<"Tour">
+  requirements?: Prisma.StringNullableListFilter<"Tour">
   category?: Prisma.EnumTourCategoryFilter<"Tour"> | $Enums.TourCategory
   city?: Prisma.StringFilter<"Tour"> | string
   country?: Prisma.StringFilter<"Tour"> | string
-  currency?: Prisma.StringFilter<"Tour"> | string
   tags?: Prisma.StringNullableListFilter<"Tour">
+  averageRating?: Prisma.FloatNullableFilter<"Tour"> | number | null
+  reviewCount?: Prisma.IntFilter<"Tour"> | number
+  totalBookings?: Prisma.IntFilter<"Tour"> | number
   isActive?: Prisma.BoolFilter<"Tour"> | boolean
+  isFeatured?: Prisma.BoolFilter<"Tour"> | boolean
+  isInstant?: Prisma.BoolFilter<"Tour"> | boolean
+  cancellationPolicy?: Prisma.StringNullableFilter<"Tour"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
+  guideNote?: Prisma.StringNullableFilter<"Tour"> | string | null
   userId?: Prisma.StringFilter<"Tour"> | string
   bookings?: Prisma.BookingListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
@@ -405,16 +571,33 @@ export type TourOrderByWithAggregationInput = {
   fee?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
   minGroupSize?: Prisma.SortOrder
+  availableDays?: Prisma.SortOrder
+  startTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  isDiscount?: Prisma.SortOrder
+  discountPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  includes?: Prisma.SortOrder
+  excludes?: Prisma.SortOrder
+  whatToBring?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
   category?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   tags?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
+  totalBookings?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  isInstant?: Prisma.SortOrder
+  cancellationPolicy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  guideNote?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   _count?: Prisma.TourCountOrderByAggregateInput
   _avg?: Prisma.TourAvgOrderByAggregateInput
@@ -435,16 +618,33 @@ export type TourScalarWhereWithAggregatesInput = {
   fee?: Prisma.FloatWithAggregatesFilter<"Tour"> | number
   duration?: Prisma.StringWithAggregatesFilter<"Tour"> | string
   meetingPoint?: Prisma.StringWithAggregatesFilter<"Tour"> | string
+  address?: Prisma.StringNullableWithAggregatesFilter<"Tour"> | string | null
   maxGroupSize?: Prisma.IntWithAggregatesFilter<"Tour"> | number
   minGroupSize?: Prisma.IntWithAggregatesFilter<"Tour"> | number
+  availableDays?: Prisma.StringNullableListFilter<"Tour">
+  startTime?: Prisma.StringNullableWithAggregatesFilter<"Tour"> | string | null
+  endTime?: Prisma.StringNullableWithAggregatesFilter<"Tour"> | string | null
+  currency?: Prisma.StringWithAggregatesFilter<"Tour"> | string
+  isDiscount?: Prisma.BoolWithAggregatesFilter<"Tour"> | boolean
+  discountPrice?: Prisma.FloatNullableWithAggregatesFilter<"Tour"> | number | null
+  includes?: Prisma.StringNullableListFilter<"Tour">
+  excludes?: Prisma.StringNullableListFilter<"Tour">
+  whatToBring?: Prisma.StringNullableListFilter<"Tour">
+  requirements?: Prisma.StringNullableListFilter<"Tour">
   category?: Prisma.EnumTourCategoryWithAggregatesFilter<"Tour"> | $Enums.TourCategory
   city?: Prisma.StringWithAggregatesFilter<"Tour"> | string
   country?: Prisma.StringWithAggregatesFilter<"Tour"> | string
-  currency?: Prisma.StringWithAggregatesFilter<"Tour"> | string
   tags?: Prisma.StringNullableListFilter<"Tour">
+  averageRating?: Prisma.FloatNullableWithAggregatesFilter<"Tour"> | number | null
+  reviewCount?: Prisma.IntWithAggregatesFilter<"Tour"> | number
+  totalBookings?: Prisma.IntWithAggregatesFilter<"Tour"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"Tour"> | boolean
+  isFeatured?: Prisma.BoolWithAggregatesFilter<"Tour"> | boolean
+  isInstant?: Prisma.BoolWithAggregatesFilter<"Tour"> | boolean
+  cancellationPolicy?: Prisma.StringNullableWithAggregatesFilter<"Tour"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tour"> | Date | string
+  guideNote?: Prisma.StringNullableWithAggregatesFilter<"Tour"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"Tour"> | string
 }
 
@@ -457,16 +657,33 @@ export type TourCreateInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   bookings?: Prisma.BookingCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTourInput
   user: Prisma.UserCreateNestedOneWithoutToursInput
@@ -483,16 +700,33 @@ export type TourUncheckedCreateInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   userId: string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTourInput
@@ -509,16 +743,33 @@ export type TourUpdateInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTourNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutToursNestedInput
@@ -535,16 +786,33 @@ export type TourUncheckedUpdateInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTourNestedInput
@@ -561,16 +829,33 @@ export type TourCreateManyInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   userId: string
 }
 
@@ -583,16 +868,33 @@ export type TourUpdateManyMutationInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TourUncheckedUpdateManyInput = {
@@ -604,16 +906,33 @@ export type TourUncheckedUpdateManyInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -636,16 +955,33 @@ export type TourCountOrderByAggregateInput = {
   fee?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
   minGroupSize?: Prisma.SortOrder
+  availableDays?: Prisma.SortOrder
+  startTime?: Prisma.SortOrder
+  endTime?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  isDiscount?: Prisma.SortOrder
+  discountPrice?: Prisma.SortOrder
+  includes?: Prisma.SortOrder
+  excludes?: Prisma.SortOrder
+  whatToBring?: Prisma.SortOrder
+  requirements?: Prisma.SortOrder
   category?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
   tags?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
+  totalBookings?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  isInstant?: Prisma.SortOrder
+  cancellationPolicy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  guideNote?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -653,6 +989,10 @@ export type TourAvgOrderByAggregateInput = {
   fee?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
   minGroupSize?: Prisma.SortOrder
+  discountPrice?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
+  totalBookings?: Prisma.SortOrder
 }
 
 export type TourMaxOrderByAggregateInput = {
@@ -664,15 +1004,27 @@ export type TourMaxOrderByAggregateInput = {
   fee?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
   minGroupSize?: Prisma.SortOrder
+  startTime?: Prisma.SortOrder
+  endTime?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  isDiscount?: Prisma.SortOrder
+  discountPrice?: Prisma.SortOrder
   category?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
+  totalBookings?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  isInstant?: Prisma.SortOrder
+  cancellationPolicy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  guideNote?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -685,15 +1037,27 @@ export type TourMinOrderByAggregateInput = {
   fee?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   meetingPoint?: Prisma.SortOrder
+  address?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
   minGroupSize?: Prisma.SortOrder
+  startTime?: Prisma.SortOrder
+  endTime?: Prisma.SortOrder
+  currency?: Prisma.SortOrder
+  isDiscount?: Prisma.SortOrder
+  discountPrice?: Prisma.SortOrder
   category?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
-  currency?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
+  totalBookings?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  isFeatured?: Prisma.SortOrder
+  isInstant?: Prisma.SortOrder
+  cancellationPolicy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  guideNote?: Prisma.SortOrder
   userId?: Prisma.SortOrder
 }
 
@@ -701,6 +1065,10 @@ export type TourSumOrderByAggregateInput = {
   fee?: Prisma.SortOrder
   maxGroupSize?: Prisma.SortOrder
   minGroupSize?: Prisma.SortOrder
+  discountPrice?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
+  reviewCount?: Prisma.SortOrder
+  totalBookings?: Prisma.SortOrder
 }
 
 export type TourScalarRelationFilter = {
@@ -750,6 +1118,26 @@ export type TourUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TourScalarWhereInput | Prisma.TourScalarWhereInput[]
 }
 
+export type TourCreateavailableDaysInput = {
+  set: string[]
+}
+
+export type TourCreateincludesInput = {
+  set: string[]
+}
+
+export type TourCreateexcludesInput = {
+  set: string[]
+}
+
+export type TourCreatewhatToBringInput = {
+  set: string[]
+}
+
+export type TourCreaterequirementsInput = {
+  set: string[]
+}
+
 export type TourCreatetagsInput = {
   set: string[]
 }
@@ -770,6 +1158,35 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type TourUpdateavailableDaysInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type TourUpdateincludesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type TourUpdateexcludesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type TourUpdatewhatToBringInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type TourUpdaterequirementsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
 export type EnumTourCategoryFieldUpdateOperationsInput = {
   set?: $Enums.TourCategory
 }
@@ -777,10 +1194,6 @@ export type EnumTourCategoryFieldUpdateOperationsInput = {
 export type TourUpdatetagsInput = {
   set?: string[]
   push?: string | string[]
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type TourCreateNestedOneWithoutTourLanguagesInput = {
@@ -848,16 +1261,33 @@ export type TourCreateWithoutUserInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   bookings?: Prisma.BookingCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTourInput
   tourImages?: Prisma.TourImagesCreateNestedManyWithoutTourInput
@@ -873,16 +1303,33 @@ export type TourUncheckedCreateWithoutUserInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTourInput
   tourImages?: Prisma.TourImagesUncheckedCreateNestedManyWithoutTourInput
@@ -927,16 +1374,33 @@ export type TourScalarWhereInput = {
   fee?: Prisma.FloatFilter<"Tour"> | number
   duration?: Prisma.StringFilter<"Tour"> | string
   meetingPoint?: Prisma.StringFilter<"Tour"> | string
+  address?: Prisma.StringNullableFilter<"Tour"> | string | null
   maxGroupSize?: Prisma.IntFilter<"Tour"> | number
   minGroupSize?: Prisma.IntFilter<"Tour"> | number
+  availableDays?: Prisma.StringNullableListFilter<"Tour">
+  startTime?: Prisma.StringNullableFilter<"Tour"> | string | null
+  endTime?: Prisma.StringNullableFilter<"Tour"> | string | null
+  currency?: Prisma.StringFilter<"Tour"> | string
+  isDiscount?: Prisma.BoolFilter<"Tour"> | boolean
+  discountPrice?: Prisma.FloatNullableFilter<"Tour"> | number | null
+  includes?: Prisma.StringNullableListFilter<"Tour">
+  excludes?: Prisma.StringNullableListFilter<"Tour">
+  whatToBring?: Prisma.StringNullableListFilter<"Tour">
+  requirements?: Prisma.StringNullableListFilter<"Tour">
   category?: Prisma.EnumTourCategoryFilter<"Tour"> | $Enums.TourCategory
   city?: Prisma.StringFilter<"Tour"> | string
   country?: Prisma.StringFilter<"Tour"> | string
-  currency?: Prisma.StringFilter<"Tour"> | string
   tags?: Prisma.StringNullableListFilter<"Tour">
+  averageRating?: Prisma.FloatNullableFilter<"Tour"> | number | null
+  reviewCount?: Prisma.IntFilter<"Tour"> | number
+  totalBookings?: Prisma.IntFilter<"Tour"> | number
   isActive?: Prisma.BoolFilter<"Tour"> | boolean
+  isFeatured?: Prisma.BoolFilter<"Tour"> | boolean
+  isInstant?: Prisma.BoolFilter<"Tour"> | boolean
+  cancellationPolicy?: Prisma.StringNullableFilter<"Tour"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tour"> | Date | string
+  guideNote?: Prisma.StringNullableFilter<"Tour"> | string | null
   userId?: Prisma.StringFilter<"Tour"> | string
 }
 
@@ -949,16 +1413,33 @@ export type TourCreateWithoutTourLanguagesInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   bookings?: Prisma.BookingCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTourInput
   user: Prisma.UserCreateNestedOneWithoutToursInput
@@ -974,16 +1455,33 @@ export type TourUncheckedCreateWithoutTourLanguagesInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   userId: string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTourInput
@@ -1015,16 +1513,33 @@ export type TourUpdateWithoutTourLanguagesInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTourNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutToursNestedInput
@@ -1040,16 +1555,33 @@ export type TourUncheckedUpdateWithoutTourLanguagesInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTourNestedInput
@@ -1065,16 +1597,33 @@ export type TourCreateWithoutTourImagesInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   bookings?: Prisma.BookingCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTourInput
   user: Prisma.UserCreateNestedOneWithoutToursInput
@@ -1090,16 +1639,33 @@ export type TourUncheckedCreateWithoutTourImagesInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   userId: string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTourInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTourInput
@@ -1131,16 +1697,33 @@ export type TourUpdateWithoutTourImagesInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTourNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutToursNestedInput
@@ -1156,16 +1739,33 @@ export type TourUncheckedUpdateWithoutTourImagesInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTourNestedInput
@@ -1181,16 +1781,33 @@ export type TourCreateWithoutBookingsInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   reviews?: Prisma.ReviewCreateNestedManyWithoutTourInput
   user: Prisma.UserCreateNestedOneWithoutToursInput
   tourImages?: Prisma.TourImagesCreateNestedManyWithoutTourInput
@@ -1206,16 +1823,33 @@ export type TourUncheckedCreateWithoutBookingsInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   userId: string
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTourInput
   tourImages?: Prisma.TourImagesUncheckedCreateNestedManyWithoutTourInput
@@ -1247,16 +1881,33 @@ export type TourUpdateWithoutBookingsInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reviews?: Prisma.ReviewUpdateManyWithoutTourNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutToursNestedInput
   tourImages?: Prisma.TourImagesUpdateManyWithoutTourNestedInput
@@ -1272,16 +1923,33 @@ export type TourUncheckedUpdateWithoutBookingsInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTourNestedInput
   tourImages?: Prisma.TourImagesUncheckedUpdateManyWithoutTourNestedInput
@@ -1297,16 +1965,33 @@ export type TourCreateWithoutReviewsInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   bookings?: Prisma.BookingCreateNestedManyWithoutTourInput
   user: Prisma.UserCreateNestedOneWithoutToursInput
   tourImages?: Prisma.TourImagesCreateNestedManyWithoutTourInput
@@ -1322,16 +2007,33 @@ export type TourUncheckedCreateWithoutReviewsInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
   userId: string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutTourInput
   tourImages?: Prisma.TourImagesUncheckedCreateNestedManyWithoutTourInput
@@ -1363,16 +2065,33 @@ export type TourUpdateWithoutReviewsInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUpdateManyWithoutTourNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutToursNestedInput
   tourImages?: Prisma.TourImagesUpdateManyWithoutTourNestedInput
@@ -1388,16 +2107,33 @@ export type TourUncheckedUpdateWithoutReviewsInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutTourNestedInput
   tourImages?: Prisma.TourImagesUncheckedUpdateManyWithoutTourNestedInput
@@ -1413,16 +2149,33 @@ export type TourCreateManyUserInput = {
   fee: number
   duration: string
   meetingPoint: string
+  address?: string | null
   maxGroupSize: number
   minGroupSize?: number
+  availableDays?: Prisma.TourCreateavailableDaysInput | string[]
+  startTime?: string | null
+  endTime?: string | null
+  currency?: string
+  isDiscount?: boolean
+  discountPrice?: number | null
+  includes?: Prisma.TourCreateincludesInput | string[]
+  excludes?: Prisma.TourCreateexcludesInput | string[]
+  whatToBring?: Prisma.TourCreatewhatToBringInput | string[]
+  requirements?: Prisma.TourCreaterequirementsInput | string[]
   category: $Enums.TourCategory
   city: string
   country: string
-  currency?: string
   tags?: Prisma.TourCreatetagsInput | string[]
+  averageRating?: number | null
+  reviewCount?: number
+  totalBookings?: number
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  guideNote?: string | null
 }
 
 export type TourUpdateWithoutUserInput = {
@@ -1434,16 +2187,33 @@ export type TourUpdateWithoutUserInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTourNestedInput
   tourImages?: Prisma.TourImagesUpdateManyWithoutTourNestedInput
@@ -1459,16 +2229,33 @@ export type TourUncheckedUpdateWithoutUserInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutTourNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTourNestedInput
   tourImages?: Prisma.TourImagesUncheckedUpdateManyWithoutTourNestedInput
@@ -1484,16 +2271,33 @@ export type TourUncheckedUpdateManyWithoutUserInput = {
   fee?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.StringFieldUpdateOperationsInput | string
   meetingPoint?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
   minGroupSize?: Prisma.IntFieldUpdateOperationsInput | number
+  availableDays?: Prisma.TourUpdateavailableDaysInput | string[]
+  startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  isDiscount?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  includes?: Prisma.TourUpdateincludesInput | string[]
+  excludes?: Prisma.TourUpdateexcludesInput | string[]
+  whatToBring?: Prisma.TourUpdatewhatToBringInput | string[]
+  requirements?: Prisma.TourUpdaterequirementsInput | string[]
   category?: Prisma.EnumTourCategoryFieldUpdateOperationsInput | $Enums.TourCategory
   city?: Prisma.StringFieldUpdateOperationsInput | string
   country?: Prisma.StringFieldUpdateOperationsInput | string
-  currency?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.TourUpdatetagsInput | string[]
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  totalBookings?: Prisma.IntFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isFeatured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isInstant?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  cancellationPolicy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  guideNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1563,16 +2367,33 @@ export type TourSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   fee?: boolean
   duration?: boolean
   meetingPoint?: boolean
+  address?: boolean
   maxGroupSize?: boolean
   minGroupSize?: boolean
+  availableDays?: boolean
+  startTime?: boolean
+  endTime?: boolean
+  currency?: boolean
+  isDiscount?: boolean
+  discountPrice?: boolean
+  includes?: boolean
+  excludes?: boolean
+  whatToBring?: boolean
+  requirements?: boolean
   category?: boolean
   city?: boolean
   country?: boolean
-  currency?: boolean
   tags?: boolean
+  averageRating?: boolean
+  reviewCount?: boolean
+  totalBookings?: boolean
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  guideNote?: boolean
   userId?: boolean
   bookings?: boolean | Prisma.Tour$bookingsArgs<ExtArgs>
   reviews?: boolean | Prisma.Tour$reviewsArgs<ExtArgs>
@@ -1591,16 +2412,33 @@ export type TourSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   fee?: boolean
   duration?: boolean
   meetingPoint?: boolean
+  address?: boolean
   maxGroupSize?: boolean
   minGroupSize?: boolean
+  availableDays?: boolean
+  startTime?: boolean
+  endTime?: boolean
+  currency?: boolean
+  isDiscount?: boolean
+  discountPrice?: boolean
+  includes?: boolean
+  excludes?: boolean
+  whatToBring?: boolean
+  requirements?: boolean
   category?: boolean
   city?: boolean
   country?: boolean
-  currency?: boolean
   tags?: boolean
+  averageRating?: boolean
+  reviewCount?: boolean
+  totalBookings?: boolean
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  guideNote?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tour"]>
@@ -1614,16 +2452,33 @@ export type TourSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   fee?: boolean
   duration?: boolean
   meetingPoint?: boolean
+  address?: boolean
   maxGroupSize?: boolean
   minGroupSize?: boolean
+  availableDays?: boolean
+  startTime?: boolean
+  endTime?: boolean
+  currency?: boolean
+  isDiscount?: boolean
+  discountPrice?: boolean
+  includes?: boolean
+  excludes?: boolean
+  whatToBring?: boolean
+  requirements?: boolean
   category?: boolean
   city?: boolean
   country?: boolean
-  currency?: boolean
   tags?: boolean
+  averageRating?: boolean
+  reviewCount?: boolean
+  totalBookings?: boolean
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  guideNote?: boolean
   userId?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tour"]>
@@ -1637,20 +2492,37 @@ export type TourSelectScalar = {
   fee?: boolean
   duration?: boolean
   meetingPoint?: boolean
+  address?: boolean
   maxGroupSize?: boolean
   minGroupSize?: boolean
+  availableDays?: boolean
+  startTime?: boolean
+  endTime?: boolean
+  currency?: boolean
+  isDiscount?: boolean
+  discountPrice?: boolean
+  includes?: boolean
+  excludes?: boolean
+  whatToBring?: boolean
+  requirements?: boolean
   category?: boolean
   city?: boolean
   country?: boolean
-  currency?: boolean
   tags?: boolean
+  averageRating?: boolean
+  reviewCount?: boolean
+  totalBookings?: boolean
   isActive?: boolean
+  isFeatured?: boolean
+  isInstant?: boolean
+  cancellationPolicy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  guideNote?: boolean
   userId?: boolean
 }
 
-export type TourOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "itinerary" | "fee" | "duration" | "meetingPoint" | "maxGroupSize" | "minGroupSize" | "category" | "city" | "country" | "currency" | "tags" | "isActive" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["tour"]>
+export type TourOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "itinerary" | "fee" | "duration" | "meetingPoint" | "address" | "maxGroupSize" | "minGroupSize" | "availableDays" | "startTime" | "endTime" | "currency" | "isDiscount" | "discountPrice" | "includes" | "excludes" | "whatToBring" | "requirements" | "category" | "city" | "country" | "tags" | "averageRating" | "reviewCount" | "totalBookings" | "isActive" | "isFeatured" | "isInstant" | "cancellationPolicy" | "createdAt" | "updatedAt" | "guideNote" | "userId", ExtArgs["result"]["tour"]>
 export type TourInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | Prisma.Tour$bookingsArgs<ExtArgs>
   reviews?: boolean | Prisma.Tour$reviewsArgs<ExtArgs>
@@ -1684,16 +2556,33 @@ export type $TourPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     fee: number
     duration: string
     meetingPoint: string
+    address: string | null
     maxGroupSize: number
     minGroupSize: number
+    availableDays: string[]
+    startTime: string | null
+    endTime: string | null
+    currency: string
+    isDiscount: boolean
+    discountPrice: number | null
+    includes: string[]
+    excludes: string[]
+    whatToBring: string[]
+    requirements: string[]
     category: $Enums.TourCategory
     city: string
     country: string
-    currency: string
     tags: string[]
+    averageRating: number | null
+    reviewCount: number
+    totalBookings: number
     isActive: boolean
+    isFeatured: boolean
+    isInstant: boolean
+    cancellationPolicy: string | null
     createdAt: Date
     updatedAt: Date
+    guideNote: string | null
     userId: string
   }, ExtArgs["result"]["tour"]>
   composites: {}
@@ -2131,16 +3020,33 @@ export interface TourFieldRefs {
   readonly fee: Prisma.FieldRef<"Tour", 'Float'>
   readonly duration: Prisma.FieldRef<"Tour", 'String'>
   readonly meetingPoint: Prisma.FieldRef<"Tour", 'String'>
+  readonly address: Prisma.FieldRef<"Tour", 'String'>
   readonly maxGroupSize: Prisma.FieldRef<"Tour", 'Int'>
   readonly minGroupSize: Prisma.FieldRef<"Tour", 'Int'>
+  readonly availableDays: Prisma.FieldRef<"Tour", 'String[]'>
+  readonly startTime: Prisma.FieldRef<"Tour", 'String'>
+  readonly endTime: Prisma.FieldRef<"Tour", 'String'>
+  readonly currency: Prisma.FieldRef<"Tour", 'String'>
+  readonly isDiscount: Prisma.FieldRef<"Tour", 'Boolean'>
+  readonly discountPrice: Prisma.FieldRef<"Tour", 'Float'>
+  readonly includes: Prisma.FieldRef<"Tour", 'String[]'>
+  readonly excludes: Prisma.FieldRef<"Tour", 'String[]'>
+  readonly whatToBring: Prisma.FieldRef<"Tour", 'String[]'>
+  readonly requirements: Prisma.FieldRef<"Tour", 'String[]'>
   readonly category: Prisma.FieldRef<"Tour", 'TourCategory'>
   readonly city: Prisma.FieldRef<"Tour", 'String'>
   readonly country: Prisma.FieldRef<"Tour", 'String'>
-  readonly currency: Prisma.FieldRef<"Tour", 'String'>
   readonly tags: Prisma.FieldRef<"Tour", 'String[]'>
+  readonly averageRating: Prisma.FieldRef<"Tour", 'Float'>
+  readonly reviewCount: Prisma.FieldRef<"Tour", 'Int'>
+  readonly totalBookings: Prisma.FieldRef<"Tour", 'Int'>
   readonly isActive: Prisma.FieldRef<"Tour", 'Boolean'>
+  readonly isFeatured: Prisma.FieldRef<"Tour", 'Boolean'>
+  readonly isInstant: Prisma.FieldRef<"Tour", 'Boolean'>
+  readonly cancellationPolicy: Prisma.FieldRef<"Tour", 'String'>
   readonly createdAt: Prisma.FieldRef<"Tour", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tour", 'DateTime'>
+  readonly guideNote: Prisma.FieldRef<"Tour", 'String'>
   readonly userId: Prisma.FieldRef<"Tour", 'String'>
 }
     

@@ -9,7 +9,7 @@ import { UserRole } from "../../generated/enums";
 
 const createTour = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
   try {
-    const guideId = req.user.userId; // from JWT middleware
+    const guideId = req.user.userId;
     const data = JSON.parse(req.body.data);
 
     // Upload images
@@ -36,6 +36,15 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
         .map((l: string) => ({ name: l.trim() }));
     }
 
+    // Convert string arrays from frontend
+    const convertToArray = (str: string | string[]) => {
+      if (Array.isArray(str)) return str;
+      if (typeof str === 'string') {
+        return str.split(",").map(item => item.trim()).filter(item => item !== "");
+      }
+      return [];
+    };
+
     // Build payload for service
     const payload = {
       ...data,
@@ -44,7 +53,12 @@ const createTour = async (req: Request & { user?: any }, res: Response, next: Ne
       fee: Number(data.fee),
       maxGroupSize: Number(data.maxGroupSize),
       minGroupSize: Number(data.minGroupSize),
-   
+      availableDays: data.availableDays ? convertToArray(data.availableDays) : [],
+      includes: convertToArray(data.includes || ""),
+      excludes: convertToArray(data.excludes || ""),
+      whatToBring: convertToArray(data.whatToBring || ""),
+      requirements: convertToArray(data.requirements || ""),
+      tags: convertToArray(data.tags || ""),
     };
 
     const result = await TourService.createTour(guideId, payload);
@@ -225,11 +239,85 @@ const toggleTourStatus = async (
 };
 
 
+const updateTour = async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+  try {
+    const guideId = req.user.userId;
+    const tourId = req.params.id;
+
+    const data = JSON.parse(req.body.data);
+
+    // Handle delete images
+    const deleteImageIds = data.deleteImageIds || [];
+
+    // Upload new images
+    const newImages: any[] = [];
+
+    if (req.files && Array.isArray(req.files)) {
+      for (const file of req.files) {
+        try {
+          const uploaded = await uploadToCloudinary(file.buffer, "tour-images");
+          newImages.push({
+            imageUrl: uploaded.secure_url,
+            imageId: uploaded.public_id,
+          });
+        } catch (err) {
+          console.error("Image upload failed:", err);
+        }
+      }
+    }
+
+    // Convert strings to arrays
+    const convert = (v: string | string[]) => {
+      if (Array.isArray(v)) return v;
+      if (typeof v === "string") return v.split(",").map(s => s.trim()).filter(Boolean);
+      return [];
+    };
+
+    // Convert language string to objects
+    let tourLanguages = [];
+    if (data.language) {
+      tourLanguages = data.language
+        .split(",")
+        .map((l: string) => ({ name: l.trim() }));
+    }
+
+    const payload = {
+      ...data,
+      fee: Number(data.fee),
+      maxGroupSize: Number(data.maxGroupSize),
+      minGroupSize: Number(data.minGroupSize),
+      availableDays: convert(data.availableDays),
+      includes: convert(data.includes),
+      excludes: convert(data.excludes),
+      whatToBring: convert(data.whatToBring),
+      requirements: convert(data.requirements),
+      tags: convert(data.tags),
+
+      newImages,
+      deleteImageIds,
+      tourLanguages,
+    };
+
+    const result = await TourService.updateTour(tourId, guideId, payload);
+
+    return res.status(200).json({
+      success: true,
+      message: "Tour updated successfully",
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};
+
+
 export const TourController = {
   createTour,
   deleteTour,
   getTour,
   getSingleTour,
   getMyTours,
-  toggleTourStatus
+  toggleTourStatus,
+  updateTour
 }

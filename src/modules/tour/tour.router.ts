@@ -20,11 +20,14 @@ router.get("/",  TourController.getTour)
 router.get("/my-tours",checkAuth(UserRole.GUIDE),TourController.getMyTours);
 router.get("/:slug",  TourController.getSingleTour)
 router.delete("/:id",checkAuth(UserRole.GUIDE, UserRole.ADMIN), TourController.deleteTour)
-router.patch(
-  "/toggle-status/:id",
-  checkAuth(UserRole.GUIDE, UserRole.ADMIN),
-  TourController.toggleTourStatus
+router.patch("/toggle-status/:id",checkAuth(UserRole.GUIDE, UserRole.ADMIN),TourController.toggleTourStatus);
+router.put(
+  "/:id",
+  checkAuth(UserRole.GUIDE),
+  upload.array("images", 5),
+  TourController.updateTour
 );
+
 
 
 

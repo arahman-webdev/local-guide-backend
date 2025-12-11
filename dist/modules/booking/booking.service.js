@@ -9,35 +9,35 @@ const AppError_1 = __importDefault(require("../../helper/AppError"));
 const prisma_1 = require("../../lib/prisma");
 const sslPayment_service_1 = require("../sslPayment/sslPayment.service");
 // Create Booking
-const createBooking = async (userId, payload) => {
-    const { tourId, startTime, endTime } = payload;
-    // Validate tour
-    const tour = await prisma_1.prisma.tour.findUnique({
-        where: { id: tourId },
-    });
-    if (!tour) {
-        throw new AppError_1.default(404, "Tour not found");
-    }
-    const user = await prisma_1.prisma.user.findUnique({ where: { id: userId } });
-    if (!user || user.role !== "TOURIST") {
-        throw new AppError_1.default(403, "Only tourists can book tours");
-    }
-    const bookingCode = "BK-" + Math.floor(1000 + Math.random() * 9000);
-    const booking = await prisma_1.prisma.booking.create({
-        data: {
-            bookingCode,
-            tourId,
-            userId,
-            startTime: new Date(startTime),
-            endTime: new Date(endTime),
-        },
-        include: {
-            tour: true,
-            user: true,
-        },
-    });
-    return booking;
-};
+// const createBooking = async (userId: string, payload: any) => {
+//   const { tourId, startTime, endTime } = payload;
+//   // Validate tour
+//   const tour = await prisma.tour.findUnique({
+//     where: { id: tourId },
+//   });
+//   if (!tour) {
+//     throw new AppError(404, "Tour not found");
+//   }
+//   const user = await prisma.user.findUnique({ where: { id: userId } });
+//   if (!user || user.role !== "TOURIST") {
+//     throw new AppError(403, "Only tourists can book tours");
+//   }
+//   const bookingCode = "BK-" + Math.floor(1000 + Math.random() * 9000);
+//   const booking = await prisma.booking.create({
+//     data: {
+//       bookingCode,
+//       tourId,
+//       userId,
+//       startTime: new Date(startTime),
+//       endTime: new Date(endTime),
+//     },
+//     include: {
+//       tour: true,
+//       user: true,
+//     },
+//   });
+//   return booking;
+// };
 const createBookings = async (userId, payload) => {
     const { tourId, startTime, endTime, paymentMethod } = payload;
     // 1. Validate Tour
@@ -125,7 +125,17 @@ const getMyBookings = async (userId) => {
     const bookings = await prisma_1.prisma.booking.findMany({
         where: { userId },
         include: {
-            tour: true,
+            tour: {
+                select: {
+                    tourImages: true,
+                    title: true,
+                    startTime: true,
+                    endTime: true,
+                    totalBookings: true,
+                    reviewCount: true,
+                    id: true
+                }
+            },
         },
         orderBy: { createdAt: "desc" },
     });
@@ -144,14 +154,14 @@ const getAllBookings = async () => {
                     email: true,
                 },
             },
-            payment: true
+            payment: true,
         },
         orderBy: { createdAt: "desc" },
     });
 };
 const updateStatus = async (bookingId, status) => {
     const booking = await prisma_1.prisma.booking.findUnique({
-        where: { id: bookingId },
+        where: { id: bookingId }
     });
     if (!booking) {
         throw new AppError_1.default(404, "Booking not found");
@@ -241,7 +251,6 @@ const deleteBooking = async (bookingId, requester) => {
     return deleted;
 };
 exports.BookingService = {
-    createBooking,
     createBookings,
     getMyBookings,
     getAllBookings,

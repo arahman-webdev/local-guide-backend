@@ -10,7 +10,7 @@ const AppError_1 = __importDefault(require("../../helper/AppError"));
 const enums_1 = require("../../generated/enums");
 const createTour = async (req, res, next) => {
     try {
-        const guideId = req.user.userId; // from JWT middleware
+        const guideId = req.user.userId;
         const data = JSON.parse(req.body.data);
         // Upload images
         const images = [];
@@ -35,6 +35,15 @@ const createTour = async (req, res, next) => {
                 .split(",")
                 .map((l) => ({ name: l.trim() }));
         }
+        // Convert string arrays from frontend
+        const convertToArray = (str) => {
+            if (Array.isArray(str))
+                return str;
+            if (typeof str === 'string') {
+                return str.split(",").map(item => item.trim()).filter(item => item !== "");
+            }
+            return [];
+        };
         // Build payload for service
         const payload = {
             ...data,
@@ -43,6 +52,12 @@ const createTour = async (req, res, next) => {
             fee: Number(data.fee),
             maxGroupSize: Number(data.maxGroupSize),
             minGroupSize: Number(data.minGroupSize),
+            availableDays: data.availableDays ? convertToArray(data.availableDays) : [],
+            includes: convertToArray(data.includes || ""),
+            excludes: convertToArray(data.excludes || ""),
+            whatToBring: convertToArray(data.whatToBring || ""),
+            requirements: convertToArray(data.requirements || ""),
+            tags: convertToArray(data.tags || ""),
         };
         const result = await tour_service_1.TourService.createTour(guideId, payload);
         res.status(201).json({

@@ -6,59 +6,77 @@ import statusCode from "http-status-codes"
 
 
 const createTour = async (guideId: string, payload: any) => {
-    // Generate slug from title
-    const baseSlug = payload.title.toLowerCase().split(" ").join("-");
-    payload.slug = baseSlug;
+  // Generate slug from title
+  const baseSlug = payload.title.toLowerCase().split(" ").join("-");
+  payload.slug = baseSlug;
 
-    const {
-        title,
-        slug,
-        description,
-        itinerary,
-        fee,
-        duration,
-        meetingPoint,
-        maxGroupSize,
-        minGroupSize,
-        category,
-        city,
-        country,
-        tourLanguages, // Expecting [{ name: "English" }, { name: "Bangla" }]
-        tourImages,    // Nested create format: { create: [...] }
-    } = payload;
+  const {
+    title,
+    slug,
+    description,
+    itinerary,
+    fee,
+    duration,
+    meetingPoint,
+    maxGroupSize,
+    minGroupSize,
+    category,
+    city,
+    country,
+    availableDays,
+    includes,        
+    excludes,        
+    whatToBring,     
+    requirements,    
+    tags,            
+    averageRating,
+    reviewCount,
+    totalBookings,
+    isFeatured,
+    tourLanguages,
+    tourImages,
+  } = payload;
 
-    const tour = await prisma.tour.create({
-        data: {
-            title,
-            slug,
-            description,
-            itinerary,
-            fee,
-            duration,
-            meetingPoint,
-            maxGroupSize,
-            minGroupSize,
-            category,
-            city,
-            country,
-            userId: guideId,
-            // ✅ Nested create for languages
-            tourLanguages: {
-                create: Array.isArray(tourLanguages) ? tourLanguages : [],
-            },
-            // ✅ Nested create for images
-            tourImages: tourImages || undefined,
-        },
-        include: {
-            tourImages: true,
-            tourLanguages: true,
-            user: {
-                select: { name: true, profilePic: true },
-            },
-        },
-    });
+  const tour = await prisma.tour.create({
+    data: {
+      title,
+      slug,
+      description,
+      itinerary,
+      fee,
+      duration,
+      meetingPoint,
+      maxGroupSize,
+      minGroupSize,
+      category,
+      city,
+      country,
+      availableDays: availableDays || [],
+      includes: includes || [],           // Handle includes array
+      excludes: excludes || [],           // Handle excludes array
+      whatToBring: whatToBring || [],     // Handle whatToBring array
+      requirements: requirements || [],   // Handle requirements array
+      tags: tags || [],                   // Handle tags array
+      averageRating: 0,                   // Always start with 0
+      reviewCount: 0,                     // Always start with 0
+      totalBookings: 0,                   // Always start with 0
+      isFeatured: isFeatured || false,
+      userId: guideId,
+      tourLanguages: {
+        create: Array.isArray(tourLanguages) ? tourLanguages : [],
+      },
+      tourImages: tourImages || undefined,
+    },
+    include: {
+      tourImages: true,
+      tourLanguages: true,
+      user: {
+        select: { name: true, profilePic: true },
+      },
+    },
+  });
 
-    return tour;
+  return tour;
 };
 
 
@@ -67,7 +85,7 @@ const createTour = async (guideId: string, payload: any) => {
 
 
 
- const getTour = async ({
+const getTour = async ({
   page,
   limit,
   searchTerm,
@@ -178,102 +196,102 @@ const createTour = async (guideId: string, payload: any) => {
 
 const getSingleTour = async (slug: string) => {
 
-    const tour = await prisma.tour.findUnique({
-        where: { slug },
-        include: {
-            tourImages: true
-        }
-    })
-
-    if (!tour) {
-        throw new AppError(statusCode.NOT_FOUND, "Tour not found")
+  const tour = await prisma.tour.findUnique({
+    where: { slug },
+    include: {
+      tourImages: true
     }
+  })
+
+  if (!tour) {
+    throw new AppError(statusCode.NOT_FOUND, "Tour not found")
+  }
 
 
 
-    return tour
+  return tour
 
 
 }
 
 
 const getMyTours = async (guideId: string) => {
-    const tour = await prisma.tour.findMany({
-        where: { userId: guideId },
-        include: {
-            tourImages: true,
-            user: true,
-            bookings: true,
-        },
-        orderBy: { createdAt: "desc" }
-    });
+  const tour = await prisma.tour.findMany({
+    where: { userId: guideId },
+    include: {
+      tourImages: true,
+      user: true,
+      bookings: true,
+    },
+    orderBy: { createdAt: "desc" }
+  });
 
 
 
-    return tour
+  return tour
 
 };
 
 // service
 const deleteTour = async (tourId: string, requester: { id: string, userRole: string }) => {
-    const tour = await prisma.tour.findUnique({
-        where: { id: tourId },
-        include: { tourImages: true }
-    });
+  const tour = await prisma.tour.findUnique({
+    where: { id: tourId },
+    include: { tourImages: true }
+  });
 
-    if (!tour) throw new AppError(404, "Tour not found");
+  if (!tour) throw new AppError(404, "Tour not found");
 
-    // ROLE BASED ACCESS
-    const isOwner = tour.userId === requester.id;
-    const isAdmin = requester.userRole === UserRole.ADMIN;
+  // ROLE BASED ACCESS
+  const isOwner = tour.userId === requester.id;
+  const isAdmin = requester.userRole === UserRole.ADMIN;
 
-    console.log("request role", requester.userRole)
+  console.log("request role", requester.userRole)
 
-    if (!isOwner && !isAdmin) {
-        throw new AppError(403, "You are not allowed to delete this tour");
-    }
+  if (!isOwner && !isAdmin) {
+    throw new AppError(403, "You are not allowed to delete this tour");
+  }
 
-    // delete cloudinary images
-    for (const image of tour.tourImages) {
-        try { await deleteFromCloudinary(image.imageId as string); } catch { }
-    }
+  // delete cloudinary images
+  for (const image of tour.tourImages) {
+    try { await deleteFromCloudinary(image.imageId as string); } catch { }
+  }
 
-    await prisma.review.deleteMany({ where: { tourId } });
-    await prisma.booking.deleteMany({ where: { tourId } });
-    await prisma.tourImages.deleteMany({ where: { tourId } });
-    await prisma.tourLanguage.deleteMany({ where: { tourId } });
-    return prisma.tour.delete({ where: { id: tourId } });
+  await prisma.review.deleteMany({ where: { tourId } });
+  await prisma.booking.deleteMany({ where: { tourId } });
+  await prisma.tourImages.deleteMany({ where: { tourId } });
+  await prisma.tourLanguage.deleteMany({ where: { tourId } });
+  return prisma.tour.delete({ where: { id: tourId } });
 };
 
 
 // update tour status to inactive or active
 
 const toggleTourStatus = async (
-    tourId: string,
-    requester: { id: string; userRole: string }
+  tourId: string,
+  requester: { id: string; userRole: string }
 ) => {
-    const tour = await prisma.tour.findUnique({ where: { id: tourId } });
+  const tour = await prisma.tour.findUnique({ where: { id: tourId } });
 
-    if (!tour) throw new AppError(404, "Tour not found");
+  if (!tour) throw new AppError(404, "Tour not found");
 
-    console.log("request role", tour.userId)
-    console.log("request role", requester.id)
+  console.log("request role", tour.userId)
+  console.log("request role", requester.id)
 
-    const isOwner = tour.userId === requester.id;
-    const isAdmin = requester.userRole === UserRole.ADMIN;
+  const isOwner = tour.userId === requester.id;
+  const isAdmin = requester.userRole === UserRole.ADMIN;
 
-    if (!isOwner && !isAdmin) {
-        throw new AppError(403, "You are not allowed to update this tour");
-    }
+  if (!isOwner && !isAdmin) {
+    throw new AppError(403, "You are not allowed to update this tour");
+  }
 
-    const newStatus = tour.isActive === true ? false : true;
+  const newStatus = tour.isActive === true ? false : true;
 
-    const updatedTour = await prisma.tour.update({
-        where: { id: tourId },
-        data: { isActive: newStatus as boolean },
-    });
+  const updatedTour = await prisma.tour.update({
+    where: { id: tourId },
+    data: { isActive: newStatus as boolean },
+  });
 
-    return updatedTour;
+  return updatedTour;
 };
 
 
@@ -282,14 +300,104 @@ const toggleTourStatus = async (
 // View bookings related to a tour
 
 
+const updateTour = async (tourId: string, guideId: string, payload: any) => {
+  // Regenerate slug if title is changed
+  if (payload.title) {
+    const baseSlug = payload.title.toLowerCase().split(" ").join("-");
+    payload.slug = baseSlug;
+  }
+
+  const {
+    title,
+    slug,
+    description,
+    itinerary,
+    fee,
+    duration,
+    meetingPoint,
+    maxGroupSize,
+    minGroupSize,
+    category,
+    city,
+    country,
+    availableDays,
+    includes,
+    excludes,
+    whatToBring,
+    requirements,
+    tags,
+    isFeatured,
+    tourLanguages,
+    newImages,
+    deleteImageIds,
+  } = payload;
+
+  // Delete selected images
+  if (deleteImageIds && deleteImageIds.length > 0) {
+    await prisma.tourImages.deleteMany({
+      where: {
+        id: { in: deleteImageIds },
+        tourId,
+      },
+    });
+  }
+
+  const updatedTour = await prisma.tour.update({
+    where: { id: tourId, userId: guideId },
+    data: {
+      title,
+      slug,
+      description,
+      itinerary,
+      fee,
+      duration,
+      meetingPoint,
+      maxGroupSize,
+      minGroupSize,
+      category,
+      city,
+      country,
+      availableDays: availableDays || [],
+      includes: includes || [],
+      excludes: excludes || [],
+      whatToBring: whatToBring || [],
+      requirements: requirements || [],
+      tags: tags || [],
+      isFeatured,
+
+      // Create new images
+      tourImages: newImages
+        ? {
+            create: newImages,
+          }
+        : undefined,
+
+      // Replace languages
+      tourLanguages: tourLanguages
+        ? {
+            deleteMany: {},
+            create: tourLanguages,
+          }
+        : undefined,
+    },
+    include: {
+      tourImages: true,
+      tourLanguages: true,
+      user: { select: { name: true, profilePic: true } },
+    },
+  });
+
+  return updatedTour;
+};
 
 
 
 export const TourService = {
-    createTour,
-    deleteTour,
-    getTour,
-    getSingleTour,
-    getMyTours,
-    toggleTourStatus
+  createTour,
+  deleteTour,
+  getTour,
+  getSingleTour,
+  getMyTours,
+  toggleTourStatus,
+  updateTour
 }

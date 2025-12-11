@@ -1074,16 +1074,33 @@ export const TourScalarFieldEnum = {
   fee: 'fee',
   duration: 'duration',
   meetingPoint: 'meetingPoint',
+  address: 'address',
   maxGroupSize: 'maxGroupSize',
   minGroupSize: 'minGroupSize',
+  availableDays: 'availableDays',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  currency: 'currency',
+  isDiscount: 'isDiscount',
+  discountPrice: 'discountPrice',
+  includes: 'includes',
+  excludes: 'excludes',
+  whatToBring: 'whatToBring',
+  requirements: 'requirements',
   category: 'category',
   city: 'city',
   country: 'country',
-  currency: 'currency',
   tags: 'tags',
+  averageRating: 'averageRating',
+  reviewCount: 'reviewCount',
+  totalBookings: 'totalBookings',
   isActive: 'isActive',
+  isFeatured: 'isFeatured',
+  isInstant: 'isInstant',
+  cancellationPolicy: 'cancellationPolicy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  guideNote: 'guideNote',
   userId: 'userId'
 } as const
 
@@ -1286,6 +1303,13 @@ export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'TourCategory'
  */
 export type EnumTourCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TourCategory'>
@@ -1296,13 +1320,6 @@ export type EnumTourCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'TourCategory[]'
  */
 export type ListEnumTourCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TourCategory[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

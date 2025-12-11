@@ -13,9 +13,7 @@ const createTour = async (guideId, payload) => {
     // Generate slug from title
     const baseSlug = payload.title.toLowerCase().split(" ").join("-");
     payload.slug = baseSlug;
-    const { title, slug, description, itinerary, fee, duration, meetingPoint, maxGroupSize, minGroupSize, category, city, country, tourLanguages, // Expecting [{ name: "English" }, { name: "Bangla" }]
-    tourImages, // Nested create format: { create: [...] }
-     } = payload;
+    const { title, slug, description, itinerary, fee, duration, meetingPoint, maxGroupSize, minGroupSize, category, city, country, availableDays, includes, excludes, whatToBring, requirements, tags, averageRating, reviewCount, totalBookings, isFeatured, tourLanguages, tourImages, } = payload;
     const tour = await prisma_1.prisma.tour.create({
         data: {
             title,
@@ -30,12 +28,20 @@ const createTour = async (guideId, payload) => {
             category,
             city,
             country,
+            availableDays: availableDays || [],
+            includes: includes || [], // Handle includes array
+            excludes: excludes || [], // Handle excludes array
+            whatToBring: whatToBring || [], // Handle whatToBring array
+            requirements: requirements || [], // Handle requirements array
+            tags: tags || [], // Handle tags array
+            averageRating: 0, // Always start with 0
+            reviewCount: 0, // Always start with 0
+            totalBookings: 0, // Always start with 0
+            isFeatured: isFeatured || false,
             userId: guideId,
-            // ✅ Nested create for languages
             tourLanguages: {
                 create: Array.isArray(tourLanguages) ? tourLanguages : [],
             },
-            // ✅ Nested create for images
             tourImages: tourImages || undefined,
         },
         include: {

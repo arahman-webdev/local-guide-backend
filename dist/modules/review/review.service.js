@@ -7,41 +7,106 @@ exports.ReviewService = void 0;
 const enums_1 = require("../../generated/enums");
 const AppError_1 = __importDefault(require("../../helper/AppError"));
 const prisma_1 = require("../../lib/prisma");
-const createReview = async (tourId, userId, rating, comment) => {
-    // Validate user
-    const user = await prisma_1.prisma.user.findUnique({ where: { id: userId } });
-    if (!user || user.role !== "TOURIST") {
+// backend/review.service.ts - Update the createReview function
+const createReview = async (tourId, userId, rating, comment, bookingId // Optional booking ID for validation
+) => {
+    // Validate user exists and is tourist
+    const user = await prisma_1.prisma.user.findUnique({
+        where: { id: userId },
+        select: { id: true, role: true, email: true }
+    });
+    if (!user) {
+        throw new AppError_1.default(404, "User not found");
+    }
+    if (user.role !== "TOURIST") {
         throw new AppError_1.default(403, "Only tourists can review tours");
     }
-    // Must have completed booking
-    const booking = await prisma_1.prisma.booking.findFirst({
+    // Find any completed booking for this tour
+    let booking;
+    if (bookingId) {
+        // If bookingId provided, validate specific booking
+        booking = await prisma_1.prisma.booking.findFirst({
+            where: {
+                id: bookingId,
+                tourId,
+                userId,
+                status: enums_1.BookingStatus.COMPLETED,
+            },
+        });
+    }
+    else {
+        // Otherwise find any completed booking for this tour
+        booking = await prisma_1.prisma.booking.findFirst({
+            where: {
+                tourId,
+                userId,
+                status: enums_1.BookingStatus.COMPLETED,
+            },
+        });
+    }
+    if (!booking) {
+        throw new AppError_1.default(403, "You can only review tours you have completed. " +
+            "Please ensure your booking is marked as completed.");
+    }
+    console.log("BOOKING FROM ", booking);
+    // Check if review already exists
+    const existingReview = await prisma_1.prisma.review.findFirst({
         where: {
             tourId,
             userId,
-            status: enums_1.BookingStatus.COMPLETED,
+            bookingId: booking.id
         },
     });
-    if (!booking) {
-        throw new AppError_1.default(403, "You can only review completed tours");
+    if (existingReview) {
+        throw new AppError_1.default(400, "You have already reviewed this tour. " +
+            "You can edit your existing review instead.");
     }
-    // Prevent duplicate review
-    const exists = await prisma_1.prisma.review.findFirst({
-        where: { tourId, userId },
-    });
-    if (exists) {
-        throw new AppError_1.default(400, "You already reviewed this tour");
-    }
-    const reviewCode = "RV-" + Math.floor(1000 + Math.random() * 9000);
+    // Generate unique review code
+    const reviewCode = "RV-" + Date.now().toString().slice(-8);
+    // Create review
     const review = await prisma_1.prisma.review.create({
         data: {
             reviewCode,
             tourId,
             userId,
+            bookingId: bookingId || booking.id,
             rating,
-            comment,
+            comment: comment?.trim(),
         },
+        include: {
+            user: {
+                select: {
+                    name: true,
+                    profilePic: true,
+                }
+            },
+            tour: {
+                select: {
+                    title: true,
+                }
+            }
+        }
     });
+    // Update tour average rating
+    await updateTourAverageRating(tourId);
     return review;
+};
+// Helper function to update tour average rating
+const updateTourAverageRating = async (tourId) => {
+    const reviews = await prisma_1.prisma.review.findMany({
+        where: { tourId },
+        select: { rating: true }
+    });
+    if (reviews.length > 0) {
+        const averageRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+        await prisma_1.prisma.tour.update({
+            where: { id: tourId },
+            data: {
+                averageRating: parseFloat(averageRating.toFixed(1)),
+                reviewCount: reviews.length
+            }
+        });
+    }
 };
 const getReviewsByTour = async (tourId) => {
     return prisma_1.prisma.review.findMany({
