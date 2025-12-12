@@ -28,7 +28,7 @@ const updateUser = async (req: Request & { user?: any }, res: Response, next: Ne
         if (data.data && typeof data.data === 'string') {
             data = JSON.parse(data.data)
         }
-        let { name, email, bio, languages, travelPrefs, expertise, dailyRate } = data;
+        let { name, email, bio, languages, travelPrefs, expertise, dailyRate, address, phone } = data;
 
         let profilePic: string | null = null;
         let profileId: string | null = null;
@@ -54,7 +54,9 @@ const updateUser = async (req: Request & { user?: any }, res: Response, next: Ne
             expertise,
             dailyRate,
             profilePic,
-            profileId
+            profileId,
+            address,
+            phone
         })
 
         res.status(statusCode.OK).json({

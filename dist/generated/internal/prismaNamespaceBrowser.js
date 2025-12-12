@@ -48,7 +48,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.ReviewScalarFieldEnum = exports.SSLCommerzTransactionScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.BookingScalarFieldEnum = exports.TourImagesScalarFieldEnum = exports.TourLanguageScalarFieldEnum = exports.TourScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.NullsOrder = exports.QueryMode = exports.SortOrder = exports.ReviewScalarFieldEnum = exports.SSLCommerzTransactionScalarFieldEnum = exports.PaymentScalarFieldEnum = exports.BookingScalarFieldEnum = exports.WishlistScalarFieldEnum = exports.TourImagesScalarFieldEnum = exports.TourLanguageScalarFieldEnum = exports.TourScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -79,6 +79,7 @@ exports.ModelName = {
     Tour: 'Tour',
     TourLanguage: 'TourLanguage',
     TourImages: 'TourImages',
+    Wishlist: 'Wishlist',
     Booking: 'Booking',
     Payment: 'Payment',
     SSLCommerzTransaction: 'SSLCommerzTransaction',
@@ -159,6 +160,12 @@ exports.TourImagesScalarFieldEnum = {
     id: 'id',
     imageUrl: 'imageUrl',
     imageId: 'imageId',
+    tourId: 'tourId',
+    createdAt: 'createdAt'
+};
+exports.WishlistScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
     tourId: 'tourId',
     createdAt: 'createdAt'
 };

@@ -9,6 +9,7 @@ import { tourRoutes } from "./modules/tour/tour.router";
 import { bookingRoutes } from "./modules/booking/booking.router";
 import { reviewRoutes } from "./modules/review/review.router";
 import { paymentRoutes } from "./modules/payment/payement.router";
+import { whishlistRouter } from "./modules/wishlist/whishlist.router";
 // import { randomBytes } from "crypto";
 
 
@@ -43,6 +44,8 @@ app.use(cookieParser());
 app.use('/api/auth', userRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/tour', tourRoutes)
+app.use('/api/tour', tourRoutes)
+app.use('/api/whishlist', whishlistRouter)
 app.use('/api/bookings', bookingRoutes)
 app.use('/api/payment', paymentRoutes)
 app.use('/api/reviews', reviewRoutes)

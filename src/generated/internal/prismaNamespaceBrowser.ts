@@ -55,6 +55,7 @@ export const ModelName = {
   Tour: 'Tour',
   TourLanguage: 'TourLanguage',
   TourImages: 'TourImages',
+  Wishlist: 'Wishlist',
   Booking: 'Booking',
   Payment: 'Payment',
   SSLCommerzTransaction: 'SSLCommerzTransaction',
@@ -160,6 +161,16 @@ export const TourImagesScalarFieldEnum = {
 } as const
 
 export type TourImagesScalarFieldEnum = (typeof TourImagesScalarFieldEnum)[keyof typeof TourImagesScalarFieldEnum]
+
+
+export const WishlistScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tourId: 'tourId',
+  createdAt: 'createdAt'
+} as const
+
+export type WishlistScalarFieldEnum = (typeof WishlistScalarFieldEnum)[keyof typeof WishlistScalarFieldEnum]
 
 
 export const BookingScalarFieldEnum = {

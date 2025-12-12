@@ -33,7 +33,7 @@ const updateUser = async (req, res, next) => {
         if (data.data && typeof data.data === 'string') {
             data = JSON.parse(data.data);
         }
-        let { name, email, bio, languages, travelPrefs, expertise, dailyRate } = data;
+        let { name, email, bio, languages, travelPrefs, expertise, dailyRate, address, phone } = data;
         let profilePic = null;
         let profileId = null;
         // ✅ Upload image if exists
@@ -56,7 +56,9 @@ const updateUser = async (req, res, next) => {
             expertise,
             dailyRate,
             profilePic,
-            profileId
+            profileId,
+            address,
+            phone
         });
         res.status(http_status_codes_1.default.OK).json({
             status: true,

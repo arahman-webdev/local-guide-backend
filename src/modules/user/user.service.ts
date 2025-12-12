@@ -3,6 +3,7 @@ import statusCodes from "http-status-codes"
 import { prisma } from "../../lib/prisma";
 import AppError from "../../helper/AppError";
 import { Prisma, UserRole, UserStatus } from "../../generated/client";
+import { deleteFromCloudinary } from "../../config/deleteFromCloudinary";
 
 const createUserService = async (payload: Prisma.UserCreateInput) => {
   const { email, password, ...rest } = payload;
@@ -42,11 +43,19 @@ const getAllUsers = async () => {
   });
 };
 
-const updateUserService = async (
+
+
+interface UpdateUserPayload extends Partial<Prisma.UserUpdateInput> {
+  profilePic?: string; // the new image URL or ID
+  profileId?: string;
+  email: string;  // Cloudinary publicId of the new image
+}
+
+export const updateUserService = async (
   id: string,
-  payload: Partial<Prisma.UserUpdateInput>
+  payload: UpdateUserPayload
 ) => {
-  const { email, password, ...rest } = payload;
+  const { email, password, profilePic, profileId, ...rest } = payload;
 
   // Check if user exists
   const existingUser = await prisma.user.findUnique({ where: { id } });
@@ -54,35 +63,41 @@ const updateUserService = async (
     throw new AppError(404, "User not found");
   }
 
-
-
   // Check if email is being updated
   if (email && email !== existingUser.email) {
-    const emailExists = await prisma.user.findUnique({ where: { email: email as string } });
+    const emailExists = await prisma.user.findUnique({ where: { email } });
     if (emailExists) {
       throw new AppError(400, "Email already taken");
     }
   }
 
-  let hashedPassword = undefined;
-  if (password) {
-    hashedPassword = await bcryptjs.hash(
-      password as string,
-      Number(process.env.BCRYPT_SALT_ROUNDS) || 12
-    );
+  
+
+
+  
+
+  // Delete old profile picture from Cloudinary if exists
+  if (profileId && existingUser.profileId) {
+    try {
+      await deleteFromCloudinary(existingUser.profileId);
+    } catch (err) {
+      console.error("Failed to delete old profile picture:", err);
+    }
   }
 
+  // Update user
   const user = await prisma.user.update({
     where: { id },
     data: {
       ...rest,
-      ...(email && { email: email as string }),
-      ...(hashedPassword && { password: hashedPassword }),
+      ...(email && { email }),
+
+      ...(profilePic && { profilePic }),
+      ...(profileId && { profileId }),
     },
   });
 
   const { password: _, ...userWithoutPassword } = user;
-
   return userWithoutPassword;
 };
 

@@ -14,6 +14,7 @@ const tour_router_1 = require("./modules/tour/tour.router");
 const booking_router_1 = require("./modules/booking/booking.router");
 const review_router_1 = require("./modules/review/review.router");
 const payement_router_1 = require("./modules/payment/payement.router");
+const whishlist_router_1 = require("./modules/wishlist/whishlist.router");
 // import { randomBytes } from "crypto";
 exports.app = (0, express_1.default)();
 const corsOptions = {
@@ -39,6 +40,8 @@ exports.app.use((0, cookie_parser_1.default)());
 exports.app.use('/api/auth', user_router_1.userRoutes);
 exports.app.use('/api/auth', auth_router_1.authRoutes);
 exports.app.use('/api/tour', tour_router_1.tourRoutes);
+exports.app.use('/api/tour', tour_router_1.tourRoutes);
+exports.app.use('/api/whishlist', whishlist_router_1.whishlistRouter);
 exports.app.use('/api/bookings', booking_router_1.bookingRoutes);
 exports.app.use('/api/payment', payement_router_1.paymentRoutes);
 exports.app.use('/api/reviews', review_router_1.reviewRoutes);

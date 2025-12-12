@@ -36,9 +36,10 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
-  tours    Tour[]
-  bookings Booking[]
-  reviews  Review[]
+  tours     Tour[]
+  bookings  Booking[]
+  reviews   Review[]
+  wishlists Wishlist[]
 }
 
 enum UserStatus {
@@ -66,52 +67,52 @@ model Tour {
   fee          Float
   duration     String // in hours
   meetingPoint String
-  
+
   // Location details
-  address      String?
+  address String?
 
   // Group size
   maxGroupSize Int
   minGroupSize Int @default(1)
-  
+
   // Timing
   availableDays String[] // e.g., ["Monday", "Wednesday", "Friday"]
-  startTime     String?  // e.g., "09:00"
-  endTime       String?  // e.g., "17:00"
-  
+  startTime     String? // e.g., "09:00"
+  endTime       String? // e.g., "17:00"
+
   // Pricing details
-  currency       String   @default("USD")
-  isDiscount     Boolean  @default(false)
-  discountPrice  Float?
-  
+  currency      String  @default("USD")
+  isDiscount    Boolean @default(false)
+  discountPrice Float?
+
   // WHAT'S INCLUDED - Add these important arrays
-  includes       String[] // What's included in price
-  excludes       String[] // What's NOT included
-  whatToBring    String[] // What travelers should bring
-  requirements   String[] // Requirements/restrictions
-  
+  includes     String[] // What's included in price
+  excludes     String[] // What's NOT included
+  whatToBring  String[] // What travelers should bring
+  requirements String[] // Requirements/restrictions
+
   // Categories & Tags
   category TourCategory
   city     String
   country  String
   tags     String[]
-  
+
   // Ratings & Reviews
-  averageRating Float?   @default(0)
-  reviewCount   Int      @default(0)
-  totalBookings Int      @default(0)
-  
+  averageRating Float? @default(0)
+  reviewCount   Int    @default(0)
+  totalBookings Int    @default(0)
+
   // Status & Metadata
-  isActive     Boolean  @default(true)
-  isFeatured   Boolean  @default(false)
-  isInstant    Boolean  @default(false)
+  isActive           Boolean  @default(true)
+  isFeatured         Boolean  @default(false)
+  isInstant          Boolean  @default(false)
   cancellationPolicy String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
   // Guide Information
-  guideNote    String?
-  
+  guideNote String?
+
   // Relations
   bookings      Booking[]
   reviews       Review[]
@@ -119,7 +120,8 @@ model Tour {
   userId        String
   tourImages    TourImages[]
   tourLanguages TourLanguage[]
-  
+  wishlists     Wishlist[]
+
   @@index([userId])
   @@index([category])
   @@index([city])
@@ -160,6 +162,23 @@ model TourImages {
   tourId    String
   tour      Tour     @relation(fields: [tourId], references: [id])
   createdAt DateTime @default(now())
+}
+
+// -------------------------
+// Wishliting
+// -------------------------
+
+model Wishlist {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  tour   Tour   @relation(fields: [tourId], references: [id])
+  tourId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, tourId]) // Prevent duplicates
 }
 
 // -------------------------
@@ -258,10 +277,10 @@ model Review {
   booking   Booking? @relation(fields: [bookingId], references: [id])
   bookingId String?  @unique // Make it unique to prevent one booking having multiple reviews
 
-  rating        Int
+  rating Int
 
-  comment       String?
-  createdAt     DateTime @default(now())
+  comment   String?
+  createdAt DateTime @default(now())
 
   user   User   @relation(fields: [userId], references: [id])
   userId String

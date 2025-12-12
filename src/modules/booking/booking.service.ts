@@ -182,7 +182,7 @@ const getAllBookings = async () => {
   return prisma.booking.findMany({
     include: {
       tour: {
-        select: { title: true, tourImages: true },
+        select: { title: true, tourImages: true, fee:true, },
       },
       user: {
         select: {

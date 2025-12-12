@@ -38,6 +38,11 @@ export type TourLanguage = Prisma.TourLanguageModel
  */
 export type TourImages = Prisma.TourImagesModel
 /**
+ * Model Wishlist
+ * 
+ */
+export type Wishlist = Prisma.WishlistModel
+/**
  * Model Booking
  * 
  */

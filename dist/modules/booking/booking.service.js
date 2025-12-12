@@ -134,20 +134,24 @@ const getMyBookings = async (userId) => {
                     totalBookings: true,
                     reviewCount: true,
                     id: true,
-                    reviews: true
                 }
             },
+            review: true, // ⭐ Include review for this booking
         },
         orderBy: { createdAt: "desc" },
     });
-    return bookings;
+    // ⭐ Add hasReviewed field
+    return bookings.map(b => ({
+        ...b,
+        hasReviewed: !!b.review, // TRUE if user already reviewed this booking
+    }));
 };
 // Admin: Get ALL bookings
 const getAllBookings = async () => {
     return prisma_1.prisma.booking.findMany({
         include: {
             tour: {
-                select: { title: true, tourImages: true },
+                select: { title: true, tourImages: true, fee: true, },
             },
             user: {
                 select: {
@@ -156,6 +160,7 @@ const getAllBookings = async () => {
                 },
             },
             payment: true,
+            review: true
         },
         orderBy: { createdAt: "desc" },
     });
